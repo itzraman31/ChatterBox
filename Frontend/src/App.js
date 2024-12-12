@@ -86,7 +86,6 @@ function App() {
         setonlineusers(list)
         setislogin(true);
       })
-      // getuserdetail();
       return () => socket.close();
     }
     else {
@@ -96,14 +95,15 @@ function App() {
     socket.on('allonlineusers', (list) => {
       setonlineusers(list)
     })
-  }, [islogin, userdetail.firstname])
+  }, [islogin,userdetail.email])
 
 
   useEffect(() => {
     socket.on('allonlineusers', (list) => {
       setonlineusers(list)
+      console.log(list)
     })
-  }, [])
+  }, [userdetail.firstname])
 
   return (
     <>

@@ -3,6 +3,7 @@ import Allmessage from "../models/AllMessage.js"
 import UserSpecific from "../models/UserSpecific.js"
 import cloudinaryUploads from '../cloudinary/cloudinaryConfig.js'
 import Contact from "../models/contactus.js";
+import { onlineusers } from '../Socket/Socket.js';
 
 const home = (req, res) => {
     res.cookie("greeting", "Hello world").send("Done")
@@ -148,6 +149,7 @@ const updateprofile = async (req, res) => {
         const checkuser = await Signup.findByIdAndUpdate({ _id: id }, { firstname, lastname }, { new: true }).select({ password: 0 });
 
         if (checkuser) {
+            io.emit('allonlineusers', onlineusers);
             res.status(200).send(checkuser)
         }
         else {

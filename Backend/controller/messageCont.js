@@ -1,6 +1,6 @@
 import UserSpecific from '../models/UserSpecific.js'
 import Allmessages from '../models/AllMessage.js'
-import { io,getReceiverSocketId } from '../Socket/Socket.js';
+import { io,getReceiverSocketId, onlineusers } from '../Socket/Socket.js';
 
 const sendmessage = async (req, res) => {
     try {
@@ -29,7 +29,7 @@ const sendmessage = async (req, res) => {
         const receiversocket=await getReceiverSocketId(receiverId);
 
         if(receiversocket){
-        
+            io.emit('allonlineusers', onlineusers);
             io.to(receiversocket).emit("newMessage",pushtoAllmsg);
         }
         else{

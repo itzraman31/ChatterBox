@@ -1,4 +1,8 @@
-
+import Signup from "../models/signup.js";
+import { createTransport } from 'nodemailer'
+import validator from "validator";
+import bcrypt from 'bcrypt'
+import jwt from "jsonwebtoken";
 const sendMail = (email, otp) => {
     const auth = createTransport({
         service: "gmail",
@@ -23,7 +27,7 @@ const sendMail = (email, otp) => {
 
 
 
-export const generateUserOtp = async (req, res) => {
+const generateUserOtp = async (req, res) => {
 
     try {
         const { email } = req.body;
@@ -36,7 +40,7 @@ export const generateUserOtp = async (req, res) => {
         const otp = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
         sendMail(email, otp);
         console.log('otp is: ' + otp);
-        await Signup.findByIdAndUpdate(user.id, { otp: otp} );
+        await Signup.findByIdAndUpdate(user._id, { otp: otp} );
         res.json({ success: true, message: "otp sent successfully." })
         
     } catch (error) {
@@ -44,7 +48,7 @@ export const generateUserOtp = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
-export const verifyUserOtp = async (req, res) => {
+const verifyUserOtp = async (req, res) => {
     try {
         const { email, password, otp } = req.body;
         const user = await Signup.findOne({ email })
@@ -57,7 +61,7 @@ export const verifyUserOtp = async (req, res) => {
         console.log ('otp in req ' + otp);
         console.log('otp in db: '+ user.otp);
         if (isMatch) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+            const token = jwt.sign({ id: user._id }, process.env.sign)
             res.json({ success: true, token })
         }
         else {

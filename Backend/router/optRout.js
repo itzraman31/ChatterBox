@@ -1,4 +1,4 @@
-import { generateUserOtp,verifyUserOtp } from "../controller/otpCont";
+import { generateUserOtp,verifyUserOtp } from "../controller/otpCont.js";
 import express from 'express';
 const userRouter = express.Router();
 

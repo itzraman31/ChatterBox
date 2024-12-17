@@ -58,6 +58,7 @@ function App() {
         })
         if (response.ok) {
           const data = await response.json();
+          // console.log(data)
           setuserdetail(data)
           localStorage.setItem('username', data.firstname);
           setislogin(true)
@@ -96,7 +97,7 @@ function App() {
         setallPost(data)
       }
       else {
-        console.log("Not found")
+        // console.log("Not found")
       }
     }
   }

@@ -3,7 +3,8 @@ import Allmessage from "../models/AllMessage.js"
 import UserSpecific from "../models/UserSpecific.js"
 import cloudinaryUploads from '../cloudinary/cloudinaryConfig.js'
 import Contact from "../models/contactus.js";
-import { onlineusers } from '../Socket/Socket.js';
+import { io, onlineusers } from '../Socket/Socket.js';
+import posts from '../models/posts.js';
 
 const home = (req, res) => {
     res.cookie("greeting", "Hello world").send("Done")
@@ -127,6 +128,13 @@ const deleteuser = async (req, res) => {
                     users: { $all: [id, id] }
                 })
 
+                await posts.deleteMany({ createdBy: id });
+
+                // Log the number of posts deleted
+                // console.log("Number of posts deleted:", deletedPosts.deletedCount);
+
+                console.log("User deleted successfully")
+                io.emit('deleteduser', id);
                 res.status(200).send("User delete successfully")
             }
             else {

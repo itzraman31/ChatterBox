@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars";
 import socket from "./SocketShare";
 import { datatransfer } from "../../App";
@@ -8,7 +8,6 @@ const PostTemplate = ({ post }) => {
     const [likes, setLikes] = useState(12);
     const [isLiked, setIsLiked] = useState(false);
     const [newComment, setNewComment] = useState("");
-
     const handleLikeToggle = () => {
         if (isLiked) {
             setLikes(likes - 1);
@@ -31,6 +30,10 @@ const PostTemplate = ({ post }) => {
         socket.emit("newcomment", data);
         setNewComment("");
     };
+
+    useEffect(()=>{
+        console.log(post)
+    },[])
 
     return (
         <>

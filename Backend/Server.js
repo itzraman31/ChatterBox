@@ -8,6 +8,7 @@ import router from './router/messageRouter.js'
 import cookieParser from 'cookie-parser';
 import { app,server } from './Socket/Socket.js';
 import Postrouter from './router/postRouters.js'
+import userRouter from './router/optRout.js';
 
 var corspermission = {
   origin: '*',
@@ -25,6 +26,8 @@ app.use("/api/auth", route)
 app.use("/api/message", router)
 
 app.use("/api/post", Postrouter)
+
+app.use('/api/user/',userRouter)
 
 connectdb();
 

@@ -1,7 +1,7 @@
 import { Scrollbars } from 'react-custom-scrollbars';
 import { useContext, useEffect, useState } from 'react';
 import UserMenu from '../Miscellaneous/UserMenu';
-import { datatransfer } from '../../App';
+import { datatransfer, socket } from '../../App';
 import PostTemplate from '../Miscellaneous/PostTemplate';
 
 const Feed = () => {
@@ -64,7 +64,6 @@ const Feed = () => {
     else {
       setispostfound(false)
       setclicked(false)
-      console.log("Not found")
     }
   }
 
@@ -112,12 +111,25 @@ const Feed = () => {
         setallusers([])
       }
     }
-    console.log(clicked)
   }, [user])
 
   useEffect(() => {
     getid(receiver);
+
   }, [allPost])
+  
+  useEffect(() => {
+    socket.on('deleteduser', (user) => {
+      console.log(user===receiver._id)
+      if(user===receiver._id){
+        console.log("qwhdewhdewhedwdehe")
+        setallPost([])
+        setispostfound(false);
+      }
+    })
+    return () => { socket.off("delteduser") };
+
+  }, [allPost, socket, ispostfound])
 
   return (
     <>

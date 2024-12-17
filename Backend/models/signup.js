@@ -26,7 +26,11 @@ const signup=new mongoose.Schema({
     profilepic:{
         type:String,
         require:true
-    }
+    },
+    otp: { 
+        type: String, 
+        required: false
+    },
 },{
     timestamps:true
 })

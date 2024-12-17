@@ -12,12 +12,8 @@ const Feed = () => {
   const [isfound, setisfound] = useState(true);
   const [ispostfound, setispostfound] = useState(false);
   const [allPost, setallPost] = useState([]);
-  const [ispostloading, setispostloading] = useState(false)
 
   const [clicked, setclicked] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [postContent, setPostContent] = useState('');
-  const [postImage, setPostImage] = useState(null);
   const [receiver, setreceiver] = useState([])
 
 
@@ -44,37 +40,6 @@ const Feed = () => {
     } else {
       setisfound(false);
       setmsg('No user found');
-    }
-  };
-
-  const handleImageUpload = (event) => {
-    setPostImage(event.target.files[0]);
-  };
-
-  const handlePostSubmit = async () => {
-    const Jtoken = localStorage.getItem('token');
-    const formData = new FormData();
-    formData.append('content', postContent);
-    formData.append('avatar', postImage);
-
-    setispostloading(true)
-    const response = await fetch('http://localhost:5500/api/post/create', {
-      method: 'POST',
-      headers: {
-        Authorization: `${Jtoken}`,
-      },
-      body: formData,
-    });
-
-    setispostloading(true)
-    if (response.ok) {
-      alert('Post created successfully!');
-      setShowForm(false);
-      setPostContent('');
-      setPostImage(null);
-      
-    } else {
-      alert('Failed to create post. Please try again.');
     }
   };
 
@@ -124,11 +89,6 @@ const Feed = () => {
     }
 
   }
-  const closeForm = () => {
-    setShowForm(false);
-    setPostContent('');
-    setPostImage(null);
-  };
 
   useEffect(() => {
     if (islogin) {
@@ -164,25 +124,6 @@ const Feed = () => {
 
       <div className="landingdiv">
 
-        <div className="post-image-button" onClick={() => setShowForm(true)}>
-          <img src="/images/plus.png" alt="Add Post" />
-        </div>
-
-        {showForm && (
-          <div className="post-form">
-            <button className="close-btn" onClick={closeForm}>X</button>
-            <h3>Create a Post</h3>
-            <textarea
-              name='content'
-              placeholder="Write something..."
-              value={postContent}
-              onChange={(e) => setPostContent(e.target.value)}
-            />
-            <input name='avatar' type="file" accept="image/*" onChange={handleImageUpload} />
-            <button onClick={handlePostSubmit}>Post</button>
-          </div>
-        )}
-
         <div className="lefthome" style={{ width: '350px' }}>
           <div style={{ marginLeft: '13px' }}>
             <h2 style={{ fontFamily: 'monospace', textAlign: 'center', marginTop: '10px' }}>Feed</h2>
@@ -199,8 +140,6 @@ const Feed = () => {
             </Scrollbars>
           </div>
         </div>
-
-
 
         <div className='scrollbarfeeddiv'>
           {
@@ -229,10 +168,6 @@ const Feed = () => {
                 </div>
               </div>
               : <></>
-            //   <div className='MSGICONdiv'>
-            //   <img className='MSGICON' src="/images/MANsendMSGWBG.png" alt="not found" />
-            //   <h1 style={{ fontFamily: "cursive" }}>Start Browsing..</h1>
-            // </div>
           }
 
           {
@@ -251,24 +186,7 @@ const Feed = () => {
               </div>
           }
 
-
-
-          {
-            ispostloading ?
-              <div className='pppp'>
-
-                <div className="post-form1">
-                  <img src="football.gif" alt="Loading..." className="spinner21" />
-                  <h2>Creating your post....</h2>
-                </div>
-              </div>
-              :
-              <>
-              </>
-          }
-
         </div>
-
 
       </div>
     </>

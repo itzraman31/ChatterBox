@@ -1454,6 +1454,8 @@ input {
   border-radius: 8px;
   object-fit: cover;
   transition: transform 0.3s ease;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .post-image:hover {
@@ -1575,10 +1577,10 @@ input {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
-  position: fixed;
+  position: absolute;
   top: 0px;
   left: 0px;
-  z-index: 92222232;
+  z-index: 1000000;
 }
 .post-form1 {
   position: fixed;

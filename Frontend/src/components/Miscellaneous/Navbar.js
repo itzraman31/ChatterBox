@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer } from '../../App'
 import { NavLink, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
+    const { logoutftn, islogin, userdetail } = useContext(datatransfer)
 
     const [showForm, setShowForm] = useState(false);
-
     const [postContent, setPostContent] = useState('');
     const [postImage, setPostImage] = useState(null);
-    const [receiver, setreceiver] = useState([])
     const navigate = useNavigate();
     const [ispostloading, setispostloading] = useState(false);
-    const { logoutftn, islogin, userdetail } = useContext(datatransfer)
+
     const username = localStorage.getItem('username')
     var username1
     if (username === null) {
@@ -27,22 +27,51 @@ const Navbar = () => {
         console.log("yes i click")
     }
     // const setShowForm=()=>{}
-        const closeForm = () => {
-            setShowForm(false);
-            setPostContent('');
-            setPostImage(null);
-          };
+    const closeForm = () => {
+        setShowForm(false);
+        setPostContent('');
+        setPostImage(null);
+    };
 
     const handleImageUpload = (event) => {
         setPostImage(event.target.files[0]);
     };
+
+    // const handlePostSubmit = async () => {
+    //     const Jtoken = localStorage.getItem('token');
+    //     const formData = new FormData();
+    //     formData.append('content', postContent);
+    //     formData.append('avatar', postImage);
+
+    //     setispostloading(true)
+    //     const response = await fetch('http://localhost:5500/api/post/create', {
+    //         method: 'POST',
+    //         headers: {
+    //             Authorization: `${Jtoken}`,
+    //         },
+    //         body: formData,
+    //     });
+
+    //     setispostloading(false)
+    //     if (response.ok) {
+            
+    //         alert('Post created successfully!');
+    //         setShowForm(false);
+    //         setPostContent('');
+    //         setPostImage(null);
+
+    //     } else {
+    //         alert('Failed to create post. Please try again.');
+    //     }
+    // };
+
+
 
     const handlePostSubmit = async () => {
         const Jtoken = localStorage.getItem('token');
         const formData = new FormData();
         formData.append('content', postContent);
         formData.append('avatar', postImage);
-
         setispostloading(true)
         const response = await fetch('http://localhost:5500/api/post/create', {
             method: 'POST',
@@ -51,19 +80,29 @@ const Navbar = () => {
             },
             body: formData,
         });
+        setispostloading(false)
 
-        setispostloading(true)
         if (response.ok) {
-            alert('Post created successfully!');
-            setShowForm(false);
+            toast.success('Post created successfully!', {
+                position: "bottom-center",
+                autoClose: 3000
+            });
+            // setShowPostForm(false);
             setPostContent('');
             setPostImage(null);
-
+            setShowForm(false);
         } else {
-            alert('Failed to create post. Please try again.');
+            toast.error('Failed to create post. Please try again.', {
+                position: "bottom-center",
+                autoClose: 3000
+            });
         }
     };
+    
 
+    useEffect(()=>{
+
+    },[ispostloading])
 
 
     return (
@@ -124,6 +163,22 @@ const Navbar = () => {
                             <NavLink to="/login">Login</NavLink>
                             <button onClick={register} id='Get'>Getting Started</button>
                         </div>
+                }
+
+
+
+                {
+                    ispostloading ?
+                        <div className='pppp'>
+
+                            <div className="post-form1">
+                                <img src="football.gif" alt="Loading..." className="spinner21" />
+                                <h2>Creating your post....</h2>
+                            </div>
+                        </div>
+                        :
+                        <>
+                        </>
                 }
 
             </div>

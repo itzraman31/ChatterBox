@@ -238,6 +238,6 @@ const ContactusForm = async (req, res) => {
     }
 };
 
-export {ContactusForm, searchalluser, home, login, signup, user, deleteuser, updateprofile, searchuser, searchuserwihtoutlogin }
+export { ContactusForm, searchalluser, home, login, signup, user, deleteuser, updateprofile, searchuser, searchuserwihtoutlogin }
 
 

@@ -12,7 +12,7 @@ route.post("/login",login)
 
 route.post("/signup",upload.single("avatar") , signup)
 
-route.post("/contactus",ContactusForm)
+route.post("/contactus",MustLogin,ContactusForm)
 
 route.post("/updateprofilepic/:id",upload.single("avatar") , updateprofilepic)
 

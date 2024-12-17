@@ -7,8 +7,8 @@ import cors from 'cors'
 import router from './router/messageRouter.js'
 import cookieParser from 'cookie-parser';
 import { app,server } from './Socket/Socket.js';
+import Postrouter from './router/postRouters.js'
 
-// Cors setup to allow request from front-end pages and reject other pages
 var corspermission = {
   origin: '*',
   methods: "POST,GET,DELETE,PATCH,PUT,HEAD",
@@ -21,7 +21,10 @@ app.use(cookieParser())
 app.use(express.json());
 
 app.use("/api/auth", route)
+
 app.use("/api/message", router)
+
+app.use("/api/post", Postrouter)
 
 connectdb();
 

@@ -63,7 +63,7 @@ const Updateprofile = () => {
         <>
             <div className="update-profile-container">
                 <div className='form-container'>
-                    <h3 className="update-profile-title">Chatterbox - Profile</h3>
+                    <h3 className="update-profile-title">Update - Profile</h3>
 
                     <form className="update-profile-form" onSubmit={submitform}>
                         <div className="input-group">

@@ -13,13 +13,14 @@ function App() {
   const [islogin, setislogin] = useState(false);
   const [onlineusers, setonlineusers] = useState([]);
   const [clickeduserinfostate, setclickeduserinfostate] = useState([])
+  const [allPost, setallPost] = useState([]);
 
   const setMySet = (set) => {
     setnotifyChat(set);
   }
 
   const storetoken = async (value) => {
-    
+
     setislogin(true)
     await getuserdetail();
     setislogin(true)
@@ -53,7 +54,7 @@ function App() {
           headers: {
             "Authorization": `${Jtoken}`
           }
-          
+
         })
         if (response.ok) {
           const data = await response.json();
@@ -79,6 +80,27 @@ function App() {
     setclickeduserinfostate(info)
   }
 
+
+  const getAllPosts = async (e) => {
+    if (e._id !== undefined) {
+      const Jtoken = localStorage.getItem("token")
+      const response = await fetch(`http://localhost:5500/api/post/getAllPosts/${e._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `${Jtoken}`
+        }
+      })
+      if (response.ok) {
+        const data = await response.json();
+        setallPost(data)
+      }
+      else {
+        console.log("Not found")
+      }
+    }
+  }
+
   useEffect(() => {
     if (userdetail.length !== 0 && islogin && userdetail._id !== null) {
       socket.emit('userid', userdetail._id);
@@ -95,19 +117,28 @@ function App() {
     socket.on('allonlineusers', (list) => {
       setonlineusers(list)
     })
-  }, [islogin,userdetail.email])
+  }, [islogin, userdetail.email])
+
+  useEffect(()=>{
+    if(userdetail.length !== 0 && islogin)
+      {
+        getAllPosts(userdetail);
+      }
+      else{
+        getuserdetail();
+      }
+  },[userdetail.email,islogin])
 
 
   useEffect(() => {
     socket.on('allonlineusers', (list) => {
       setonlineusers(list)
-      console.log(list)
     })
   }, [userdetail.firstname])
 
   return (
     <>
-      <datatransfer.Provider value={{ notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
+      <datatransfer.Provider value={{ getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
         <ToastContainer />
         <RoutingPage />
       </datatransfer.Provider>

@@ -338,6 +338,8 @@ input {
 
 .settingdiv {
   display: flex;
+  flex-direction: column;
+  gap: 50px;
   justify-content: space-evenly;
   align-items: center;
   margin-top: 40px;
@@ -384,23 +386,29 @@ input {
 }
 
 .outsettingdiv {
-  margin-top: 30px;
+  width: 80%;
   display: flex;
   flex-direction: column;
 }
+.sliderouterdiv{
+  display: flex;
 
+}
 #profilepic {
   width: 160px;
   height: 150px;
   border-radius: 45%;
-  border: 0.5px solid black;
 }
 
 .usermanualdiv {
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 8px;
+  border: 1px solid black;
+
 }
 
 .usermenudiv {
@@ -440,6 +448,7 @@ input {
 #setting_action_img {
   width: 60px;
 }
+
 
 #setting_action_img:hover {
   cursor: pointer;
@@ -773,7 +782,7 @@ input {
 .aa {
   text-decoration: none;
   color: #333;
-  font-size: 15px;
+  font-size: 18px;
   display: block;
   text-align: center;
 }
@@ -784,7 +793,7 @@ input {
 
 #aaa {
   font-weight: normal;
-  font-size: 15px;
+  font-size: 18px;
   margin-top: 12px;
 }
 
@@ -850,9 +859,9 @@ input {
 
 
 .changeProfilediv {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
+  top: 0px;
+  left: 0px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -912,6 +921,7 @@ input {
   gap: 10px;
   border-radius: 10px;
   box-shadow: 2px 2px 5px black;
+  margin-left: 13%;
 }
 
 
@@ -1268,3 +1278,325 @@ input {
   background-color: #0056b3;
 }
 
+
+
+
+.landingdiv {
+  position: relative;
+}
+
+.post-image-button {
+  position: absolute;
+  z-index: 10000;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.post-image-button img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.post-image-button img:hover {
+  transform: scale(1.1);
+}
+
+.post-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.post-form h3 {
+  margin-bottom: 15px;
+  font-family: Arial, sans-serif;
+}
+
+.post-form textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.post-form input[type='file'] {
+  margin-bottom: 15px;
+}
+
+.post-form button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.post-form button:hover {
+  background-color: #45a049;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: darkred;
+}
+
+
+/*sidebar */
+.sidebar {
+  width: 250px;
+  height: 92vh;
+  background-color: rgb(235, 252, 252);
+  color: black;
+  z-index: 1000;
+  transition: left 0.3s ease;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar-content h3 {
+  color: black;
+  font-size: 34px;
+  text-align: center;
+}
+
+.sidebar-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-content ul li {
+  margin: 15px 0;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+
+
+/* Post Template */
+.post-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 20px auto;
+  padding: 15px;
+  max-width: 600px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.post-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-header-info h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.post-header-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* .post-content {
+  margin-bottom: 15px;
+} */
+
+.post-text {
+  font-size: 1rem;
+  color: #444;
+}
+
+.post-image-container {
+  text-align: center;
+}
+
+.post-image {
+  max-width: 70%;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-image:hover {
+  transform: scale(1.05);
+}
+
+
+.post-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.like-button {
+  background-color: #eee;
+  color: #333;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.like-button:hover {
+  background-color: #f0f0f0;
+}
+
+.like-button.liked {
+  background-color: #ff4b4b;
+  color: white;
+}
+
+.like-count {
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+}
+
+
+.post-comments {
+  margin-top: 10px;
+}
+
+.post-comments h5 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comment-item {
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.comment-item strong {
+  color: #333;
+}
+
+.comment-form {
+  display: flex;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+}
+
+.comment-input:focus {
+  border-color: #aaa;
+}
+
+.comment-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.comment-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* settingpostdisplaydiv */
+.settingpostdisplaydiv{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.scrollbarfeeddiv{
+  width: 100%;
+  height: 700px;
+}
+.pppp{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 92222232;
+}
+.post-form1 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.addimg{
+  width: 50px;
+  margin-left: 10px;
+}

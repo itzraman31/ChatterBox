@@ -1,6 +1,7 @@
 import express from 'express'
 import { Server } from 'socket.io';
 import http from 'http'
+import { commentOnPost } from '../controller/postCont.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -21,19 +22,25 @@ const getReceiverSocketId = (ReceiverId) => {
 
 try {
     io.on('connection', (client) => {
-        var data=[];
+
+        var data = [];
+        
         client.on('userid', (id) => {
-            data=id;
+            data = id;
             onlineusers[client.id] = id;
             onlineusers1[id] = client.id;
             io.emit('allonlineusers', onlineusers);
         });
+
+        client.on("newcomment",async (comment)=>{
+            await commentOnPost(comment);
+        })
         client.on('disconnect', () => {
             delete onlineusers[client.id];
             delete onlineusers1[data];
             io.emit('allonlineusers', onlineusers);
         })
-        
+
         io.emit('allonlineusers', onlineusers);
     })
 
@@ -41,4 +48,4 @@ try {
 catch (error) {
     console.log(error)
 }
-export { app, io, server, getReceiverSocketId,onlineusers }
+export { app, io, server, getReceiverSocketId, onlineusers }

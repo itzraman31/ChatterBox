@@ -17,8 +17,8 @@ const Message = () => {
   const [isfound, setisfound] = useState(true)
   const [message, setmessage] = useState("")
   const [receiver, setreceiver] = useState([])
-  const [getmsg, setgetmsg] = useState([])
   const [clicked, setclicked] = useState(false);
+  const [getmsg, setgetmsg] = useState([])
   const [ismsgfound, setismsgfound] = useState(false);
 
   const onlineArr = Object.values(onlineusers);
@@ -198,7 +198,6 @@ const Message = () => {
           <div style={{ marginLeft: "13px" }}>
 
             <h2 style={{ fontFamily: "monospace", textAlign: "center", marginTop: "10px" }}>Chats</h2>
-            {/* <h3>{notifyChat.size}</h3> */}
 
             <div className='hellodiv'>
               <img id='searchpng' src="/images/search2.png" alt="not found" />

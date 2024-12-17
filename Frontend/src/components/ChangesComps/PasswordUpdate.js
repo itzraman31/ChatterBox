@@ -79,7 +79,7 @@ const PasswordUpdate = () => {
         <>
             <div className="password-update-container">
                 <div className="form-container">
-                    <h3 className="page-title">Chatterbox - Change Password</h3>
+                    <h3 className="page-title">Change Password</h3>
 
                     <form className="password-update-form" onSubmit={submitform}>
                         <label className="input-label">Old password</label>

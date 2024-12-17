@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { datatransfer } from '../../App'
+import { toast } from "react-toastify";
 
 const ContactUs = () => {
 
-  const { userdetail, getuserdetail } = useContext(datatransfer)
+  const { userdetail } = useContext(datatransfer)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -11,7 +12,20 @@ const ContactUs = () => {
     message: "",
   });
 
-  const [status, setStatus] = useState("");
+  if(userdetail.firstname===undefined){
+    toast.error(`Login First`, {
+      position: "bottom-center",
+      autoClose: 3000
+    });
+    userdetail.firstname = " " ;
+    userdetail.lastname=""
+    userdetail.email=""
+    setFormData({
+      name: "",
+      email: "",
+      message:""
+    });
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,33 +43,34 @@ const ContactUs = () => {
       const response = await fetch("http://localhost:5500/api/auth/contactus", {
         method: "POST",
         headers: {
+          "Authorization":`${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        setStatus("Your message has been sent successfully!");
         setFormData({ name: "", email: "", message: "" });
+        toast.success("Your message has been sent successfully!", {
+          position: "bottom-center",
+          autoClose: 3000
+        });
+        
       } else {
         const result = await response.json();
-        setStatus(`Failed to send message: ${result.message}`);
+        toast.success(`Failed to send message: ${result.message}`, {
+          position: "bottom-center",
+          autoClose: 3000
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
-      setStatus("An error occurred while sending your message.");
+      toast.error(`Login First`, {
+        position: "bottom-center",
+        autoClose: 3000
+      });
     }
   };
 
-  // useEffect(() => {
-  //   if (userdetail.length === 0) {
-  //     getuserdetail();
-  //     console.log(userdetail)
-  //   }
-  //   else {
-  //     setFormData({ ...formData, name: userdetail.firstname + " " + userdetail.lastname, email: userdetail.email });
-  //   }
-  // }, [])
   return (
     <div className="contact-container">
       <h2 className="contact-title">Contact Us</h2>
@@ -98,7 +113,7 @@ const ContactUs = () => {
         </div>
         <button type="submit" className="contact-button">Send Message</button>
       </form>
-      {status && <p className="contact-status-message">{status}</p>}
+      {/* {status && <p className="contact-status-message">{status}</p>} */}
     </div>
   );
 };

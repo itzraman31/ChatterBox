@@ -149,6 +149,7 @@ const Setting = () => {
         });
         setispostloading(false)
 
+
         if (response.ok) {
             toast.success('Post created successfully!', {
                 position: "bottom-center",
@@ -158,7 +159,7 @@ const Setting = () => {
             setPostContent('');
             setPostImage(null);
         } else {
-            toast.error('Failed to create post. Please try again.', {
+            toast.error('Failed to create post, Please try again', {
                 position: "bottom-center",
                 autoClose: 3000
             });
@@ -166,11 +167,11 @@ const Setting = () => {
     };
 
     useEffect(() => {
-        getuserdetail();
+        getuserdetail()
     }, [isclicked])
 
     useEffect(() => {
-        getAllPosts(userdetail);
+        getAllPosts(userdetail)
     }, [allPost])
 
 
@@ -238,17 +239,20 @@ const Setting = () => {
 
                             </div>
                     }
-                    <div className='settingpostdisplaydiv'>
-                        <h1>All post</h1>
 
-                        <Scrollbars style={{ height: "500px" }}>
-                            {
-                                allPost.map((post, i) => {
-                                    return <PostTemplate key={i} post={post} />
-                                })
-                            }
-                        </Scrollbars>
-                    </div>
+                    {
+                        allPost.length === 0 ? <h1>no post found</h1> :
+                            <div className='settingpostdisplaydiv'>
+                                <h1>All post</h1>
+
+                                <Scrollbars style={{ height: "500px" }}>
+                                    {
+                                        allPost.map((post, i) => {
+                                            return <PostTemplate key={i} post={post} />
+                                        })
+                                    }
+                                </Scrollbars>
+                            </div>}
 
 
                     {showPostForm && (
@@ -268,13 +272,13 @@ const Setting = () => {
 
                     {
                         ispostloading ?
-                        <div className='pppp'>
+                            <div className='pppp'>
 
-                            <div className="post-form1">
-                                <img src="football.gif" alt="Loading..." className="spinner21" />
-                                <h2>Creating your post....</h2>
+                                <div className="post-form1">
+                                    <img src="football.gif" alt="Loading..." className="spinner21" />
+                                    <h2>Creating your post....</h2>
+                                </div>
                             </div>
-                        </div>
                             :
                             <>
                             </>

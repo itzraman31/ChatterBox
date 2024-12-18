@@ -773,7 +773,9 @@ input {
   display: none;
   z-index: 10;
 }
-
+.lesstop{
+  top: 30px !important;
+}
 .dropdown-menu li {
   text-align: center;
   padding: 10px;
@@ -785,10 +787,13 @@ input {
   font-size: 18px;
   display: block;
   text-align: center;
+  cursor: pointer;
 }
 
 .aa:hover {
+  font-weight: bold;
   text-decoration: underline;
+  color: #007bff;
 }
 
 #aaa {
@@ -1601,4 +1606,15 @@ input {
 .addimg{
   width: 50px;
   margin-left: 10px;
+}
+
+
+.dots{
+  width: 40px;
+  height: 25px;
+  cursor: pointer;
+}
+.post-header-outerdiv{
+  display: flex;
+  justify-content: space-between;
 }

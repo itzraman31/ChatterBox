@@ -2,24 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars";
 import socket from "./SocketShare";
 import { datatransfer } from "../../App";
+import { toast } from "react-toastify";
 
 const PostTemplate = ({ post }) => {
     const { userdetail } = useContext(datatransfer)
-    const [likes, setLikes] = useState(12);
-    const [isLiked, setIsLiked] = useState(false);
     const [newComment, setNewComment] = useState("");
-    const handleLikeToggle = () => {
-        if (isLiked) {
-            setLikes(likes - 1);
-        } else {
-            setLikes(likes + 1);
+
+    const handleLikeToggle = async () => {
+        const data = {
+            userId: userdetail._id,
+            postId: post._id
         }
-        setIsLiked(!isLiked);
+        socket.emit("likeCount", data);
     };
 
-
     const handleCommentSubmit = (e) => {
-
         const data = {
             _id: Date.now().toString(),
             commentedBy: userdetail._id,
@@ -31,24 +28,62 @@ const PostTemplate = ({ post }) => {
         setNewComment("");
     };
 
-    useEffect(()=>{
-        console.log(post)
-    },[])
+    const deletepost = async () => {
+
+        if (window.confirm("Do you realy want to delete it")) {
+            
+            console.log(post._id);
+            const resposne = await fetch(`http://localhost:5500/api/post/deletepost/${post._id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization":`${localStorage.getItem("token")}`
+                }
+            })
+            const msg=await resposne.json();
+            console.log(msg.message)
+            if(resposne.ok){
+                toast.success(`${msg.message}`, {
+                    position: "bottom-center",
+                    autoClose: 3000
+                });
+            }
+            else{
+                toast.error(`${msg.message}`, {
+                    position: "bottom-center",
+                    autoClose: 3000
+                });
+            }
+        }
+    }
+    useEffect(() => {
+        // console.log(post)
+    }, [])
 
     return (
         <>
 
             <div className="post-card">
 
-                <div className="post-header">
-                    <img
-                        src={post.createdBy.profilepic}
-                        alt="User Profile"
-                        className="post-avatar"
-                    />
-                    <div className="post-header-info">
-                        <h4>{post.createdBy.firstname}</h4>
-                        <p>{new Date(post.createdAt).toLocaleString()}</p>
+                <div className="post-header-outerdiv">
+                    <div className="post-header">
+                        <img
+                            src={post.createdBy.profilepic}
+                            alt="User Profile"
+                            className="post-avatar"
+                        />
+                        <div className="post-header-info">
+                            <h4>{post.createdBy.firstname}</h4>
+                            <p>{new Date(post.createdAt).toLocaleString()}</p>
+                        </div>
+                    </div>
+
+                    <div className="dropdown">
+                        <img src="images/dots.png" alt="not found" className="dots" />
+                        <ul className="dropdown-menu lesstop">
+                            <p onClick={deletepost} className="aa">delete</p>
+                            <p id='aaa' className="aa">share</p>
+                        </ul>
                     </div>
                 </div>
 
@@ -65,12 +100,12 @@ const PostTemplate = ({ post }) => {
 
                 <div className="post-actions">
                     <button
-                        className={`like-button ${isLiked ? "liked" : ""}`}
+                        className={`like-button ${post.likes.includes(userdetail._id) ? "liked" : ""}`}
                         onClick={handleLikeToggle}
                     >
-                        {isLiked ? "❤️ Liked" : "🤍 Like"}
+                        {post.likes.includes(userdetail._id) ? "❤️ Liked" : "🤍 Like"}
                     </button>
-                    <p className="like-count">{likes} {likes === 1 ? "Like" : "Likes"}</p>
+                    <p className="like-count">{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}</p>
                 </div>
 
                 <div className="post-comments">
@@ -84,7 +119,7 @@ const PostTemplate = ({ post }) => {
                                             ?
                                             <p>  <strong>{"you"}</strong>: {comment.commentText}</p>
                                             :
-                                        <p> <strong>{comment.commentedBy.firstname}</strong>: {comment.commentText}</p>
+                                            <p> <strong>{comment.commentedBy.firstname}</strong>: {comment.commentText}</p>
                                     }
 
                                 </li>

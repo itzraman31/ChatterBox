@@ -115,7 +115,6 @@ const Feed = () => {
 
   useEffect(() => {
     getid(receiver);
-
   }, [allPost])
   
   useEffect(() => {

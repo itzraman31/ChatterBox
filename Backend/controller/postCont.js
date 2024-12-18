@@ -36,59 +36,43 @@ const createPost = async (req, res) => {
 const getAllPosts = async (req, res) => {
     const userId = req.params.id;
     try {
-        const posts = await Post.find({ createdBy: userId }) // Filter posts by the user ID
-            .populate('createdBy', 'firstname email profilepic') // Populate user details for the creator
-            .populate('comments.commentedBy', 'firstname email profilepic') // Populate commenter's user details
-            .sort({ createdAt: -1 }); // Sort by most recent
+        const posts = await Post.find({ createdBy: userId })
+            .populate('createdBy', 'firstname email profilepic')
+            .populate('comments.commentedBy', 'firstname email profilepic')
+            .sort({ createdAt: -1 })
 
         if (!posts || posts.length === 0) {
             return res.status(404).json({ message: 'No posts found for this user' });
         }
 
-        res.status(200).json(posts); // Send back the filtered posts
+        res.status(200).json(posts)
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
     }
 };
 
-
-
-const likePost = async (req, res) => {
+const likePost = async (data) => {
     try {
-        const { postId } = req.params;
-        const userId = req.user.id;
 
-        const post = await Post.findById(postId);
-        if (!post) return res.status(404).json({ message: 'Post not found' });
+        const post = await Post.findById(data.postId)
 
-        // Check if already liked
-        if (post.likes.includes(userId)) {
-            return res.status(400).json({ message: 'You already liked this post' });
+        if (!post) {
+            return { status: 200, message: 'Post not found' }
         }
 
-        post.likes.push(userId);
-        await post.save();
+        if (post.likes.includes(data.userId)) {
+            post.likes = post.likes.filter((like) => like.toString() !== data.userId)
+            await post.save();
+            return { status: 200, message: 'Post unliked successfully' };
+        }
+        else {
+            post.likes.push(data.userId)
+            await post.save()
+            return { status: 200, message: 'Post liked successfully' }
+        }
 
-        res.status(200).json({ message: 'Post liked successfully', post });
     } catch (error) {
-        res.status(500).json({ message: 'Failed to like post', error: error.message });
-    }
-};
-
-const unlikePost = async (req, res) => {
-    try {
-        const { postId } = req.params;
-        const userId = req.user.id;
-
-        const post = await Post.findById(postId);
-        if (!post) return res.status(404).json({ message: 'Post not found' });
-
-        post.likes = post.likes.filter((like) => like.toString() !== userId);
-        await post.save();
-
-        res.status(200).json({ message: 'Post unliked successfully', post });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to unlike post', error: error.message });
+        return { status: 200, message: 'Failed to like post' };
     }
 };
 
@@ -111,9 +95,7 @@ const commentOnPost = async (commentData) => {
         post.comments.push(newComment);
 
         await post.save();
-    
-        // const data1=post.sort({ createdAt: -1 });
-        // console.log(data1)
+
         return { status: 200, message: 'Comment added successfully', post };
     } catch (error) {
         console.error(error);
@@ -144,7 +126,6 @@ export {
     createPost,
     getAllPosts,
     likePost,
-    unlikePost,
     commentOnPost,
     deletePost,
 };

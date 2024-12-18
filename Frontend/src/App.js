@@ -81,7 +81,6 @@ function App() {
     setclickeduserinfostate(info)
   }
 
-
   const getAllPosts = async (e) => {
     if (e._id !== undefined) {
       const Jtoken = localStorage.getItem("token")

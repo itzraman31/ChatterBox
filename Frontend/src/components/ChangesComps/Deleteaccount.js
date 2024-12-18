@@ -34,20 +34,17 @@ const Deleteaccount = () => {
 
     if (response.ok) {
       navigate('/')
-      setTimeout(() => {
-        toast.success(`User delete sucessfully`, {
-          position: "bottom-center",
-          autoClose: 3000
-        });
+      toast.success(`User delete sucessfully`, {
+        position: "bottom-center",
+        autoClose: 3000
       });
       logoutftnlite();
     }
     else {
-      // navigate('/')
-        toast.error(`Invalid details`, {
-          position: "bottom-center",
-          autoClose: 3000
-        });
+      toast.error(`Invalid details`, {
+        position: "bottom-center",
+        autoClose: 3000
+      });
     }
   }
 
@@ -65,12 +62,11 @@ const Deleteaccount = () => {
     })
   }
 
-  useEffect(()=>{
-    if(!islogin)
-      {
-        navigate('/')
-      }
-  },[islogin])
+  useEffect(() => {
+    if (!islogin) {
+      navigate('/')
+    }
+  }, [islogin])
 
   return (
     <>

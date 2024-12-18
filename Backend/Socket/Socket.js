@@ -1,7 +1,7 @@
 import express from 'express'
 import { Server } from 'socket.io';
 import http from 'http'
-import { commentOnPost } from '../controller/postCont.js';
+import { commentOnPost, deletePost, likePost } from '../controller/postCont.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -33,8 +33,18 @@ try {
         });
 
         client.on("newcomment",async (comment)=>{
-            await commentOnPost(comment);
+            await commentOnPost(comment)
         })
+
+        client.on("likeCount",async (data)=>{
+           await likePost(data)
+        })
+
+        client.on("deletepost",async (id)=>{
+           await deletePost(id)
+        })
+
+        
         client.on('disconnect', () => {
             delete onlineusers[client.id];
             delete onlineusers1[data];

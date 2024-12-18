@@ -134,7 +134,10 @@ const Setting = () => {
         setisclicked(false)
     }
 
+
+
     const handlePostSubmit = async () => {
+        // trigger();
         const Jtoken = localStorage.getItem('token');
         const formData = new FormData();
         formData.append('content', postContent);
@@ -149,12 +152,12 @@ const Setting = () => {
         });
         setispostloading(false)
 
-
         if (response.ok) {
             toast.success('Post created successfully!', {
                 position: "bottom-center",
                 autoClose: 3000
             });
+            console.log("Post created")
             setShowPostForm(false);
             setPostContent('');
             setPostImage(null);
@@ -169,6 +172,8 @@ const Setting = () => {
     useEffect(() => {
         getuserdetail()
     }, [isclicked])
+
+
 
     useEffect(() => {
         getAllPosts(userdetail)
@@ -241,7 +246,13 @@ const Setting = () => {
                     }
 
                     {
-                        allPost.length === 0 ? <h1>no post found</h1> :
+                        allPost.length === 0 ?
+                            // <h1>no post found</h1> 
+                            <div className='postnotfoundgif'>
+                                <img className='MSGICON' src="/images/MANsendMSGWBG.png" alt="not found" />
+                                <h1 style={{ fontFamily: "cursive" }}>No Post found</h1>
+                            </div>
+                            :
                             <div className='settingpostdisplaydiv'>
                                 <h1>All post</h1>
 

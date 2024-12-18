@@ -96,6 +96,7 @@ function App() {
         setallPost(data)
       }
       else {
+        setallPost([])
         // console.log("Not found")
       }
     }
@@ -119,16 +120,14 @@ function App() {
     })
   }, [islogin, userdetail.email])
 
-  useEffect(()=>{
-    if(userdetail.length !== 0 && islogin)
-      {
-        getAllPosts(userdetail);
-      }
-      else{
-        getuserdetail();
-      }
-  },[userdetail.email,islogin])
-
+  useEffect(() => {
+    if (userdetail.length !== 0 && islogin) {
+      getAllPosts(userdetail);
+    }
+    else {
+      getuserdetail();
+    }
+  }, [userdetail.email, islogin])
 
   useEffect(() => {
     socket.on('allonlineusers', (list) => {

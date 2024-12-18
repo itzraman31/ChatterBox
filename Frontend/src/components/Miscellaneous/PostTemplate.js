@@ -5,6 +5,7 @@ import { datatransfer } from "../../App";
 import { toast } from "react-toastify";
 
 const PostTemplate = ({ post }) => {
+
     const { userdetail } = useContext(datatransfer)
     const [newComment, setNewComment] = useState("");
 
@@ -31,24 +32,22 @@ const PostTemplate = ({ post }) => {
     const deletepost = async () => {
 
         if (window.confirm("Do you realy want to delete it")) {
-            
-            console.log(post._id);
+
             const resposne = await fetch(`http://localhost:5500/api/post/deletepost/${post._id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization":`${localStorage.getItem("token")}`
+                    "Authorization": `${localStorage.getItem("token")}`
                 }
             })
-            const msg=await resposne.json();
-            console.log(msg.message)
-            if(resposne.ok){
+            const msg = await resposne.json();
+            if (resposne.ok) {
                 toast.success(`${msg.message}`, {
                     position: "bottom-center",
                     autoClose: 3000
                 });
             }
-            else{
+            else {
                 toast.error(`${msg.message}`, {
                     position: "bottom-center",
                     autoClose: 3000
@@ -78,13 +77,16 @@ const PostTemplate = ({ post }) => {
                         </div>
                     </div>
 
-                    <div className="dropdown">
-                        <img src="images/dots.png" alt="not found" className="dots" />
-                        <ul className="dropdown-menu lesstop">
-                            <p onClick={deletepost} className="aa">delete</p>
-                            <p id='aaa' className="aa">share</p>
-                        </ul>
-                    </div>
+                    {
+                        post.createdBy._id===userdetail._id?
+                        <div className="dropdown">
+                            <img src="images/dots.png" alt="not found" className="dots" />
+                            <ul className="dropdown-menu lesstop">
+                                <p onClick={deletepost} className="aa">delete</p>
+                                <p id='aaa' className="aa">share</p>
+                            </ul>
+                        </div>:<></>
+                    }
                 </div>
 
                 <div className="post-content">

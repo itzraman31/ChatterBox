@@ -31,6 +31,7 @@ app.use('/api/user/',userRouter)
 
 connectdb();
 
+
 const port = 5500
 server.listen(port, () => {
   console.log(`I am listening on port ${port}`)

@@ -63,7 +63,6 @@ const verifyUserOtp = async (req, res) => {
         console.log('otp in req ' + otp);
         console.log('otp in db: ' + user.otp);
         if (isMatch) {
-            // const token = jwt.sign({ _id: user._id }, process.env.sign)
             const token = jwt.sign({
                 id: user._id,
                 email: user.email,
@@ -71,7 +70,7 @@ const verifyUserOtp = async (req, res) => {
             },
                 process.env.sign
             )
-            res.json({ success: true, token })
+            res.json({ success: true, token ,firstname:user.firstname})
         }
         else {
             res.json({ success: false, message: "Invalid credentials" })

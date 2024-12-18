@@ -3,7 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+body{
+  background-color: rgb(238, 246, 250);
+}
 .maindiv {
   margin: 30px;
 }
@@ -407,7 +409,7 @@ input {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  border: 1px solid black;
+  border-bottom: 0.1px solid black;
 
 }
 
@@ -1625,4 +1627,9 @@ input {
 }
 .resendotp{
   width: 250px;
+}
+
+
+.postnotfoundgif{
+  margin: auto;
 }

@@ -26,7 +26,7 @@ const Navbar = () => {
     const checkme = () => {
         console.log("yes i click")
     }
-    // const setShowForm=()=>{}
+
     const closeForm = () => {
         setShowForm(false);
         setPostContent('');
@@ -36,36 +36,6 @@ const Navbar = () => {
     const handleImageUpload = (event) => {
         setPostImage(event.target.files[0]);
     };
-
-    // const handlePostSubmit = async () => {
-    //     const Jtoken = localStorage.getItem('token');
-    //     const formData = new FormData();
-    //     formData.append('content', postContent);
-    //     formData.append('avatar', postImage);
-
-    //     setispostloading(true)
-    //     const response = await fetch('http://localhost:5500/api/post/create', {
-    //         method: 'POST',
-    //         headers: {
-    //             Authorization: `${Jtoken}`,
-    //         },
-    //         body: formData,
-    //     });
-
-    //     setispostloading(false)
-    //     if (response.ok) {
-            
-    //         alert('Post created successfully!');
-    //         setShowForm(false);
-    //         setPostContent('');
-    //         setPostImage(null);
-
-    //     } else {
-    //         alert('Failed to create post. Please try again.');
-    //     }
-    // };
-
-
 
     const handlePostSubmit = async () => {
         const Jtoken = localStorage.getItem('token');
@@ -87,7 +57,6 @@ const Navbar = () => {
                 position: "bottom-center",
                 autoClose: 3000
             });
-            // setShowPostForm(false);
             setPostContent('');
             setPostImage(null);
             setShowForm(false);
@@ -99,9 +68,7 @@ const Navbar = () => {
         }
     };
     
-
     useEffect(()=>{
-
     },[ispostloading])
 
 

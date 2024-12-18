@@ -94,13 +94,14 @@ const Login = () => {
 
     if (response.ok) {
       const values = await response.json();
+      console.log(values)
       if (values.success) {
         storetoken(values);
         setinfo("Login successfully.");
         setstyle("green");
 
         setTimeout(() => {
-          toast.success(`Welcome back`, {
+          toast.success(`Welcome back ${values.firstname}`, {
             position: "bottom-center",
             autoClose: 3000
           });

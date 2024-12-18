@@ -3,6 +3,8 @@ import { createTransport } from 'nodemailer'
 import validator from "validator";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv'
+dotenv.config();
 const sendMail = (email, otp) => {
     const auth = createTransport({
         service: "gmail",
@@ -36,13 +38,13 @@ const generateUserOtp = async (req, res) => {
         if (!user) {
             return res.json({ success: false, message: "User does not exist" })
         }
-        
+
         const otp = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
         sendMail(email, otp);
         console.log('otp is: ' + otp);
-        await Signup.findByIdAndUpdate(user._id, { otp: otp} );
+        await Signup.findByIdAndUpdate(user._id, { otp: otp });
         res.json({ success: true, message: "otp sent successfully." })
-        
+
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: error.message })
@@ -58,10 +60,17 @@ const verifyUserOtp = async (req, res) => {
         }
 
         const isMatch = await bcrypt.compare(password, user.password) && otp === user.otp;
-        console.log ('otp in req ' + otp);
-        console.log('otp in db: '+ user.otp);
+        console.log('otp in req ' + otp);
+        console.log('otp in db: ' + user.otp);
         if (isMatch) {
-            const token = jwt.sign({ id: user._id }, process.env.sign)
+            // const token = jwt.sign({ _id: user._id }, process.env.sign)
+            const token = jwt.sign({
+                id: user._id,
+                email: user.email,
+                usnmae: user.firstname
+            },
+                process.env.sign
+            )
             res.json({ success: true, token })
         }
         else {
@@ -74,4 +83,4 @@ const verifyUserOtp = async (req, res) => {
 }
 
 
-export {sendMail,verifyUserOtp,generateUserOtp}
+export { sendMail, verifyUserOtp, generateUserOtp }

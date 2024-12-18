@@ -20,7 +20,7 @@ const mustlogin = async (req, res, next) => {
         req.id = check.id;
         next();
     } catch (error) {
-        console.log(error + " this is error")
+        console.log(error + " this is error from mustlogin")
         res.status(401).send("This is JWT Token Error in MustLogin Middleware")
     }
 }

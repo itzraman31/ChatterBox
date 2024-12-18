@@ -12,41 +12,43 @@ const home = (req, res) => {
 
 const login = async (req, res) => {
     try {
+        const { email, password } = req.body;
 
-        const { email, password } = req.body
-
-        const checkmail = await Signup.findOne({ email: email })
+        const checkmail = await Signup.findOne({ email: email });
 
         if (checkmail) {
-
-            const pass = await checkmail.checkpass(password)
+            const pass = await checkmail.checkpass(password);
 
             if (pass) {
-
                 const token = await checkmail.createToken();
 
-                res.status(200).cookie("sId", "helloworld", {
+                return res.status(200).cookie("sId", "helloworld", {
                     httpOnly: true
                 }).json({
+                    success: true,
                     name: checkmail.firstname,
                     token: token
-                })
+                });
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    msg: "Invalid details"
+                });
             }
-            else {
-                res.status(401).json({
-                    msg: "invalid details"
-                })
-            }
+        } else {
+            return res.status(401).json({
+                success: false,
+                msg: "User does not exist"
+            });
         }
-        else {
-            res.status(401).send("User does not exist")
-            console.log("user does not exist")
-        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            msg: "Internal Server Error"
+        });
     }
-    catch (err) {
-        console.log(err)
-    }
-}
+};
 
 const signup = async (req, res) => {
     try {

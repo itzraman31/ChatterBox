@@ -13,10 +13,6 @@ const ContactUs = () => {
   });
 
   if(userdetail.firstname===undefined){
-    // toast.error(`Login First`, {
-    //   position: "bottom-center",
-    //   autoClose: 3000
-    // });
     userdetail.firstname = " " ;
     userdetail.lastname=""
     userdetail.email=""

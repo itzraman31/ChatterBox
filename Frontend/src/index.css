@@ -514,7 +514,11 @@ input {
   height: 30px;
   padding-left: 8px;
 }
-
+.inp:focus {
+  border: 1px solid #0078d4;
+  outline: none;
+  box-shadow: 0 0 5px rgba(4, 6, 6, 0.5);
+}
 #setting_action_img1 {
   width: 30px;
   margin-left: 20px;
@@ -1005,11 +1009,12 @@ input {
 }
 
 .contact-input:focus,
-.contact-textarea:focus {
+.contact-textarea:focus{
   border: 1px solid #0078d4;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 120, 212, 0.5);
 }
+
 
 .contact-textarea {
   resize: none;

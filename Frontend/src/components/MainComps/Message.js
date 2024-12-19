@@ -184,11 +184,9 @@ const Message = () => {
         setismsgfound(true);
         setgetmsg((prev) =>{
           if(prev===undefined){
-             console.log([msg])
              return [msg];
             }
             else{
-             console.log("else part")
              return [...prev, msg];
             }
           });
@@ -197,33 +195,6 @@ const Message = () => {
 
     return () => { socket.off("newMessage") };
   }, [receiver,getmsg]);
-
-  // useEffect(() => {
-  //   socket.on("newMessage", (msg) => {
-  //     if (receiver._id !== msg.senderId) {
-  //       setnotifycount(notifycount + 1);
-
-  //       setnotifyChat((prevSet) => new Set([...prevSet, msg.senderId]));
-
-  //       onlineusers1[msg.senderId] = notifycount;
-  //       setMySet(notifyChat);
-  //     }
-  //     else {
-  //       setgetmsg((prev) =>{
-  //         if(prev===undefined){
-  //            console.log([msg])
-  //            return [msg];
-  //           }
-  //           else{
-  //            console.log("else part")
-  //            return [...prev, msg];
-  //           }
-  //         });
-  //     }
-  //   });
-
-  //   return () => { socket.off("newMessage") };
-  // }, [receiver,getmsg]);
 
   return (
     <>
@@ -292,10 +263,8 @@ const Message = () => {
 
 
           {
-            // !clicked ?
             !ismsgfound ?
             <div className='MSGICONdiv'>
-              {console.log(ismsgfound)}
                 <img className='MSGICON' src="/images/MANsendMSGWBG.png" alt="not found" />
                 <h1 style={{ fontFamily: "cursive" }}>Let's start conversation.</h1>
               </div>

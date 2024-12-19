@@ -140,7 +140,7 @@ body{
   width: 650px;
   height: 100vh;
   background-image: url(../public/images/bg2.jpg);
-  background-size: 580px 900px;
+  background-size: 600px 900px;
   opacity: 0.7;
   background-repeat: no-repeat;
   margin-top: -35px;
@@ -1637,4 +1637,9 @@ input {
 
 .postnotfoundgif{
   margin: auto;
+}
+.checklogin{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

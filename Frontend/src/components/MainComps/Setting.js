@@ -69,6 +69,7 @@ const Setting = () => {
             setisloading(false);
             setisclicked(false);
             if (response.ok) {
+                setprofilepic('')
                 setTimeout(() => {
                     toast.success("Profile picture changed successfully!", {
                         position: "bottom-center",
@@ -76,6 +77,7 @@ const Setting = () => {
                     });
                 }, 500);
             } else {
+                setprofilepic('')
                 setTimeout(() => {
                     toast.error("Failed to change profile picture", {
                         position: "bottom-center",
@@ -135,9 +137,7 @@ const Setting = () => {
     }
 
 
-
     const handlePostSubmit = async () => {
-        // trigger();
         const Jtoken = localStorage.getItem('token');
         const formData = new FormData();
         formData.append('content', postContent);
@@ -168,14 +168,12 @@ const Setting = () => {
             });
         }
     };
-
     useEffect(() => {
         getuserdetail()
     }, [isclicked])
 
-
-
     useEffect(() => {
+        console.log("hello")
         getAllPosts(userdetail)
     }, [allPost])
 
@@ -188,7 +186,11 @@ const Setting = () => {
                         <h3>Setting</h3>
 
                         <div className='settingdiv'>
-                            <img id='setting_action_img' title='create post' onClick={() => setShowPostForm(true)} src="/images/plus.png" alt="Add Post" />
+                            {
+                                islogin ?
+                                    <img id='setting_action_img' title='create post' onClick={() => setShowPostForm(true)} src="/images/plus.png" alt="Add Post" />
+                                    : <></>
+                            }
                             <img id='setting_action_img' onClick={updatebtn} title='edit profile' src="/images/edit1.png" alt="not found" />
                             <img id='setting_action_img' onClick={passchnage} title='forgot password' src="/images/forgotpass.png" alt="not found" />
                             {
@@ -203,12 +205,6 @@ const Setting = () => {
                 </div>
 
                 <div className='outsettingdiv'>
-                    {isloading && (
-                        <div className="spinner-overlay2">
-                            <img src="football.gif" alt="Loading..." className="spinner2" />
-                            <h2 style={{ color: "white", marginTop: "5px" }}>{message}</h2>
-                        </div>
-                    )}
 
                     {
                         islogin ?
@@ -239,18 +235,21 @@ const Setting = () => {
                             <div className='usermanualdiv'>
                                 <img id='profilepic' src="images/guest.png" alt="not found" />
                                 <h2>Guest</h2>
-
-
-
                             </div>
                     }
 
                     {
                         allPost.length === 0 ?
-                            // <h1>no post found</h1> 
-                            <div className='postnotfoundgif'>
-                                <img className='MSGICON' src="/images/MANsendMSGWBG.png" alt="not found" />
-                                <h1 style={{ fontFamily: "cursive" }}>No Post found</h1>
+
+                            <div className='checklogin'>
+                                {
+                                    islogin ? <div className='postnotfoundgif'>
+                                        <img className='MSGICON' src="/images/MANsendMSGWBG.png" alt="not found" />
+                                        <h1 style={{ fontFamily: "cursive" }}>No Post found</h1>
+                                    </div> :
+                                     <h1>Login to your account</h1>
+                                }
+
                             </div>
                             :
                             <div className='settingpostdisplaydiv'>
@@ -258,7 +257,7 @@ const Setting = () => {
 
                                 <Scrollbars style={{ height: "500px" }}>
                                     {
-                                        allPost.map((post, i) => {
+                                        allPost?.map((post, i) => {
                                             return <PostTemplate key={i} post={post} />
                                         })
                                     }
@@ -294,6 +293,22 @@ const Setting = () => {
                             <>
                             </>
                     }
+
+
+                    {
+                        isloading ?
+                            <div className='pppp'>
+
+                                <div className="post-form1">
+                                    <img src="football.gif" alt="Loading..." className="spinner21" />
+                                    <h2>{message}</h2>
+                                </div>
+                            </div>
+                            :
+                            <>
+                            </>
+                    }
+
                 </div>
             </div>
         </>

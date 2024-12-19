@@ -56,7 +56,7 @@ const PostTemplate = ({ post }) => {
         }
     }
     useEffect(() => {
-        // console.log(post)
+        console.log(post)
     }, [])
 
     return (
@@ -114,14 +114,14 @@ const PostTemplate = ({ post }) => {
                     <h5>Comments ({post.comments.length})</h5>
                     <Scrollbars style={{ height: "80px" }}>
                         <ul className="comment-list">
-                            {post.comments?.map((comment, i) => (
+                            {post?.comments.map((comment, i) => (
                                 <li key={i} className="comment-item">
                                     {
-                                        comment.commentedBy._id === userdetail._id
+                                        comment?.commentedBy?._id === userdetail?._id
                                             ?
-                                            <p>  <strong>{"you"}</strong>: {comment.commentText}</p>
+                                            <p>  <strong>{"you"}</strong>: {comment?.commentText}</p>
                                             :
-                                            <p> <strong>{comment.commentedBy.firstname}</strong>: {comment.commentText}</p>
+                                            <p> <strong>{comment?.commentedBy?.firstname}</strong> : {comment?.commentText}</p>
                                     }
 
                                 </li>

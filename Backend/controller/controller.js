@@ -62,11 +62,12 @@ const signup = async (req, res) => {
         const uploadOrNot = await cloudinaryUploads(avatar);
         var profilepic = uploadOrNot.url;
 
-        if (firstname === "" || lastname === "" || email === "" || password === "" || gender === "") {
-            res.status(409).json({ msg: "All fields are required" })
-        }
         if (uploadOrNot === undefined || profilepic === undefined) {
             res.status(409).json({ msg: "Unsupported image type" })
+        }
+
+        if (firstname === "" || lastname === "" || email === "" || password === "" || gender === "") {
+            res.status(409).json({ msg: "All fields are required" })
         }
 
         // var profilepic = "";

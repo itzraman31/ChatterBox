@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { datatransfer } from "../../App"
 
-const UserMenu = ({ data, getid,topup }) => {
+const UserMenu = ({ data, getid }) => {
   const { onlineusers } = useContext(datatransfer);
   const onlineArr = Object.values(onlineusers);
   const online = onlineArr.includes(data._id)

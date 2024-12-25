@@ -10,7 +10,7 @@ const mustlogin = async (req, res, next) => {
         res.status(401).send("Token not provided")
     }
     try {
-        const check = await jwt.verify(token, process.env.sign);
+        const check = jwt.verify(token, process.env.sign);
         const data = await Signup.findOne({ email: check.email })
         if(!data){
             console.log("User does'nt exit in database msg from mustlogin")

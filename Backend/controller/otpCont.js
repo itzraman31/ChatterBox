@@ -1,6 +1,5 @@
 import Signup from "../models/signup.js";
 import { createTransport } from 'nodemailer'
-import validator from "validator";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'

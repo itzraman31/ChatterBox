@@ -4,11 +4,9 @@ import cloudinaryUploads from '../cloudinary/cloudinaryConfig.js';
 const removeProfilePic = async (req, res) => {
     const currUser = req.user;
     const GuestPicPath = "public/temp/guest.png";
-    // const UploadOnCloudinary = await cloudinaryUploads(GuestPicPath);
     const propic="https://res.cloudinary.com/ducczoyeq/image/upload/v1734537110/cthvhfkt409midrpve6x.png";
 
     const user = await Signup.findByIdAndUpdate({ _id: currUser._id }, { profilepic: propic }, { new: true }).select({ password: 0 })
-    // const user = await Signup.findByIdAndUpdate({ _id: currUser._id }, { profilepic: UploadOnCloudinary.url }, { new: true }).select({ password: 0 })
     res.status(200).send("Remove Successfully");
 }
 

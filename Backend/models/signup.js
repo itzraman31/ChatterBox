@@ -32,6 +32,11 @@ const signup = new mongoose.Schema({
         required: false,
         expires: 60 * 60 * 3
     },
+    authentication: {
+        type: Boolean,
+        default:false,
+        required: false,
+    },
 }, {
     timestamps: true
 })

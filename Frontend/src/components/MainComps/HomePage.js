@@ -1,5 +1,6 @@
 import React from 'react'
 import { Typewriter, Cursor } from 'react-simple-typewriter'
+// import LandingPage from '../Miscellaneous/ThreeD.js'
 
 const Landing = () => {
     const typewriter = Typewriter({
@@ -31,7 +32,7 @@ const Landing = () => {
                     </div>
                 </div>
                 <div className='right'>
-                    <img src="./images/chatterbox.jpg" alt="" id='img1' />
+                    <img className='MSGICON' src="./images/chatterbox.jpg" alt="" id='img1' />
                 </div>
             </div>
         </>

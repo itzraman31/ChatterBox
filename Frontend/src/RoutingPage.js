@@ -10,6 +10,7 @@ import ErrorPage from "./components/Miscellaneous/ErrorPage";
 import PasswordUpdate from "./components/ChangesComps/PasswordUpdate";
 import ContactUs from "./components/MainComps/ContactUs";
 import Navbar from "./components/Miscellaneous/Navbar";
+import Privacy from "./components/MainComps/Privacy";
 
 function LandingPage() {
 
@@ -31,6 +32,9 @@ function LandingPage() {
           <Route exact path="/delete" element={<Deleteaccount />}></Route>
           <Route exact path="/update" element={<Updateprofile />}></Route>
           <Route exact path="/passwordupdate" element={<PasswordUpdate />}></Route>
+
+          
+          <Route exact path="/privacy" element={<Privacy />}></Route>
 
           <Route exact path="*" element={<ErrorPage />}></Route>
 

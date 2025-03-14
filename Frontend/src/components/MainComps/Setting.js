@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { datatransfer } from '../../App'
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Scrollbars from 'react-custom-scrollbars';
 import PostTemplate from '../Miscellaneous/PostTemplate';
 
@@ -200,6 +200,7 @@ const Setting = () => {
                             }
 
                             <img id='setting_action_img' onClick={delbtn} title='delete account' src="/images/delete.png" alt="not found" />
+                            <NavLink to="/privacy">Privacy & Security</NavLink>
                         </div>
                     </div>
                 </div>

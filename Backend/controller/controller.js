@@ -21,11 +21,13 @@ const login = async (req, res) => {
 
             if (pass) {
                 const token = await checkmail.createToken();
-
+                const isAuth=checkmail.authentication;
+                console.log(isAuth)
                 return res.status(200).cookie("sId", "helloworld", {
                     httpOnly: true
                 }).json({
                     success: true,
+                    isAuth:isAuth,
                     name: checkmail.firstname,
                     token: token
                 });

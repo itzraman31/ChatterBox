@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { datatransfer } from '../../App';
+
 const url = "http://localhost:5500/api/auth/login";
 const otpUrl = "http://localhost:5500/api/user/otp/gen";
 const verifyOtpUrl = "http://localhost:5500/api/user/otp/verify";
@@ -22,9 +23,67 @@ const Login = () => {
     password: ""
   });
 
+  // const sendLoginRequest = async (event) => {
+  //   event.preventDefault();
+
+  //   const response = await fetch(url, {
+  //     method: "POST",
+  //     body: JSON.stringify({ email: logininfo.email, password: logininfo.password }),
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     }
+  //   });
+
+  //   if (response.ok) {
+  //     const result = await response.json();
+  //     if (result.success) {
+  //       setIsLoginSuccessful(true);
+
+  //       const otpResponse = await fetch(otpUrl, {
+  //         method: "POST",
+  //         body: JSON.stringify({ email: logininfo.email }),
+  //         headers: {
+  //           "Content-Type": "application/json"
+  //         }
+  //       });
+
+  //       if (otpResponse.ok) {
+  //         const otpResult = await otpResponse.json();
+  //         if (otpResult.success) {
+  //           toast.success("OTP sent successfully", {
+  //             position: "bottom-center",
+  //             autoClose: 3000
+  //           });
+  //           setIsOtpSent(true);
+  //         } else {
+  //           toast.error(otpResult.message, {
+  //             position: "bottom-center",
+  //             autoClose: 3000
+  //           });
+  //         }
+  //       } else {
+  //         toast.error("Failed to send OTP", {
+  //           position: "bottom-center",
+  //           autoClose: 3000
+  //         });
+  //       }
+  //     } else {
+  //       toast.error(result.message, {
+  //         position: "bottom-center",
+  //         autoClose: 3000
+  //       });
+  //     }
+  //   } else {
+  //     toast.error("Login failed. Please check your credentials.", {
+  //       position: "bottom-center",
+  //       autoClose: 3000
+  //     });
+  //   }
+  // };
+
+
   const sendLoginRequest = async (event) => {
     event.preventDefault();
-
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify({ email: logininfo.email, password: logininfo.password }),
@@ -35,9 +94,9 @@ const Login = () => {
 
     if (response.ok) {
       const result = await response.json();
-      if (result.success) {
+      console.log(result)
+      if (result.isAuth===true) {
         setIsLoginSuccessful(true);
-
         const otpResponse = await fetch(otpUrl, {
           method: "POST",
           body: JSON.stringify({ email: logininfo.email }),
@@ -67,10 +126,24 @@ const Login = () => {
           });
         }
       } else {
-        toast.error(result.message, {
-          position: "bottom-center",
-          autoClose: 3000
-        });
+        if (result.success) {
+          storetoken(result);
+          setinfo("Login successfully.");
+          setstyle("green");
+  
+          setTimeout(() => {
+            toast.success(`Welcome back ${result.name}`, {
+              position: "bottom-center",
+              autoClose: 3000
+            });
+            navigate('/');
+          }, 500);
+        } else {
+          toast.error(result.msg, {
+            position: "bottom-center",
+            autoClose: 3000
+          });
+        }
       }
     } else {
       toast.error("Login failed. Please check your credentials.", {
@@ -80,14 +153,16 @@ const Login = () => {
     }
   };
 
+
+
+
   const verifyOtp = async (event) => {
     event.preventDefault();
-
     const response = await fetch(verifyOtpUrl, {
       method: "POST",
       body: JSON.stringify({ email: logininfo.email, password: logininfo.password, otp }),
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       }
     });
 

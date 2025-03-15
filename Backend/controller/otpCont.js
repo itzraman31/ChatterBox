@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
 dotenv.config();
+
 const sendMail = (email, otp) => {
     const auth = createTransport({
         service: "gmail",
@@ -25,11 +26,7 @@ const sendMail = (email, otp) => {
         console.log('email sent.')
     });
 }
-
-
-
 const generateUserOtp = async (req, res) => {
-
     try {
         const { email } = req.body;
         const user = await Signup.findOne({ email })
@@ -79,6 +76,73 @@ const verifyUserOtp = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
+const verifyUserOtp2 = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        const id=req.query.id;
+        const user = await Signup.findOne({ email })
 
+        if (!user) {
+            return res.json({ success: false, message: "User does not exist" })
+        }
 
-export { sendMail, verifyUserOtp, generateUserOtp }
+        const isMatch = (otp === user.otp);
+
+        console.log('otp in req ' + otp);
+        console.log('otp in db: ' + user.otp);
+        if (isMatch) {
+            await Signup.updateOne({ email }, { $set: { authentication: true } });
+
+            const token = jwt.sign({
+                id: user._id,
+                email: user.email,
+                usnmae: user.firstname
+            },
+            process.env.sign
+            )
+            res.json({ success: true, token ,firstname:user.firstname})
+        }
+        else {
+            res.json({ success: false, message: "Invalid credentials" })
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+const verifyUserOtpTurnoff = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        const id=req.query.id;
+        const user = await Signup.findOne({ email })
+
+        if (!user) {
+            return res.json({ success: false, message: "User does not exist" })
+        }
+
+        const isMatch = (otp === user.otp);
+
+        console.log('otp in req ' + otp);
+        console.log('otp in db: ' + user.otp);
+        if (isMatch) {
+            await Signup.updateOne({ email }, { $set: { authentication: false } });
+
+            const token = jwt.sign({
+                id: user._id,
+                email: user.email,
+                usnmae: user.firstname
+            },
+            process.env.sign
+            )
+            res.json({ success: true, token ,firstname:user.firstname})
+        }
+        else {
+            res.json({ success: false, message: "Invalid credentials" })
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export { sendMail, verifyUserOtp, generateUserOtp,verifyUserOtp2,verifyUserOtpTurnoff }

@@ -22,7 +22,6 @@ const login = async (req, res) => {
             if (pass) {
                 const token = await checkmail.createToken();
                 const isAuth=checkmail.authentication;
-                console.log(isAuth)
                 return res.status(200).cookie("sId", "helloworld", {
                     httpOnly: true
                 }).json({
@@ -40,7 +39,7 @@ const login = async (req, res) => {
         } else {
             return res.status(401).json({
                 success: false,
-                msg: "User does not exist"
+                msg: "Invalid details"
             });
         }
     } catch (err) {
@@ -143,11 +142,11 @@ const deleteuser = async (req, res) => {
                 res.status(200).send("User delete successfully")
             }
             else {
-                res.status(401).send("Invalid details 1")
+                res.status(401).send("Invalid details")
             }
         }
         else {
-            res.status(401).send("Invalid details 1")
+            res.status(401).send("Invalid details")
         }
     }
     catch (err) {

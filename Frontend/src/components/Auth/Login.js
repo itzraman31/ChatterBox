@@ -252,6 +252,7 @@ const Login = () => {
                 <input type="password" onChange={changevalue} value={logininfo.password} name='password' placeholder="Password" required />
                 <input className="submit" type="submit" value="Login" />
                 <h4 style={{ marginRight: "65px", textAlign: "center" }}>Don't have an account <NavLink to="/signup">Sign up</NavLink></h4>
+                <h4 style={{ marginRight: "65px", textAlign: "center" }}><NavLink to="/forgotpassword">Forgot password?</NavLink></h4>
                 <h4 style={{ marginRight: "65px", marginTop: "5px", textAlign: 'center', color: `${style}`, fontFamily: "sans-serif" }}>{info}</h4>
               </form>
             ) : !isOtpSent ? (

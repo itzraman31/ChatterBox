@@ -11,6 +11,8 @@ import PasswordUpdate from "./components/ChangesComps/PasswordUpdate";
 import ContactUs from "./components/MainComps/ContactUs";
 import Navbar from "./components/Miscellaneous/Navbar";
 import Privacy from "./components/MainComps/Privacy";
+import Feed from "./components/MainComps/Feed";
+import Forgotpass from "./components/Miscellaneous/Forgotpass";
 
 function LandingPage() {
 
@@ -27,11 +29,13 @@ function LandingPage() {
           <Route exact path="/signup" element={<Signup />}></Route>
 
           <Route exact path="/message" element={<Message />}></Route>
+          <Route exact path="/afterlogin" element={<Feed />}></Route>
           <Route exact path="/contact" element={<ContactUs />}></Route>
           <Route exact path="/setting" element={<Setting />}></Route>
           <Route exact path="/delete" element={<Deleteaccount />}></Route>
           <Route exact path="/update" element={<Updateprofile />}></Route>
           <Route exact path="/passwordupdate" element={<PasswordUpdate />}></Route>
+          <Route exact path="/forgotpassword" element={<Forgotpass />}></Route>
 
           
           <Route exact path="/privacy" element={<Privacy />}></Route>

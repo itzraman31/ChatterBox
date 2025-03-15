@@ -15,6 +15,10 @@ const signup = new mongoose.Schema({
         type: String,
         required: true
     },
+    backupemail: {
+        type: String,
+        default:null
+    },
     password: {
         type: String,
         required: true
@@ -28,6 +32,11 @@ const signup = new mongoose.Schema({
         require: true
     },
     otp: {
+        type: String,
+        required: false,
+        expires: 60 * 60 * 3
+    },
+    backupmailotp: {
         type: String,
         required: false,
         expires: 60 * 60 * 3

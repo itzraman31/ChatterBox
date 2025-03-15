@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import { app,server } from './Socket/Socket.js';
 import Postrouter from './router/postRouters.js'
 import userRouter from './router/optRout.js';
+import forgetpassroute from './router/forgetpassroute.js';
 
 var corspermission = {
   origin: '*',
@@ -28,6 +29,8 @@ app.use("/api/message", router)
 app.use("/api/post", Postrouter)
 
 app.use('/api/user/',userRouter)
+
+app.use('/api/forget/',forgetpassroute);
 
 connectdb();
 

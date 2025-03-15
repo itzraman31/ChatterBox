@@ -32,7 +32,7 @@ const generateUserOtp = async (req, res) => {
         const user = await Signup.findOne({ email })
 
         if (!user) {
-            return res.json({ success: false, message: "User does not exist" })
+            return res.json({ success: false, message: "Invalid details" })
         }
 
         const otp = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
@@ -66,7 +66,7 @@ const verifyUserOtp = async (req, res) => {
             },
                 process.env.sign
             )
-            res.json({ success: true, token ,firstname:user.firstname})
+            res.json({ success: true, token, firstname: user.firstname })
         }
         else {
             res.json({ success: false, message: "Invalid credentials" })
@@ -79,7 +79,6 @@ const verifyUserOtp = async (req, res) => {
 const verifyUserOtp2 = async (req, res) => {
     try {
         const { email, otp } = req.body;
-        const id=req.query.id;
         const user = await Signup.findOne({ email })
 
         if (!user) {
@@ -98,9 +97,40 @@ const verifyUserOtp2 = async (req, res) => {
                 email: user.email,
                 usnmae: user.firstname
             },
-            process.env.sign
+                process.env.sign
             )
-            res.json({ success: true, token ,firstname:user.firstname})
+            res.json({ success: true, token, firstname: user.firstname })
+        }
+        else {
+            res.json({ success: false, message: "Invalid credentials" })
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+const verifyUserOtp3 = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        const user = await Signup.findOne({ email })
+
+        if (!user) {
+            return res.json({ success: false, message: "User does not exist" })
+        }
+
+        const isMatch = (otp === user.otp);
+
+        console.log('otp in req ' + otp);
+        console.log('otp in db: ' + user.otp);
+        if (isMatch) {
+            const token = jwt.sign({
+                id: user._id,
+                email: user.email,
+                usnmae: user.firstname
+            },
+                process.env.sign
+            )
+            res.json({ success: true, token, firstname: user.firstname })
         }
         else {
             res.json({ success: false, message: "Invalid credentials" })
@@ -113,7 +143,7 @@ const verifyUserOtp2 = async (req, res) => {
 const verifyUserOtpTurnoff = async (req, res) => {
     try {
         const { email, otp } = req.body;
-        const id=req.query.id;
+        const id = req.query.id;
         const user = await Signup.findOne({ email })
 
         if (!user) {
@@ -132,9 +162,9 @@ const verifyUserOtpTurnoff = async (req, res) => {
                 email: user.email,
                 usnmae: user.firstname
             },
-            process.env.sign
+                process.env.sign
             )
-            res.json({ success: true, token ,firstname:user.firstname})
+            res.json({ success: true, token, firstname: user.firstname })
         }
         else {
             res.json({ success: false, message: "Invalid credentials" })
@@ -144,5 +174,57 @@ const verifyUserOtpTurnoff = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
+const generateOtpBackupMail = async (req, res) => {
+    try {
+        const { email, backupmail } = req.body;
+        const user = await Signup.findOne({ email })
 
-export { sendMail, verifyUserOtp, generateUserOtp,verifyUserOtp2,verifyUserOtpTurnoff }
+        if (!user) {
+            return res.json({ success: false, message: "Invalid details" })
+        }
+
+        const otp = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+        sendMail(backupmail, otp);
+        console.log('otp is: ' + otp);
+        await Signup.findByIdAndUpdate(user._id, { backupmailotp: otp });
+        res.json({ success: true, message: "otp sent successfully." })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+const verifyotpBackupmail = async (req, res) => {
+    try {
+        const { backupmail,email, otp } = req.body;
+        const user = await Signup.findOne({ email })
+
+        if (!user) {
+            return res.json({ success: false, message: "User does not exist" })
+        }
+
+        const isMatch = (otp === user.backupmailotp);
+
+        console.log('otp in req ' + otp);
+        console.log('otp in db: ' + user.backupmailotp);
+        if (isMatch) {
+            await Signup.updateOne({ email }, { $set: { backupemail: backupmail } });
+
+            const token = jwt.sign({
+                id: user._id,
+                email: user.email,
+                usnmae: user.firstname
+            },
+                process.env.sign
+            )
+            res.json({ success: true, token, firstname: user.firstname })
+        }
+        else {
+            res.json({ success: false, message: "Invalid credentials" })
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+export { verifyotpBackupmail,generateOtpBackupMail, sendMail, verifyUserOtp, generateUserOtp, verifyUserOtp2, verifyUserOtpTurnoff, verifyUserOtp3 }

@@ -227,4 +227,20 @@ const verifyotpBackupmail = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
-export { verifyotpBackupmail,generateOtpBackupMail, sendMail, verifyUserOtp, generateUserOtp, verifyUserOtp2, verifyUserOtpTurnoff, verifyUserOtp3 }
+
+const getbackupmail=async(req,res)=>{
+    const {email}=req.body
+    if(email===null){
+        return res.send(401)
+    }
+    const user=await Signup.findOne({email})
+
+    if(user===null || user.backupemail===null){
+       return res.status(401).json({message:"No backupmail is added"})
+    }
+
+    res.status(200).json({
+        backupemail:user.backupemail
+    })
+}
+export { getbackupmail,verifyotpBackupmail,generateOtpBackupMail, sendMail, verifyUserOtp, generateUserOtp, verifyUserOtp2, verifyUserOtpTurnoff, verifyUserOtp3 }

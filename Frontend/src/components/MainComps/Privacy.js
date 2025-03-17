@@ -5,8 +5,10 @@ import BackupMail from '../Miscellaneous/BackupMail.js'
 const Privacy = () => {
   return (
     <>
+    <div className='privacyOuterdiv'>
      <TwoFA/>
      <BackupMail/>
+    </div>
     </>
   )
 }

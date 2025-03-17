@@ -1647,6 +1647,13 @@ input {
   align-items: center;
 }
 
+/* Privacy */
+.privacyOuterdiv{
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
 /* 2FA CSS*/
 .twoFAouterdiv{
   display: flex;
@@ -1656,7 +1663,11 @@ input {
 }
 .twoFAouterdiv img{
   width: 15%;
-  height: 70%;
+  height: 90%;
+}
+.backupimg{
+  width: 14% !important;
+  height: 80% !important;
 }
 .twoFAinnerdiv{
   display: flex;
@@ -1783,4 +1794,8 @@ input {
 }
 .gap{
   gap: 10px;
+}
+.editbtn{
+  width: 40% !important;
+  padding: 0px 10px !important;
 }

@@ -11,6 +11,8 @@ const Forgotpass = () => {
     const [isOtpSent, setIsOtpSent] = useState(false);
     const [isVerified, setisVerified] = useState(false)
     const navigate = useNavigate();
+    const [isBackupMailUse, setisBackupMailUse] = useState(false)
+    const [backupMail, setbackupMail] = useState('')
 
     const [logininfo, setlogininfo] = useState({
         email: "",
@@ -25,12 +27,11 @@ const Forgotpass = () => {
         event.preventDefault();
         const otpResponse = await fetch(otpUrl, {
             method: "POST",
-            body: JSON.stringify({ email: logininfo.email }),
+            body: JSON.stringify(isBackupMailUse ? { email: backupMail } : { email: logininfo.email }),
             headers: {
                 "Content-Type": "application/json"
             }
         });
-
         if (otpResponse.ok) {
             const otpResult = await otpResponse.json();
             if (otpResult.success) {
@@ -167,44 +168,108 @@ const Forgotpass = () => {
             [name]: value
         });
     };
+
+    const tryotherway = () => {
+        setisBackupMailUse(true);
+    }
+    const changevaluebackupmail = (e) => {
+        setbackupMail(e.target.value);
+    }
     return (
         <>
             <div className="forgetpass-container">
                 <h1 className="forgetpass-title">Forgot Password</h1>
 
-                <form className="forgetpass-form" onSubmit={isOtpSent ? verifyOtp : sendLoginRequest}>
-                    <label className="forgetpass-label">Email</label>
-                    <input
-                        className="forgetpass-input"
-                        disabled={isVerified}
-                        type="email"
-                        onChange={changevalue}
-                        value={logininfo.email}
-                        name="email"
-                        placeholder="Enter your email"
-                        required
-                    />
+                {isBackupMailUse ?
+                    <form className="forgetpass-form" onSubmit={isOtpSent ? verifyOtp : sendLoginRequest}>
+                        <label className="forgetpass-label">Email</label>
+                        <input
+                            className="forgetpass-input"
+                            disabled={isVerified}
+                            type="email"
+                            onChange={changevalue}
+                            value={logininfo.email}
+                            name="email"
+                            placeholder="Enter email"
+                            required
+                        />
+                        {
+                            isBackupMailUse ?
+                                <input
+                                    className="forgetpass-input"
+                                    type="email"
+                                    onChange={changevaluebackupmail}
+                                    value={backupMail}
+                                    name="backupmail"
+                                    placeholder="Enter Backup email"
+                                    required
+                                />
+                                : null
+                        }
 
-                    {!isVerified && isOtpSent ? (
-                        <div className="forgetpass-otp-section">
-                            <label className="forgetpass-label">OTP</label>
-                            <input
-                                className="forgetpass-input"
-                                type="text"
-                                onChange={changevalue}
-                                value={logininfo.password}
-                                name="otp"
-                                placeholder="Enter OTP"
-                                required
-                            />
-                            <input className="forgetpass-btn" type="submit" value="Verify OTP" />
-                        </div>
-                    ) : null}
+                        {!isVerified && isOtpSent ? (
+                            <div className="forgetpass-otp-section">
+                                <label className="forgetpass-label">OTP</label>
+                                <input
+                                    className="forgetpass-input"
+                                    type="text"
+                                    onChange={changevalue}
+                                    value={logininfo.password}
+                                    name="otp"
+                                    placeholder="Enter OTP"
+                                    required
+                                />
+                                <input className="forgetpass-btn" type="submit" value="Verify OTP" />
+                            </div>
+                        ) : null}
 
-                    {!isOtpSent && (
-                        <input className="forgetpass-btn" type="submit" value="Get OTP" />
-                    )}
-                </form>
+                        {!isOtpSent && (
+                            <div className='otherway'>
+                                <input className="forgetpass-btn" type="submit" value="Get OTP" />
+                                {
+                                    !isBackupMailUse ?
+                                        <button onClick={tryotherway} className="forgetpass-btn">Try another way</button>
+                                        : null
+                                }
+                            </div>
+                        )}
+                    </form>
+                    :
+                    <form className="forgetpass-form" onSubmit={isOtpSent ? verifyOtp : sendLoginRequest}>
+                        <label className="forgetpass-label">Email</label>
+                        <input
+                            className="forgetpass-input"
+                            disabled={isVerified}
+                            type="email"
+                            onChange={changevalue}
+                            value={logininfo.email}
+                            name="email"
+                            placeholder="Enter email"
+                            required
+                        />
+                        {!isVerified && isOtpSent ? (
+                            <div className="forgetpass-otp-section">
+                                <label className="forgetpass-label">OTP</label>
+                                <input
+                                    className="forgetpass-input"
+                                    type="text"
+                                    onChange={changevalue}
+                                    value={logininfo.password}
+                                    name="otp"
+                                    placeholder="Enter OTP"
+                                    required
+                                />
+                                <input className="forgetpass-btn" type="submit" value="Verify OTP" />
+                            </div>
+                        ) : null}
+
+                        {!isOtpSent && (
+                            <div className='otherway'>
+                                <input className="forgetpass-btn" type="submit" value="Get OTP" />
+                                <button onClick={tryotherway} className="forgetpass-btn">Try another way</button>
+                            </div>
+                        )}
+                    </form>}
 
                 {isVerified && (
                     <form className="forgetpass-form" onSubmit={changepasswordForm}>

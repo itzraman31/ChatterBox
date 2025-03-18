@@ -1799,3 +1799,9 @@ input {
   width: 40% !important;
   padding: 0px 10px !important;
 }
+
+.otherway{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -13,6 +13,7 @@ import Navbar from "./components/Miscellaneous/Navbar";
 import Privacy from "./components/MainComps/Privacy";
 import Feed from "./components/MainComps/Feed";
 import Forgotpass from "./components/Miscellaneous/Forgotpass";
+import Userprofile from "./components/MainComps/Userprofile";
 
 function LandingPage() {
 
@@ -38,6 +39,9 @@ function LandingPage() {
           <Route exact path="/forgotpassword" element={<Forgotpass />}></Route>
 
           
+          <Route exact path="/userprofile" element={<Userprofile />}></Route>
+
+
           <Route exact path="/privacy" element={<Privacy />}></Route>
 
           <Route exact path="*" element={<ErrorPage />}></Route>

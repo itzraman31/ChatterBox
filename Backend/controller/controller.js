@@ -5,6 +5,7 @@ import cloudinaryUploads from '../cloudinary/cloudinaryConfig.js'
 import Contact from "../models/contactus.js";
 import { io, onlineusers } from '../Socket/Socket.js';
 import posts from '../models/posts.js';
+import Userprofile from '../models/Userprofile.js';
 
 const home = (req, res) => {
     res.cookie("greeting", "Hello world").send("Done")
@@ -71,14 +72,6 @@ const signup = async (req, res) => {
             res.status(409).json({ msg: "All fields are required" })
         }
 
-        // var profilepic = "";
-
-        // if (gender === "male") {
-        //     profilepic = `https://avatar.iran.liara.run/public/boy/?username=${firstname}`
-        // }
-        // else {
-        //     profilepic = `https://avatar.iran.liara.run/public/girl/?username=${firstname}`
-        // }
         const finduser = await Signup.findOne({ email: email })
 
         if (finduser) {
@@ -88,6 +81,8 @@ const signup = async (req, res) => {
         else {
             const createuser = await Signup.create({ firstname, lastname, email, password, gender, profilepic })
             const jwtoken = await createuser.createToken();
+            const objId=createuser._id
+            const ProfileInfo=await Userprofile.create({user:objId});
             res.status(200).json({
                 token: jwtoken,
                 user: createuser

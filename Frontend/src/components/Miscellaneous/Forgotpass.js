@@ -4,7 +4,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const otpUrl = "http://localhost:5500/api/user/otp/gen";
+const otpUrl2 = "http://localhost:5500/api/user/otp/getotpbackuplogin";
 const verifyOtpUrl = "http://localhost:5500/api/user/otp/verifyotp";
+const verifyOtpUrl2 = "http://localhost:5500/api/user/otp/verifyotpbackuplogin";
 const forgotUrl = "http://localhost:5500/api/forget/password";
 
 const Forgotpass = () => {
@@ -27,7 +29,38 @@ const Forgotpass = () => {
         event.preventDefault();
         const otpResponse = await fetch(otpUrl, {
             method: "POST",
-            body: JSON.stringify(isBackupMailUse ? { email: backupMail } : { email: logininfo.email }),
+            body: JSON.stringify( { email: logininfo.email }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (otpResponse.ok) {
+            const otpResult = await otpResponse.json();
+            if (otpResult.success) {
+                toast.success("OTP sent successfully", {
+                    position: "bottom-center",
+                    autoClose: 3000
+                });
+                setIsOtpSent(true);
+            } else {
+                toast.error(otpResult.message, {
+                    position: "bottom-center",
+                    autoClose: 3000
+                });
+            }
+        } else {
+            toast.error("Failed to send OTP", {
+                position: "bottom-center",
+                autoClose: 3000
+            });
+        }
+    };
+    const sendLoginRequest2 = async (event) => {
+        event.preventDefault();
+        console.log(backupMail);
+        const otpResponse = await fetch(otpUrl2, {
+            method: "POST",
+            body: JSON.stringify( { backupmail: backupMail ,email: logininfo.email}),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -57,6 +90,34 @@ const Forgotpass = () => {
     const verifyOtp = async (event) => {
         event.preventDefault();
         const response = await fetch(verifyOtpUrl, {
+            method: "POST",
+            body: JSON.stringify({ email: logininfo.email, otp: logininfo.otp }),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+
+        if (response.ok) {
+            const values = await response.json();
+            if (values.success) {
+                setisVerified(true)
+            } else {
+                toast.error(values.message, {
+                    position: "bottom-center",
+                    autoClose: 3000
+                });
+            }
+        } else {
+            toast.error("Verification failed", {
+                position: "bottom-center",
+                autoClose: 3000
+            });
+        }
+    };
+
+    const verifyOtp2 = async (event) => {
+        event.preventDefault();
+        const response = await fetch(verifyOtpUrl2, {
             method: "POST",
             body: JSON.stringify({ email: logininfo.email, otp: logininfo.otp }),
             headers: {
@@ -181,7 +242,7 @@ const Forgotpass = () => {
                 <h1 className="forgetpass-title">Forgot Password</h1>
 
                 {isBackupMailUse ?
-                    <form className="forgetpass-form" onSubmit={isOtpSent ? verifyOtp : sendLoginRequest}>
+                    <form className="forgetpass-form" onSubmit={isOtpSent ? verifyOtp2 : sendLoginRequest2}>
                         <label className="forgetpass-label">Email</label>
                         <input
                             className="forgetpass-input"
@@ -214,7 +275,7 @@ const Forgotpass = () => {
                                     className="forgetpass-input"
                                     type="text"
                                     onChange={changevalue}
-                                    value={logininfo.password}
+                                    value={logininfo.otp}
                                     name="otp"
                                     placeholder="Enter OTP"
                                     required
@@ -270,7 +331,6 @@ const Forgotpass = () => {
                             </div>
                         )}
                     </form>}
-
                 {isVerified && (
                     <form className="forgetpass-form" onSubmit={changepasswordForm}>
                         <div className="forgetpass-reset-section">

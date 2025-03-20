@@ -227,7 +227,6 @@ const verifyotpBackupmail = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
-
 const getbackupmail=async(req,res)=>{
     const {email}=req.body
     if(email===null){
@@ -243,4 +242,55 @@ const getbackupmail=async(req,res)=>{
         backupemail:user.backupemail
     })
 }
-export { getbackupmail,verifyotpBackupmail,generateOtpBackupMail, sendMail, verifyUserOtp, generateUserOtp, verifyUserOtp2, verifyUserOtpTurnoff, verifyUserOtp3 }
+const generateOtpBackupMail2 = async (req, res) => {
+    try {
+        const { email, backupmail } = req.body;
+        const user = await Signup.findOne({ email })
+        console.log(user.backupemail!==backupmail)
+        if (!user || user.backupemail!==backupmail) {
+            return res.json({ success: false, message: "Invalid details" })
+        }
+
+        const otp = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+        sendMail(backupmail, otp);
+        console.log('otp is: ' + otp);
+        await Signup.findByIdAndUpdate(user._id, { backupmailloginotp: otp });
+        res.json({ success: true, message: "otp sent successfully." })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+const verifyUserOtp4 = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        const user = await Signup.findOne({ email })
+
+        if (!user) {
+            return res.json({ success: false, message: "User does not exist" })
+        }
+
+        const isMatch = otp === user.backupmailloginotp;
+        console.log('otp in req ' + otp);
+        console.log('otp in db: ' + user.otp);
+        if (isMatch) {
+            const token = jwt.sign({
+                id: user._id,
+                email: user.email,
+                usnmae: user.firstname
+            },
+                process.env.sign
+            )
+            res.json({ success: true, token, firstname: user.firstname })
+        }
+        else {
+            res.json({ success: false, message: "Invalid credentials" })
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export { verifyUserOtp4,generateOtpBackupMail2,getbackupmail,verifyotpBackupmail,generateOtpBackupMail, sendMail, verifyUserOtp, generateUserOtp, verifyUserOtp2, verifyUserOtpTurnoff, verifyUserOtp3 }

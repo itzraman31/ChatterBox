@@ -601,7 +601,10 @@ input {
 }
 
 .otheruserpic {
-  width: 40px;
+  border-radius: 50%;
+  width: 47px;
+  height: 47px;
+  cursor: pointer;
 }
 
 .otheruserinfo2 {
@@ -1827,8 +1830,9 @@ input {
   gap: 10px;
 }
 .userprofileImg{
-  width: 18%;
-  border: 1px solid black;
+  width: 150px;
+  height: 150px;
+  border: 0.5px solid black;
   border-radius: 50%;
 }
 .postfollowdiv{

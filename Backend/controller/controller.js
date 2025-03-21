@@ -81,8 +81,9 @@ const signup = async (req, res) => {
         else {
             const createuser = await Signup.create({ firstname, lastname, email, password, gender, profilepic })
             const jwtoken = await createuser.createToken();
-            const objId=createuser._id
-            const ProfileInfo=await Userprofile.create({user:objId});
+            
+            await Userprofile.create({user:createuser._id});
+            
             res.status(200).json({
                 token: jwtoken,
                 user: createuser

@@ -6,6 +6,7 @@ const UserMenu = ({ data, getid }) => {
   const onlineArr = Object.values(onlineusers);
   const online = onlineArr.includes(data._id)
 
+
   return (
     <>
       <div onClick={() => {
@@ -23,7 +24,6 @@ const UserMenu = ({ data, getid }) => {
           <img id='usermenuimg' src={data.profilepic} alt="not found" />
         </div>
         <p id='usermenup'>{data.firstname + " " + data.lastname}</p>
-        {/* <p>{topup}</p> */}
       </div>
     </>
   )

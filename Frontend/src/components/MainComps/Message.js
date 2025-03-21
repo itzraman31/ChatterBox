@@ -3,9 +3,12 @@ import { datatransfer } from '../../App';
 import Scrollbars from 'react-custom-scrollbars';
 import UserMenu from '../Miscellaneous/UserMenu.js';
 import socket from '../Miscellaneous/SocketShare.js';
+import { useNavigate } from 'react-router-dom';
 
 const Message = () => {
   const onlineusers1 = {};
+
+  const navigate=useNavigate();
 
   const { islogin, userdetail, onlineusers, setMySet } = useContext(datatransfer);
   const [notifyChat, setnotifyChat] = useState(new Set());
@@ -24,6 +27,10 @@ const Message = () => {
   const onlineArr = Object.values(onlineusers);
   const online = onlineArr.includes(receiver._id);
 
+  const UserprofileID=()=>{
+    localStorage.setItem("kswd",receiver._id);
+    navigate('/userprofile')
+  }
   const searchuser = (event) => {
     setuser(event.target.value)
 
@@ -108,7 +115,7 @@ const Message = () => {
   const getid = async (e) => {
     setreceiver(e)
     setclicked(true)
-
+    
     if (notifyChat.has(e._id)) {
       setnotifycount(0);
       notifyChat.delete(e._id);
@@ -239,7 +246,8 @@ const Message = () => {
               <div className='otheruserinfo'>
 
                 <div className='otheruserinfo2'>
-                  <img className='otheruserpic' src={receiver.profilepic} alt="not found" />
+                  <img onClick={UserprofileID} className='otheruserpic' src={receiver.profilepic} alt="not found" />
+                  {/* <img onClick={()=>{userprofileIDftn(receiver)}} className='otheruserpic' src={receiver.profilepic} alt="not found" /> */}
 
                   <div className='hello2'>
                     <h3>{receiver.firstname}</h3>

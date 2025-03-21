@@ -136,7 +136,6 @@ const Setting = () => {
         setisclicked(false)
     }
 
-
     const handlePostSubmit = async () => {
         const Jtoken = localStorage.getItem('token');
         const formData = new FormData();

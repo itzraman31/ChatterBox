@@ -33,7 +33,7 @@ const Landing = () => {
                 </div>
                 <div className='right'>
                     <img src="./images/chatterbox.jpg" alt="" id='img1' />
-                    {/* className='MSGICON' */}
+                    
                 </div>
             </div>
         </>

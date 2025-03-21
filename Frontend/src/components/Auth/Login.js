@@ -23,65 +23,6 @@ const Login = () => {
     password: ""
   });
 
-  // const sendLoginRequest = async (event) => {
-  //   event.preventDefault();
-
-  //   const response = await fetch(url, {
-  //     method: "POST",
-  //     body: JSON.stringify({ email: logininfo.email, password: logininfo.password }),
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     }
-  //   });
-
-  //   if (response.ok) {
-  //     const result = await response.json();
-  //     if (result.success) {
-  //       setIsLoginSuccessful(true);
-
-  //       const otpResponse = await fetch(otpUrl, {
-  //         method: "POST",
-  //         body: JSON.stringify({ email: logininfo.email }),
-  //         headers: {
-  //           "Content-Type": "application/json"
-  //         }
-  //       });
-
-  //       if (otpResponse.ok) {
-  //         const otpResult = await otpResponse.json();
-  //         if (otpResult.success) {
-  //           toast.success("OTP sent successfully", {
-  //             position: "bottom-center",
-  //             autoClose: 3000
-  //           });
-  //           setIsOtpSent(true);
-  //         } else {
-  //           toast.error(otpResult.message, {
-  //             position: "bottom-center",
-  //             autoClose: 3000
-  //           });
-  //         }
-  //       } else {
-  //         toast.error("Failed to send OTP", {
-  //           position: "bottom-center",
-  //           autoClose: 3000
-  //         });
-  //       }
-  //     } else {
-  //       toast.error(result.message, {
-  //         position: "bottom-center",
-  //         autoClose: 3000
-  //       });
-  //     }
-  //   } else {
-  //     toast.error("Login failed. Please check your credentials.", {
-  //       position: "bottom-center",
-  //       autoClose: 3000
-  //     });
-  //   }
-  // };
-
-
   const sendLoginRequest = async (event) => {
     event.preventDefault();
     const response = await fetch(url, {
@@ -95,7 +36,7 @@ const Login = () => {
     if (response.ok) {
       const result = await response.json();
       console.log(result)
-      if (result.isAuth===true) {
+      if (result.isAuth === true) {
         setIsLoginSuccessful(true);
         const otpResponse = await fetch(otpUrl, {
           method: "POST",
@@ -130,7 +71,7 @@ const Login = () => {
           storetoken(result);
           setinfo("Login successfully.");
           setstyle("green");
-  
+
           setTimeout(() => {
             toast.success(`Welcome back ${result.name}`, {
               position: "bottom-center",
@@ -152,9 +93,6 @@ const Login = () => {
       });
     }
   };
-
-
-
 
   const verifyOtp = async (event) => {
     event.preventDefault();

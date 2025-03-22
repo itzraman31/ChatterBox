@@ -15,11 +15,12 @@ function App() {
   const [clickeduserinfostate, setclickeduserinfostate] = useState([])
   const [allPost, setallPost] = useState([]);
   const [profileuser,setprofileuser]=useState('');
-
+  const[profileuserid,setprofileuserid]=useState('')
 
   const getUserProfileInfo = async () => {
-    const userProid=localStorage.getItem("kswd");
-    const response = await fetch(`http://localhost:5500/api/post/userprofile/${userProid}`, {
+    const userid=localStorage.getItem("kswd");
+    setprofileuserid(localStorage.getItem("kswd"))
+    const response = await fetch(`http://localhost:5500/api/post/userprofile/${userid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -152,12 +153,12 @@ function App() {
   }, [userdetail.firstname])
 
   useEffect(()=>{
-
-  },[getUserProfileInfo])
+    console.log(profileuserid)
+  },[profileuserid])
 
   return (
     <>
-      <datatransfer.Provider value={{ getUserProfileInfo,profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
+      <datatransfer.Provider value={{ profileuserid,getUserProfileInfo,profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
         <ToastContainer />
         <RoutingPage />
       </datatransfer.Provider>

@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer } from '../../App'
 
 const Userprofile = () => {
-    const { profileuser,getUserProfileInfo } = useContext(datatransfer);
+    const { profileuser,getUserProfileInfo,profileuserid } = useContext(datatransfer);
     const name=profileuser?profileuser.user.user.firstname:"guest";
     const profilepic=profileuser?profileuser.user.user.profilepic:"";
     const [desc,setdesc]=useState('');
 
     useEffect(() => {
+        console.log(profileuserid)
         if(profileuser.length===0){
             getUserProfileInfo();
         }
@@ -18,13 +19,12 @@ const Userprofile = () => {
             else{
                 setdesc(profileuser.user.description);
             }
-            console.log(profileuser.user);
         }
-    }, [profileuser])
+        getUserProfileInfo();
+    }, [])
 
     useEffect(()=>{
-        console.log(desc);
-    },[desc,profileuser,getUserProfileInfo])
+    },[desc,profileuser,profileuserid])
 
     return (
         <>

@@ -1,6 +1,7 @@
 import Signup from '../models/signup.js';
 import cloudinaryUploads from '../cloudinary/cloudinaryConfig.js';
 import Post from '../models/posts.js';
+import Userprofile from '../models/Userprofile.js'
 
 const createPost = async (req, res) => {
     try {
@@ -27,6 +28,10 @@ const createPost = async (req, res) => {
         });
 
         const savedPost = await newPost.save();
+        
+        const UpdateNoPosts1=await Post.countDocuments({createdBy})
+        await Userprofile.updateOne({user:createdBy},{$set:{posts:UpdateNoPosts1}});
+
         res.status(201).json({ message: 'Post created successfully', post: savedPost });
     } catch (error) {
         res.status(500).json({ message: 'Failed to create post', error: error.message });

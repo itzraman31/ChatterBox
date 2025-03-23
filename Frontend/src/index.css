@@ -1619,6 +1619,7 @@ input {
 .addimg{
   width: 50px;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 
@@ -1842,17 +1843,22 @@ input {
 .desc{
   width: 78%;
 }
-
+.textcentre{
+  text-align: center;
+}
 .postdivouter{
-  width: 70%;
+  width: 85%;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .postImg{
-  width: 33%;
+  height: 300px;
+  width: 32%;
+  border-radius: 1px;
 }
 .hruserprofile{
   margin: 60px 0px 10px 0px;

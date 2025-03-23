@@ -172,7 +172,6 @@ const Setting = () => {
     }, [isclicked])
 
     useEffect(() => {
-        console.log("hello")
         getAllPosts(userdetail)
     }, [allPost])
 
@@ -247,7 +246,7 @@ const Setting = () => {
                                         <img className='MSGICON' src="/images/MANsendMSGWBG.png" alt="not found" />
                                         <h1 style={{ fontFamily: "cursive" }}>No Post found</h1>
                                     </div> :
-                                     <h1>Login to your account</h1>
+                                        <h1>Login to your account</h1>
                                 }
 
                             </div>

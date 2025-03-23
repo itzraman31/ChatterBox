@@ -14,11 +14,11 @@ function App() {
   const [onlineusers, setonlineusers] = useState([]);
   const [clickeduserinfostate, setclickeduserinfostate] = useState([])
   const [allPost, setallPost] = useState([]);
-  const [profileuser,setprofileuser]=useState('');
-  const[profileuserid,setprofileuserid]=useState('')
+  const [profileuser, setprofileuser] = useState('');
+  const [profileuserid, setprofileuserid] = useState('')
 
   const getUserProfileInfo = async () => {
-    const userid=localStorage.getItem("kswd");
+    const userid = localStorage.getItem("kswd");
     setprofileuserid(localStorage.getItem("kswd"))
     const response = await fetch(`http://localhost:5500/api/post/userprofile/${userid}`, {
       method: "GET",
@@ -99,23 +99,28 @@ function App() {
   }
 
   const getAllPosts = async (e) => {
-    if (e._id !== undefined) {
-      const Jtoken = localStorage.getItem("token")
-      const response = await fetch(`http://localhost:5500/api/post/getAllPosts/${e._id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `${Jtoken}`
+    try {
+      if (e._id !== undefined) {
+        const Jtoken = localStorage.getItem("token")
+        const response = await fetch(`http://localhost:5500/api/post/getAllPosts/${e._id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${Jtoken}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json();
+          setallPost(data)
         }
-      })
-      if (response.ok) {
-        const data = await response.json();
-        setallPost(data)
+        else {
+          console.log("Not found")
+          setallPost([])
+        }
       }
-      else {
-        // setallPost([])
-        // console.log("Not found")
-      }
+    }
+    catch (err) {
+      // console.log(err)
     }
   }
 
@@ -152,13 +157,12 @@ function App() {
     })
   }, [userdetail.firstname])
 
-  useEffect(()=>{
-    console.log(profileuserid)
-  },[profileuserid])
+  useEffect(() => {
+  }, [profileuserid])
 
   return (
     <>
-      <datatransfer.Provider value={{ profileuserid,getUserProfileInfo,profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
+      <datatransfer.Provider value={{ profileuserid, getUserProfileInfo, profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
         <ToastContainer />
         <RoutingPage />
       </datatransfer.Provider>

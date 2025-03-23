@@ -2,29 +2,53 @@ import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer } from '../../App'
 
 const Userprofile = () => {
-    const { profileuser,getUserProfileInfo,profileuserid } = useContext(datatransfer);
-    const name=profileuser?profileuser.user.user.firstname:"guest";
-    const profilepic=profileuser?profileuser.user.user.profilepic:"";
-    const [desc,setdesc]=useState('');
+    const { profileuser, getUserProfileInfo, profileuserid } = useContext(datatransfer);
+    const name = profileuser ? profileuser.user.user.firstname : "guest";
+    const profilepic = profileuser ? profileuser.user.user.profilepic : "";
+    const [desc, setdesc] = useState('');
+    const [allPost, setallPost] = useState([]);
+
+    const getAllPosts = async () => {
+        const userid = localStorage.getItem("kswd");
+        if (userid !== undefined) {
+            const Jtoken = localStorage.getItem("token")
+            const response = await fetch(`http://localhost:5500/api/post/getAllPosts/${userid}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${Jtoken}`
+                }
+            })
+            if (response.ok) {
+                const data = await response.json();
+                setallPost(data)
+            }
+            else {
+                // setallPost([])
+                // console.log("Not found")
+            }
+        }
+    }
 
     useEffect(() => {
-        console.log(profileuserid)
-        if(profileuser.length===0){
+        if (profileuser.length === 0) {
             getUserProfileInfo();
         }
-        else{
-            if(profileuser.user.description===null){
+        else {
+            if (profileuser.user.description === null) {
                 setdesc("No description.");
             }
-            else{
+            else {
                 setdesc(profileuser.user.description);
             }
         }
         getUserProfileInfo();
+        getAllPosts();
     }, [])
 
-    useEffect(()=>{
-    },[desc,profileuser,profileuserid])
+    useEffect(() => {
+        console.log(allPost)
+    }, [allPost])
 
     return (
         <>
@@ -32,19 +56,19 @@ const Userprofile = () => {
                 <div className='userinfoDiv'>
                     <img className='userprofileImg' src={profilepic} alt="User profile pic" />
                     <div className='userinfoDiv2'>
-                        <h1>{profileuser?name.replace(name.charAt(0), name.charAt(0).toUpperCase()):"guest"}</h1>
+                        <h1>{profileuser ? name.replace(name.charAt(0), name.charAt(0).toUpperCase()) : "guest"}</h1>
                         <div className='postfollowdiv'>
                             <div>
                                 <h3>Posts</h3>
-                                <p>{profileuser?profileuser.user.posts:'2'}</p>
+                                <p className='textcentre'>{profileuser ? profileuser.user.posts : '2'}</p>
                             </div>
                             <div>
                                 <h3>Followers</h3>
-                                <p>{profileuser?profileuser.user.followers:'2'}</p>
+                                <p className='textcentre'>{profileuser ? profileuser.user.followers : '2'}</p>
                             </div>
                             <div>
                                 <h3>Following</h3>
-                                <p>{profileuser?profileuser.user.following:'2'}</p>
+                                <p className='textcentre'>{profileuser ? profileuser.user.following : '2'}</p>
                             </div>
                         </div>
                         <p className='desc'>{desc}</p>
@@ -57,18 +81,19 @@ const Userprofile = () => {
                 <hr className='hruserprofile' />
                 <div className='postdivouter'>
                     <h1>Posts</h1>
-                    <div className='postdivinner'>
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-                        <img className='postImg' src="/images/guest.png" alt="User profile pic" />
-
-                    </div>
+                    {
+                        allPost.length === 0
+                            ?
+                            <h2>No post found</h2>
+                            :
+                            <div className='postdivinner'>
+                                {
+                                    allPost?.map((src, i) => {
+                                        return <img key={i} className='postImg' src={src.images} alt="User profile pic" />
+                                    })
+                                }
+                            </div>
+                    }
                 </div>
             </div>
         </>

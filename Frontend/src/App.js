@@ -162,7 +162,7 @@ function App() {
 
   return (
     <>
-      <datatransfer.Provider value={{ profileuserid, getUserProfileInfo, profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
+      <datatransfer.Provider value={{ getUserProfileInfo, profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
         <ToastContainer />
         <RoutingPage />
       </datatransfer.Provider>

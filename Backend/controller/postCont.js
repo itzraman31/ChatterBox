@@ -28,9 +28,9 @@ const createPost = async (req, res) => {
         });
 
         const savedPost = await newPost.save();
-        
-        const UpdateNoPosts1=await Post.countDocuments({createdBy})
-        await Userprofile.updateOne({user:createdBy},{$set:{posts:UpdateNoPosts1}});
+
+        const UpdateNoPosts1 = await Post.countDocuments({ createdBy })
+        await Userprofile.updateOne({ user: createdBy }, { $set: { posts: UpdateNoPosts1 } });
 
         res.status(201).json({ message: 'Post created successfully', post: savedPost });
     } catch (error) {
@@ -96,7 +96,7 @@ const commentOnPost = async (commentData) => {
             commentedBy: user._id,
             commentedAt: new Date(),
         };
-
+        
         post.comments.push(newComment);
 
         await post.save();
@@ -121,6 +121,9 @@ const deletePost = async (req, res) => {
         }
 
         await Post.findByIdAndDelete(postId);
+        const UpdateNoPosts1 = await Post.countDocuments({ createdBy: userId })
+        await Userprofile.updateOne({ user: userId }, { $set: { posts: UpdateNoPosts1 } });
+
         res.status(200).json({ message: 'Post deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Failed to delete post', error: error.message });

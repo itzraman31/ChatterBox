@@ -16,5 +16,4 @@ userRouter.post('/otp/verifyturnoff', verifyUserOtpTurnoff)
 userRouter.post('/otp/verifyauth', verifyUserOtp2)
 userRouter.post('/otp/verifyotp', verifyUserOtp3)
 
-
 export default userRouter;

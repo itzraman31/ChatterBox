@@ -2,33 +2,53 @@ import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer } from '../../App'
 
 const Userprofile = () => {
-    const { profileuser, getUserProfileInfo, profileuserid } = useContext(datatransfer);
+    const { profileuser, getUserProfileInfo ,userdetail} = useContext(datatransfer);
     const name = profileuser ? profileuser.user.user.firstname : "guest";
     const profilepic = profileuser ? profileuser.user.user.profilepic : "";
     const [desc, setdesc] = useState('');
     const [allPost, setallPost] = useState([]);
+    const [isloading, setisloading] = useState(false);
+    const [isfollow, setisfollow] = useState('Follow');
 
     const getAllPosts = async () => {
-        const userid = localStorage.getItem("kswd");
-        if (userid !== undefined) {
-            const Jtoken = localStorage.getItem("token")
-            const response = await fetch(`http://localhost:5500/api/post/getAllPosts/${userid}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `${Jtoken}`
+        try {
+            const userid = localStorage.getItem("kswd");
+            if (userid !== undefined) {
+                const Jtoken = localStorage.getItem("token")
+                setisloading(true)
+                const response = await fetch(`http://localhost:5500/api/post/getAllPosts/${userid}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `${Jtoken}`
+                    }
+                })
+                setisloading(false)
+                if (response.ok) {
+                    const data = await response.json();
+                    setallPost(data)
                 }
-            })
-            if (response.ok) {
-                const data = await response.json();
-                setallPost(data)
-            }
-            else {
-                // setallPost([])
-                // console.log("Not found")
             }
         }
+        catch (err) { }
     }
+
+    const getClickedUserId = async() => {
+        const token=localStorage.getItem('token')
+        // console.log(profileuser.user.user._id)
+        const response=await fetch(`http://localhost:5500/api/useraction/follow/?userId=${profileuser.user.user._id}&tofollowUser=${userdetail._id}`,{
+            method:"POST",
+            headers:{
+                "Authorization":`${token}`
+            }
+        })
+
+        if(response.ok){
+            console.log("OK REPORT GUYSSSS")
+        }
+        
+    }
+
 
     useEffect(() => {
         if (profileuser.length === 0) {
@@ -73,28 +93,39 @@ const Userprofile = () => {
                         </div>
                         <p className='desc'>{desc}</p>
                         <div className='followMessageBtn'>
-                            <button className='followme'>Follow</button>
+                            <button onClick={getClickedUserId} className='followme'>{isfollow}</button>
                             <button className='msgme'>Message</button>
                         </div>
                     </div>
                 </div>
                 <hr className='hruserprofile' />
-                <div className='postdivouter'>
-                    <h1>Posts</h1>
+                <div>
                     {
-                        allPost.length === 0
-                            ?
-                            <h2>No post found</h2>
-                            :
-                            <div className='postdivinner'>
+                        !isloading ?
+                            <div className='postdivouter'>
+                                <h1>Posts</h1>
                                 {
-                                    allPost?.map((src, i) => {
-                                        return <img key={i} className='postImg' src={src.images} alt="User profile pic" />
-                                    })
+                                    allPost.length === 0
+                                        ?
+                                        <h2>No post found</h2>
+                                        :
+                                        <div className='postdivinner'>
+                                            {
+                                                allPost?.map((src, i) => {
+                                                    return <img key={i} className='postImg' src={src.images} alt="User profile pic" />
+                                                })
+                                            }
+                                        </div>
                                 }
+                            </div>
+                            :
+                            <div className='postdivouter'>
+                                <h1>Posts</h1>
+                                <img src="gif.gif" alt="loading" />
                             </div>
                     }
                 </div>
+
             </div>
         </>
     )

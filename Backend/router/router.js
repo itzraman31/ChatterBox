@@ -16,7 +16,7 @@ route.post("/contactus",MustLogin,ContactusForm)
 
 route.post("/updateprofilepic/:id",upload.single("avatar") , updateprofilepic)
 
-route.get("/user",MustLogin,user)
+route.get("/user",MustLogin,user);
 
 route.delete("/delete",MustLogin,deleteuser)
 

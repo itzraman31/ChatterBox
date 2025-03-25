@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer } from '../../App'
 
 const Userprofile = () => {
-    const { profileuser, getUserProfileInfo ,userdetail} = useContext(datatransfer);
+    const { profileuser, getUserProfileInfo, userdetail } = useContext(datatransfer);
     const name = profileuser ? profileuser.user.user.firstname : "guest";
     const profilepic = profileuser ? profileuser.user.user.profilepic : "";
     const [desc, setdesc] = useState('');
@@ -33,22 +33,20 @@ const Userprofile = () => {
         catch (err) { }
     }
 
-    const getClickedUserId = async() => {
-        const token=localStorage.getItem('token')
-        // console.log(profileuser.user.user._id)
-        const response=await fetch(`http://localhost:5500/api/useraction/follow/?userId=${profileuser.user.user._id}&tofollowUser=${userdetail._id}`,{
-            method:"POST",
-            headers:{
-                "Authorization":`${token}`
+    const getClickedUserId = async () => {
+        const token = localStorage.getItem('token')
+        const response = await fetch(`http://localhost:5500/api/useraction/follow/?userId=${profileuser.user.user._id}&tofollowUser=${userdetail._id}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `${token}`
             }
         })
 
-        if(response.ok){
+        if (response.ok) {
             console.log("OK REPORT GUYSSSS")
         }
-        
-    }
 
+    }
 
     useEffect(() => {
         if (profileuser.length === 0) {
@@ -64,6 +62,7 @@ const Userprofile = () => {
         }
         getUserProfileInfo();
         getAllPosts();
+        console.log(profileuser)
     }, [])
 
     useEffect(() => {
@@ -80,15 +79,15 @@ const Userprofile = () => {
                         <div className='postfollowdiv'>
                             <div>
                                 <h3>Posts</h3>
-                                <p className='textcentre'>{profileuser ? profileuser.user.posts : '2'}</p>
+                                <p className='textcentre'>{profileuser ? profileuser.user.posts : '0'}</p>
                             </div>
                             <div>
                                 <h3>Followers</h3>
-                                <p className='textcentre'>{profileuser ? profileuser.user.followers : '2'}</p>
+                                <p className='textcentre'>{profileuser ? profileuser.user.followers.length : '0'}</p>
                             </div>
                             <div>
                                 <h3>Following</h3>
-                                <p className='textcentre'>{profileuser ? profileuser.user.following : '2'}</p>
+                                <p className='textcentre'>{profileuser ? profileuser.user.following.length : '0'}</p>
                             </div>
                         </div>
                         <p className='desc'>{desc}</p>

@@ -19,9 +19,15 @@ const followUser = async (req, res) => {
         if (!followUserProfile.followers.includes(userId)) {
             followUserProfile.followers.push(userId);
             await followUserProfile.save();
+        } 
+
+        if (!followingUserProfile.following.includes(tofollowUser)) {
+            followingUserProfile.following.push(tofollowUser);
+            await followingUserProfile.save();
         }
 
         console.log(`User ${userId} is now following ${tofollowUser}`);
+        console.log(`User ${tofollowUser} has one more follower ${userId}`);
 
         res.status(200).json({ message: "Follow successful." });
     } catch (error) {

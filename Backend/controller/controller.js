@@ -106,49 +106,99 @@ const user = async (req, res) => {
     }
 }
 
+// const deleteuser = async (req, res) => {
+
+//     try {
+
+//         const { email, password } = req.body
+
+//         const finduser = await Signup.findOne({ email: email })
+
+//         if (finduser) {
+//             const pass = await finduser.checkpass(password)
+//             const id = finduser._id;
+
+//             if (pass) {
+//                 await Signup.deleteOne({ email })
+//                 await Allmessage.deleteMany({
+//                     $or: [{ senderId: id }, { receiverId: id }],
+//                 });
+
+//                 await UserSpecific.deleteMany({
+//                     users: { $all: [id, id] }
+//                 })
+
+//                 await posts.deleteMany({ createdBy: id });
+
+//                 // Log the number of posts deleted
+//                 // console.log("Number of posts deleted:", deletedPosts.deletedCount);
+
+//                 console.log("User deleted successfully")
+//                 io.emit('deleteduser', id);
+//                 res.status(200).send("User delete successfully")
+//             }
+//             else {
+//                 res.status(401).send("Invalid details")
+//             }
+//         }
+//         else {
+//             res.status(401).send("Invalid details")
+//         }
+//     }
+//     catch (err) {
+//         res.status(401).send(err);
+//     }
+// }
+
 const deleteuser = async (req, res) => {
-
     try {
+        const { email, password } = req.body;
 
-        const { email, password } = req.body
+        const finduser = await Signup.findOne({ email });
 
-        const finduser = await Signup.findOne({ email: email })
-
-        if (finduser) {
-            const pass = await finduser.checkpass(password)
-            const id = finduser._id;
-
-            if (pass) {
-                await Signup.deleteOne({ email })
-                await Allmessage.deleteMany({
-                    $or: [{ senderId: id }, { receiverId: id }],
-                });
-
-                await UserSpecific.deleteMany({
-                    users: { $all: [id, id] }
-                })
-
-                await posts.deleteMany({ createdBy: id });
-
-                // Log the number of posts deleted
-                // console.log("Number of posts deleted:", deletedPosts.deletedCount);
-
-                console.log("User deleted successfully")
-                io.emit('deleteduser', id);
-                res.status(200).send("User delete successfully")
-            }
-            else {
-                res.status(401).send("Invalid details")
-            }
+        if (!finduser) {
+            return res.status(401).send("Invalid details");
         }
-        else {
-            res.status(401).send("Invalid details")
+
+        const pass = await finduser.checkpass(password);
+        const id = finduser._id;
+
+        if (!pass) {
+            return res.status(401).send("Invalid details");
         }
+
+        await Signup.deleteOne({ email });
+
+        await Userprofile.findOneAndDelete({ user: id });
+
+        await Userprofile.updateMany({}, {
+            $pull: {
+                followers: id,
+                following: id
+            }
+        });
+
+        await Allmessage.deleteMany({
+            $or: [{ senderId: id }, { receiverId: id }],
+        });
+
+        await UserSpecific.deleteMany({
+            users: { $all: [id, id] }
+        });
+
+        await posts.deleteMany({ createdBy: id });
+
+        io.emit('deleteduser', id);
+
+        console.log("User deleted successfully");
+        res.status(200).send("User deleted successfully");
+
+    } catch (err) {
+        console.error("Error deleting user:", err);
+        res.status(500).send("Server error");
     }
-    catch (err) {
-        res.status(401).send(err);
-    }
-}
+};
+
 
 const updateprofile = async (req, res) => {
     try {

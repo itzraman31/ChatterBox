@@ -19,17 +19,21 @@ function App() {
 
   const getUserProfileInfo = async () => {
     const userid = localStorage.getItem("kswd");
-    setprofileuserid(localStorage.getItem("kswd"))
-    const response = await fetch(`http://localhost:5500/api/post/userprofile/${userid}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    try{
+
+      setprofileuserid(localStorage.getItem("kswd"))
+      const response = await fetch(`http://localhost:5500/api/post/userprofile/${userid}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+      if (response.ok) {
+        const data = await response.json();
+        setprofileuser(data);
       }
-    })
-    if (response.ok) {
-      const data = await response.json();
-      setprofileuser(data);
     }
+    catch(err){}
   }
 
   const setMySet = (set) => {

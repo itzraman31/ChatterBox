@@ -1854,6 +1854,7 @@ input {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  /* color: rgb(244, 243, 243); */
 }
 .postImg{
   height: 300px;

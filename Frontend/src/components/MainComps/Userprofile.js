@@ -61,7 +61,6 @@ const Userprofile = () => {
     useEffect(() => {
         if (profileuser && profileuser.user) {
             setdesc(profileuser.user.description || "No description.");
-            // console.log(profileuser.user.following.includes(userdetail._id));
             if(profileuser.user.following.includes(userdetail._id)){
                 setisfollow("Unfollow")
                 setfollowStyle({
@@ -73,6 +72,7 @@ const Userprofile = () => {
                 setisfollow("Follow")
             }
         }
+        console.log("hello")
     }, [profileuser]);
 
 

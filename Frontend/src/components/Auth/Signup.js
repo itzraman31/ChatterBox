@@ -3,6 +3,8 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const backendURL=process.env.REACT_APP_BACKEND_URL;
+
 const Signup = () => {
     const [isloading, setisloading] = useState(false)
     const navigate = useNavigate();
@@ -45,7 +47,7 @@ const Signup = () => {
         formData.append("avatar", signupinfo.avatar);
 
         setisloading(true)
-        const response = await fetch('http://localhost:5500/api/auth/signup', {
+        const response = await fetch(`${backendURL}/api/auth/signup`, {
             method: "POST",
             body: formData
         });
@@ -130,120 +132,3 @@ const Signup = () => {
 }
 
 export default Signup;
-
-
-
-
-
-
-// import React, { useState } from 'react'
-// import { NavLink, useNavigate } from 'react-router-dom'
-// import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// const Signup = () => {
-//     const navigate = useNavigate();
-
-//     const [signupinfo, setsignupinfo] = useState({
-//         firstname: "",
-//         lastname: "",
-//         email: "",
-//         password: "",
-//         gender: "",
-//         avatar: null
-//     })
-
-//     const valuechange = (event) => {
-//         const name = event.target.name;
-//         const value = event.target.value;
-
-//         setsignupinfo({
-//             ...signupinfo,
-//             [name]: value
-//         })
-//     }
-
-//     const submitform = async (event) => {
-//         event.preventDefault();
-
-//         const response = await fetch('http://localhost:5500/api/auth/signup', {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(signupinfo)
-//         })
-//         if (response.ok) {
-//             navigate('/login')
-
-//             setsignupinfo({
-//                 firstname: "",
-//                 lastname: "",
-//                 email: "",
-//                 password: "",
-//                 gender: "",
-//                 avatar:""
-//             })
-//         }
-//         else {
-//             toast.error(`Account exist.`, {
-//                 position: "bottom-center",
-//                 autoClose: 3000
-//             });
-//         }
-//     }
-//     return (
-//         <>
-//             <div className="outerdiv">
-
-//                 <div className="logindivsignup">
-
-//                     <div className="divgreensignup">
-
-//                     </div>
-
-//                     <div className='formdiv'>
-//                         <h1 className="loginzara">Chatterbox - sign up</h1>
-
-//                         <form action="" enctype="multipart/form-data" className="logininfosignup" onSubmit={submitform}>
-
-//                             <h3>Frist name</h3>
-//                             <input type="text" onChange={valuechange} value={signupinfo.firstname} name='firstname' placeholder="First name" required />
-
-//                             <h3>Last name</h3>
-//                             <input type="text" onChange={valuechange} value={signupinfo.lastname} name='lastname' placeholder="Last name" required />
-
-//                             <h3>Email</h3>
-//                             <input type="email" onChange={valuechange} value={signupinfo.email} name='email' placeholder="Email" required />
-
-//                             <h3>Password</h3>
-//                             <input type="password" onChange={valuechange} value={signupinfo.password} name='password' placeholder="Password" required />
-
-//                             <div style={{ display: "flex" }} >
-//                                 <label htmlFor="gender" style={{ display: "flex", width: "75px" }}>
-//                                     Male:  <input style={{ marginTop: "-3px" }} type="radio" onChange={valuechange} name="gender" value="male" />
-//                                 </label>
-//                                 <label htmlFor="gender" style={{ display: "flex" }}>
-//                                     Female: <input required style={{ marginTop: "-3px" }} type="radio" onChange={valuechange} name="gender" value="female" />
-//                                 </label>
-//                             </div>
-
-//                             <h3>ProfilePic</h3>
-//                             <input type="file" onChange={valuechange} value={signupinfo.avatar} name='avatar' required />
-
-
-//                             <input className="submit" type="submit" value="Sign up" />
-//                             <h4 required style={{ marginRight: "75px", textAlign: 'center' }}>Have account? <NavLink to='/login'>Login</NavLink></h4>
-//                             {/* <h4 style={{ textAlign: 'center', color: `${style}`, fontFamily: "sans-serif" }}>{info}</h4> */}
-
-//                         </form>
-
-//                     </div>
-
-//                 </div>
-
-//             </div>
-//         </>
-//     )
-// }
-
-// export default Signup

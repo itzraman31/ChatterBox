@@ -5,9 +5,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { datatransfer } from '../../App';
 
-const url = "http://localhost:5500/api/auth/login";
-const otpUrl = "http://localhost:5500/api/user/otp/gen";
-const verifyOtpUrl = "http://localhost:5500/api/user/otp/verify";
+const backendURL=process.env.REACT_APP_BACKEND_URL;
+
+const url = `${backendURL}/api/auth/login`;
+const otpUrl = `${backendURL}/api/user/otp/gen`;
+const verifyOtpUrl = `${backendURL}/api/user/otp/verify`;
 
 const Login = () => {
   const { storetoken } = useContext(datatransfer);

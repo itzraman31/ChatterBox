@@ -4,6 +4,9 @@ import { ToastContainer } from "react-toastify";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import socket from "./components/Miscellaneous/SocketShare.js";
+// import dotenv from "dotenv"
+
+// dotenv.config();
 
 const datatransfer = createContext();
 const url = "http://localhost:5500/api/auth/user"

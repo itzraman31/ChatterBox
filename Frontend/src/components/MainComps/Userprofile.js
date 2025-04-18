@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer } from '../../App'
 
 const Userprofile = () => {
-    const { profileuser, getUserProfileInfo,getuserdetail, userdetail } = useContext(datatransfer);
+    const { profileuser, getUserProfileInfo, userdetail } = useContext(datatransfer);
     const name = profileuser ? profileuser.user.user.firstname : "guest";
     const profilepic = profileuser ? profileuser.user.user.profilepic : "";
     const [desc, setdesc] = useState('');
@@ -36,16 +36,16 @@ const Userprofile = () => {
         catch (err) { }
     }
 
-    const getClickedUserId = async () => {
+    const followToUser = async () => {
         const token = localStorage.getItem('token')
-        const response = await fetch(`http://localhost:5500/api/useraction/follow/?userId=${profileuser.user.user._id}&tofollowUser=${userdetail._id}`, {
+        const response = await fetch(`http://localhost:5500/api/useraction/follow/?tofollowUser=${profileuser.user.user._id}&userId=${userdetail._id}`, {
             method: "POST",
             headers: {
                 "Authorization": `${token}`
             }
         })
         if (response.ok) {
-            console.log("OK REPORT GUYSSSS")
+            getUserProfileInfo();
         }
     }
 
@@ -54,25 +54,17 @@ const Userprofile = () => {
         getAllPosts();
     }, []);
 
-    useEffect(()=>{
-        getUserProfileInfo();
-    },[getClickedUserId])
-
     useEffect(() => {
         if (profileuser && profileuser.user) {
             setdesc(profileuser.user.description || "No description.");
-            if(profileuser.user.following.includes(userdetail._id)){
+            if(profileuser.user.followers.includes(userdetail._id)){
                 setisfollow("Unfollow")
                 setfollowStyle({
                     backgroundColor:"rgb(181, 182, 183)",
                     color:"black"
                 })
             }
-            else{
-                setisfollow("Follow")
-            }
         }
-        console.log("hello")
     }, [profileuser]);
 
 
@@ -99,7 +91,7 @@ const Userprofile = () => {
                         </div>
                         <p className='desc'>{desc}</p>
                         <div className='followMessageBtn'>
-                            <button style={followStyle} onClick={getClickedUserId} className='followme'>{isfollow}</button>
+                            <button style={followStyle} onClick={followToUser} className='followme'>{isfollow}</button>
                             <button className='msgme'>Message</button>
                         </div>
                     </div>

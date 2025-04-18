@@ -2,28 +2,28 @@ import UserProfile from "../models/Userprofile.js";
 
 const followUser = async (req, res) => {
     try {
-        const userId = req.query.userId;
-        const tofollowUser = req.query.tofollowUser;
+        const userId = req.query.userId;  // current login user
+        const tofollowUser = req.query.tofollowUser;  // user to whom curretly user will follow
 
         if (!userId || !tofollowUser) {
             return res.status(400).json({ error: "Both userId and tofollowUser are required." });
         }
 
-        const followingUserProfile = await UserProfile.findOne({ user: userId });
-        const followUserProfile = await UserProfile.findOne({ user: tofollowUser });
+        const CurrUserId = await UserProfile.findOne({ user: userId });
+        const tofollowUserId = await UserProfile.findOne({ user: tofollowUser });
 
-        if (!followingUserProfile || !followUserProfile) {
+        if (!CurrUserId || !tofollowUserId) {
             return res.status(404).json({ error: "User not found." });
         }
 
-        if (!followUserProfile.followers.includes(userId)) {
-            followUserProfile.followers.push(userId);
-            await followUserProfile.save();
-        } 
+        if (!CurrUserId.following.includes(tofollowUser)) {
+            CurrUserId.following.push(tofollowUser);
+            await CurrUserId.save();
+        }
 
-        if (!followingUserProfile.following.includes(tofollowUser)) {
-            followingUserProfile.following.push(tofollowUser);
-            await followingUserProfile.save();
+        if (!tofollowUserId.followers.includes(userId)) {
+            tofollowUserId.followers.push(userId);
+            await tofollowUserId.save();
         }
 
         console.log(`User ${userId} is now following ${tofollowUser}`);

@@ -121,7 +121,6 @@ function App() {
           setallPost(data)
         }
         else {
-          console.log("Not found")
           setallPost([])
         }
       }

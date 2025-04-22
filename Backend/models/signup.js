@@ -62,7 +62,6 @@ signup.pre('save', async function () {
 })
 
 signup.methods.checkpass = async function (pass) {
-
     return bcrypt.compare(pass, this.password)
 }
 

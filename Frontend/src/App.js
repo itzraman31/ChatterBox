@@ -23,7 +23,6 @@ function App() {
   const getUserProfileInfo = async () => {
     const userid = localStorage.getItem("kswd");
     try{
-
       setprofileuserid(localStorage.getItem("kswd"))
       const response = await fetch(`http://localhost:5500/api/post/userprofile/${userid}`, {
         method: "GET",
@@ -126,7 +125,7 @@ function App() {
       }
     }
     catch (err) {
-      // console.log(err)
+      console.log(err)
     }
   }
 

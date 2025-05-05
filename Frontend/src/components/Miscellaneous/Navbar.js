@@ -23,9 +23,6 @@ const Navbar = () => {
     const register = () => {
         navigate('/signup')
     }
-    const checkme = () => {
-        console.log("yes i click")
-    }
 
     const closeForm = () => {
         setShowForm(false);
@@ -114,7 +111,8 @@ const Navbar = () => {
                             <div className="dropdown">
                                 <img src={userdetail.profilepic} alt="Profile" className="profile-icon" />
                                 <ul className="dropdown-menu">
-                                    <NavLink onClick={checkme} className="aa" to="/setting">Setting</NavLink>
+                                    <NavLink className="aa" to="/loginUserDetails">Profile</NavLink>
+                                    <NavLink className="aa" to="/setting">Setting</NavLink>
                                     <h3 onClick={logoutftn} id='aaa' className="aa" >Logout</h3>
                                 </ul>
                             </div>

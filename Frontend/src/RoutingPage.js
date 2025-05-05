@@ -14,6 +14,7 @@ import Privacy from "./components/MainComps/Privacy";
 import Feed from "./components/MainComps/Feed";
 import Forgotpass from "./components/Miscellaneous/Forgotpass";
 import Userprofile from "./components/MainComps/Userprofile";
+import LoginUserInfo from "./components/Miscellaneous/LoginUserInfo";
 
 function LandingPage() {
 
@@ -40,6 +41,7 @@ function LandingPage() {
 
           
           <Route exact path="/userprofile" element={<Userprofile />}></Route>
+          <Route exact path="/loginUserDetails" element={<LoginUserInfo />}></Route>
 
 
           <Route exact path="/privacy" element={<Privacy />}></Route>

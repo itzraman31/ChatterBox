@@ -794,6 +794,7 @@ input {
 }
 
 .aa {
+  margin-top: 6%;
   text-decoration: none;
   color: #333;
   font-size: 18px;
@@ -811,7 +812,7 @@ input {
 #aaa {
   font-weight: normal;
   font-size: 18px;
-  margin-top: 12px;
+  margin-top: 6%;
 }
 
 #aaa:hover {

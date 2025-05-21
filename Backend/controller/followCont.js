@@ -36,4 +36,37 @@ const followUser = async (req, res) => {
     }
 };
 
-export { followUser };
+const unfollowUser = async (req, res) => {
+    try {
+        const userId = req.query.userId;  // current login user
+        const tounfollowUser = req.query.tounfollowUser;  // user to whom curretly user will follow
+
+        if (!userId || !tounfollowUser) {
+            return res.status(400).json({ error: "Both userId and tofollowUser are required." });
+        }
+
+        const CurrUserId = await UserProfile.findOne({ user: userId });
+        const tounfollowUserId = await UserProfile.findOne({ user: tounfollowUser });
+
+        if (!CurrUserId || !tounfollowUserId) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        if (CurrUserId.following.includes(tounfollowUser)) {
+            CurrUserId.following=CurrUserId.following.filter((unfollowUser)=> unfollowUser.toString() !== tounfollowUser );
+            await CurrUserId.save();
+        }
+        
+        if (tounfollowUserId.followers.includes(userId)) {
+            tounfollowUserId.followers=tounfollowUserId.followers.filter((data)=> data.toString() !== userId );
+            await tounfollowUserId.save();
+        }
+
+        res.status(200).json({ message: "Unfollow successful." });
+    } catch (error) {
+        console.error("Error unfollowing user:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+};
+
+export { followUser,unfollowUser };

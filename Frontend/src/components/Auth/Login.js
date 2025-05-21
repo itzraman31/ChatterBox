@@ -108,7 +108,6 @@ const Login = () => {
 
     if (response.ok) {
       const values = await response.json();
-      console.log(values)
       if (values.success) {
         storetoken(values);
         setinfo("Login successfully.");

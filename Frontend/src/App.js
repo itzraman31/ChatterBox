@@ -4,9 +4,6 @@ import { ToastContainer } from "react-toastify";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import socket from "./components/Miscellaneous/SocketShare.js";
-// import dotenv from "dotenv"
-
-// dotenv.config();
 
 const datatransfer = createContext();
 const url = "http://localhost:5500/api/auth/user"
@@ -19,17 +16,20 @@ function App() {
   const [allPost, setallPost] = useState([]);
   const [profileuser, setprofileuser] = useState('');
   const [profileuserid, setprofileuserid] = useState('')
+  const [isloadinginfo, setisloadinginfo] = useState(false)
 
   const getUserProfileInfo = async () => {
     const userid = localStorage.getItem("kswd");
     try{
       setprofileuserid(localStorage.getItem("kswd"))
+      setisloadinginfo(true)
       const response = await fetch(`http://localhost:5500/api/post/userprofile/${userid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         }
       })
+      setisloadinginfo(false)
       if (response.ok) {
         const data = await response.json();
         setprofileuser(data);
@@ -167,7 +167,7 @@ function App() {
 
   return (
     <>
-      <datatransfer.Provider value={{ getUserProfileInfo, profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
+      <datatransfer.Provider value={{ isloadinginfo,getUserProfileInfo, profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
         <ToastContainer />
         <RoutingPage />
       </datatransfer.Provider>

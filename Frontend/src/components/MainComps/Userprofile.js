@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer } from '../../App'
 
 const Userprofile = () => {
-    const { profileuser, getUserProfileInfo, userdetail } = useContext(datatransfer);
+    const { isloadinginfo,profileuser, getUserProfileInfo, userdetail } = useContext(datatransfer);
     const name = profileuser ? profileuser.user.user.firstname : "guest";
     const profilepic = profileuser ? profileuser.user.user.profilepic : "";
     const [desc, setdesc] = useState('');
     const [allPost, setallPost] = useState([]);
     const [isloading, setisloading] = useState(false);
-    const [isfollow, setisfollow] = useState('Follow');
+    const [isfollow, setisfollow] = useState('');
     const [followStyle,setfollowStyle]=useState({
         backgroundColor:'rgb(1, 1, 216)'
     })
@@ -48,6 +48,18 @@ const Userprofile = () => {
             getUserProfileInfo();
         }
     }
+    const unfollowToUser = async () => {
+        const token = localStorage.getItem('token')
+        const response = await fetch(`http://localhost:5500/api/useraction/unfollow/?tounfollowUser=${profileuser.user.user._id}&userId=${userdetail._id}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `${token}`
+            }
+        })
+        if (response.ok) {
+            getUserProfileInfo();
+        }
+    }
 
     useEffect(() => {
         getUserProfileInfo();
@@ -64,8 +76,15 @@ const Userprofile = () => {
                     color:"black"
                 })
             }
+            else{
+                setfollowStyle({
+                    backgroundColor:"rgb(1, 1, 216)",
+                    color:"white"
+                })
+                setisfollow("Follow")
+            }
         }
-    }, [profileuser]);
+    }, [profileuser,isloadinginfo]);
 
 
     return (
@@ -91,7 +110,7 @@ const Userprofile = () => {
                         </div>
                         <p className='desc'>{desc}</p>
                         <div className='followMessageBtn'>
-                            <button style={followStyle} onClick={followToUser} className='followme'>{isfollow}</button>
+                            <button style={followStyle} onClick={!(isfollow==="Follow")?unfollowToUser:followToUser} className='followme'>{isfollow}</button>
                             <button className='msgme'>Message</button>
                         </div>
                     </div>

@@ -167,6 +167,7 @@ const Setting = () => {
             });
         }
     };
+    
     useEffect(() => {
         getuserdetail()
     }, [isclicked])
@@ -174,7 +175,6 @@ const Setting = () => {
     useEffect(() => {
         getAllPosts(userdetail)
     }, [allPost])
-
 
     return (
         <>

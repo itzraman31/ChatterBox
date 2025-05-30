@@ -1831,6 +1831,25 @@ input {
   flex-direction: column;
   gap: 10px;
 }
+.userprofileImgdiv{
+  position: relative;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+.userprofileImg1{
+  border: 0.5px solid black;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+.changeimgicon{
+  position: absolute;
+  width: 22%;
+  right: 4%;
+  cursor: pointer;
+  bottom: 0%;
+}
 .userprofileImg{
   width: 150px;
   height: 150px;

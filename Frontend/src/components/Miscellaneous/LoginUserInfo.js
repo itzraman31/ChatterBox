@@ -11,10 +11,17 @@ const LoginUserInfo = () => {
   const [isclicked, setisclicked] = useState(false);
   const [profilepic, setprofilepic] = useState('')
   const [isloading, setisloading] = useState(false)
+  const [editprofile,seteditprofile]=useState(false);
 
   const name = profileuser?.user?.user ? profileuser.user.user.firstname : "guest";
   const profilepic1 = profileuser?.user?.user ? profileuser.user.user.profilepic : "";
 
+  const editprofileftn=()=>{
+    seteditprofile(true);
+  }
+  const cancelbtn=()=>{
+    seteditprofile(false);
+  }
   const clickme = () => {
     setisclicked(true)
   }
@@ -36,7 +43,7 @@ const LoginUserInfo = () => {
       if (response.ok) {
         const data = await response.json();
         setprofileuser(data);
-        // console.log(data)
+        console.log(data.user.description)
       }
     }
     catch (err) { }
@@ -58,7 +65,6 @@ const LoginUserInfo = () => {
         if (response.ok) {
           const data = await response.json();
           setallPost(data)
-          console.log(data)
         }
       }
       else {
@@ -152,9 +158,15 @@ const LoginUserInfo = () => {
       <div className='userprofileoutermostdiv'>
         <div className='userinfoDiv'>
           <div>
-            <img className='userprofileImg' src={profilepic1} alt="User profile pic" />
+            <div className='userprofileImgdiv'>
+            <img className='userprofileImg1' src={profilepic1} alt="User profile pic" />
+            {
+              editprofile?
+              <img onClick={clickme} className='changeimgicon' src="/images/camera.png" alt="edit icon" />
+              :<></>
+            }
+            </div>
             <form action="" className='updateprofilepic'>
-              <p onClick={clickme} className='changeProfileRemove additional'>Change Photo</p>
               {
                 isclicked
                   ?
@@ -188,8 +200,14 @@ const LoginUserInfo = () => {
                 <p className='textcentre'>{profileuser?.user ? profileuser.user.following.length : '0'}</p>
               </div>
             </div>
-            <p className='desc'>{desc}</p>
-            <button className='editbtn'>Edit Profile</button>
+            <p className='desc'>{profileuser?.user?.description ? profileuser.user.description:"no desc"}</p>
+            {
+              !editprofile
+              ?
+              <button onClick={editprofileftn} className='editbtn'>Edit Profile</button>
+              :
+              <button onClick={cancelbtn} className='editbtn'>Cancel</button>
+            }
           </div>
         </div>
         <hr className='hruserprofile' />

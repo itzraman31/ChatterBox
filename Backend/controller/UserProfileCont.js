@@ -24,5 +24,4 @@ const fetchLoginuserProfile=async(req,res)=>{
 
 }
 
-
 export {fetchUserProfile,fetchLoginuserProfile}

@@ -16,6 +16,7 @@ Postrouter.delete('/deletepost/:postId', authenticate, deletePost);
 Postrouter.get('/userprofile/:id', fetchUserProfile);
 Postrouter.get('/loginuserprofile/:id', mustlogin,fetchLoginuserProfile);
 
+
 export default Postrouter
 
 

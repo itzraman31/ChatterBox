@@ -7,19 +7,18 @@ const LoginUserInfo = () => {
   const { userdetail } = useContext(datatransfer)
   const [profileuser, setprofileuser] = useState([])
   const [allPost, setallPost] = useState([])
-  const [desc, setdesc] = useState('');
   const [isclicked, setisclicked] = useState(false);
   const [profilepic, setprofilepic] = useState('')
   const [isloading, setisloading] = useState(false)
-  const [editprofile,seteditprofile]=useState(false);
+  const [editprofile, seteditprofile] = useState(false);
 
   const name = profileuser?.user?.user ? profileuser.user.user.firstname : "guest";
   const profilepic1 = profileuser?.user?.user ? profileuser.user.user.profilepic : "";
 
-  const editprofileftn=()=>{
+  const editprofileftn = () => {
     seteditprofile(true);
   }
-  const cancelbtn=()=>{
+  const cancelbtn = () => {
     seteditprofile(false);
   }
   const clickme = () => {
@@ -43,7 +42,6 @@ const LoginUserInfo = () => {
       if (response.ok) {
         const data = await response.json();
         setprofileuser(data);
-        console.log(data.user.description)
       }
     }
     catch (err) { }
@@ -159,12 +157,12 @@ const LoginUserInfo = () => {
         <div className='userinfoDiv'>
           <div>
             <div className='userprofileImgdiv'>
-            <img className='userprofileImg1' src={profilepic1} alt="User profile pic" />
-            {
-              editprofile?
-              <img onClick={clickme} className='changeimgicon' src="/images/camera.png" alt="edit icon" />
-              :<></>
-            }
+              <img className='userprofileImg1' src={profilepic1} alt="User profile pic" />
+              {
+                editprofile ?
+                  <img onClick={clickme} className='changeimgicon' src="/images/camera.png" alt="edit icon" />
+                  : <></>
+              }
             </div>
             <form action="" className='updateprofilepic'>
               {
@@ -200,13 +198,13 @@ const LoginUserInfo = () => {
                 <p className='textcentre'>{profileuser?.user ? profileuser.user.following.length : '0'}</p>
               </div>
             </div>
-            <p className='desc'>{profileuser?.user?.description ? profileuser.user.description:"no desc"}</p>
+            <p className='desc'>{profileuser?.user?.description ? profileuser.user.description : "no desc"}</p>
             {
               !editprofile
-              ?
-              <button onClick={editprofileftn} className='editbtn'>Edit Profile</button>
-              :
-              <button onClick={cancelbtn} className='editbtn'>Cancel</button>
+                ?
+                <button onClick={editprofileftn} className='editbtn'>Edit Profile</button>
+                :
+                <button onClick={cancelbtn} className='editbtn'>Cancel</button>
             }
           </div>
         </div>
@@ -221,13 +219,33 @@ const LoginUserInfo = () => {
                     ?
                     <h2>No post found</h2>
                     :
+                
                     <div className='postdivinner'>
-                      {
-                        allPost?.map((src, i) => {
-                          return <img key={i} className='postImg' src={src.images} alt="User profile pic" />
-                        })
-                      }
+                      {allPost?.map((src, i) => (
+                        <div key={i} className='image-container'>
+                          <img
+                            className='postImg'
+                            src={src.images}
+                            alt="User profile pic"
+                          />
+
+                          <div className="overlay">
+                            <div className="icons">
+                              <div className="icon-group">
+                                <img src="images/like.png" alt="Likes" />
+                                <span>{src.likes.length}</span>
+                              </div>
+                              <div className="icon-group">
+                                <img src="images/comment.png" alt="Comments" />
+                                <span>{src.comments.length}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      ))}
                     </div>
+
                 }
               </div>
               :

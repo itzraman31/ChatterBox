@@ -2,15 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer } from '../../App'
 
 const Userprofile = () => {
-    const { isloadinginfo,profileuser, getUserProfileInfo, userdetail } = useContext(datatransfer);
+    const { isloadinginfo, profileuser, getUserProfileInfo, userdetail } = useContext(datatransfer);
     const name = profileuser ? profileuser.user.user.firstname : "guest";
     const profilepic = profileuser ? profileuser.user.user.profilepic : "";
     const [desc, setdesc] = useState('');
     const [allPost, setallPost] = useState([]);
     const [isloading, setisloading] = useState(false);
     const [isfollow, setisfollow] = useState('');
-    const [followStyle,setfollowStyle]=useState({
-        backgroundColor:'rgb(1, 1, 216)'
+    const [followStyle, setfollowStyle] = useState({
+        backgroundColor: 'rgb(1, 1, 216)'
     })
 
     const getAllPosts = async () => {
@@ -69,22 +69,22 @@ const Userprofile = () => {
     useEffect(() => {
         if (profileuser && profileuser.user) {
             setdesc(profileuser.user.description || "No description.");
-            if(profileuser.user.followers.includes(userdetail._id)){
+            if (profileuser.user.followers.includes(userdetail._id)) {
                 setisfollow("Unfollow")
                 setfollowStyle({
-                    backgroundColor:"rgb(181, 182, 183)",
-                    color:"black"
+                    backgroundColor: "rgb(181, 182, 183)",
+                    color: "black"
                 })
             }
-            else{
+            else {
                 setfollowStyle({
-                    backgroundColor:"rgb(1, 1, 216)",
-                    color:"white"
+                    backgroundColor: "rgb(1, 1, 216)",
+                    color: "white"
                 })
                 setisfollow("Follow")
             }
         }
-    }, [profileuser,isloadinginfo]);
+    }, [profileuser, isloadinginfo]);
 
 
     return (
@@ -110,7 +110,7 @@ const Userprofile = () => {
                         </div>
                         <p className='desc'>{desc}</p>
                         <div className='followMessageBtn'>
-                            <button style={followStyle} onClick={!(isfollow==="Follow")?unfollowToUser:followToUser} className='followme'>{isfollow}</button>
+                            <button style={followStyle} onClick={!(isfollow === "Follow") ? unfollowToUser : followToUser} className='followme'>{isfollow}</button>
                             <button className='msgme'>Message</button>
                         </div>
                     </div>
@@ -127,11 +127,29 @@ const Userprofile = () => {
                                         <h2>No post found</h2>
                                         :
                                         <div className='postdivinner'>
-                                            {
-                                                allPost?.map((src, i) => {
-                                                    return <img key={i} className='postImg' src={src.images} alt="User profile pic" />
-                                                })
-                                            }
+                                            {allPost?.map((src, i) => (
+                                                <div key={i} className='image-container'>
+                                                    <img
+                                                        className='postImg'
+                                                        src={src.images}
+                                                        alt="User profile pic"
+                                                    />
+
+                                                    <div className="overlay">
+                                                        <div className="icons">
+                                                            <div className="icon-group">
+                                                                <img src="images/like.png" alt="Likes" />
+                                                                <span>{src.likes.length}</span>
+                                                            </div>
+                                                            <div className="icon-group">
+                                                                <img src="images/comment.png" alt="Comments" />
+                                                                <span>{src.comments.length}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            ))}
                                         </div>
                                 }
                             </div>

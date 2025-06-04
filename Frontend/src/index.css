@@ -1915,9 +1915,12 @@ input {
 .msgme:hover{
   background-color: rgb(181, 182, 183);
 }
-
-.editbtn{
-  width: 250px !important;
+.actionbtndiv{
+  display: flex;
+  gap: 5px;
+}
+.editbtn1{
+  width: 125px !important;
   margin: auto;
   height: 32px;
   cursor: pointer;
@@ -1926,11 +1929,11 @@ input {
   border-radius: 7px;
   font-size: 14px;
 }
-.editbtn:hover{
+.editbtn1:hover{
   background-color: rgb(181, 182, 183);
 }
 
-/* try */
+/* likes and comments showon hover starts */
 .image-container {
   position: relative;
   width: 300px;
@@ -1984,5 +1987,10 @@ input {
   width: 30px;
   height: 30px;
 }
+/* likes and comments showon hover ends */
 
-/* try ends */
+/*edit profile starts here */
+textarea{
+  border: none;
+}
+/*edt profile ends here */

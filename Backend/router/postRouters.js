@@ -2,7 +2,7 @@ import express from 'express';
 import { createPost, getAllPosts, likePost, commentOnPost, deletePost } from '../controller/postCont.js';
 import authenticate from '../middleware/MustLogin.js'; // Middleware for authentication
 import upload from '../middleware/MulterMiddleware.js';
-import { fetchUserProfile,fetchLoginuserProfile } from '../controller/UserProfileCont.js';
+import { fetchUserProfile,fetchLoginuserProfile,updateprofile } from '../controller/UserProfileCont.js';
 import mustlogin from '../middleware/MustLogin.js';
 
 const Postrouter = express.Router();
@@ -15,6 +15,8 @@ Postrouter.delete('/deletepost/:postId', authenticate, deletePost);
 
 Postrouter.get('/userprofile/:id', fetchUserProfile);
 Postrouter.get('/loginuserprofile/:id', mustlogin,fetchLoginuserProfile);
+
+Postrouter.put('/updateprofile', mustlogin,updateprofile);
 
 
 export default Postrouter

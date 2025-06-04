@@ -11,9 +11,43 @@ const LoginUserInfo = () => {
   const [profilepic, setprofilepic] = useState('')
   const [isloading, setisloading] = useState(false)
   const [editprofile, seteditprofile] = useState(false);
+  const [desc,setdesc]=useState("");
 
   const name = profileuser?.user?.user ? profileuser.user.user.firstname : "guest";
   const profilepic1 = profileuser?.user?.user ? profileuser.user.user.profilepic : "";
+
+  const changeDesc=(e)=>{
+    setdesc(e.target.value);
+  }
+  const submitEditedInfo = async () => {
+    const userid=localStorage.getItem("token")
+    try {
+      const response = await fetch(`http://localhost:5500/api/post/updateprofile`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `${userid}`,
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify({ description: desc })
+      })
+      const data = await response.json();
+      seteditprofile(false);
+      if (response.ok) {
+        console.log(data);
+        toast.success(`${data.message}`, {
+          position: "bottom-center",
+          autoClose: 3000
+        });
+        getUserProfileInfo();
+      }
+      else{
+        toast.error(`${data.message}`, {
+          position: "bottom-center",
+          autoClose: 3000
+        });
+      }
+    } catch (error) { }
+  }
 
   const editprofileftn = () => {
     seteditprofile(true);
@@ -42,6 +76,9 @@ const LoginUserInfo = () => {
       if (response.ok) {
         const data = await response.json();
         setprofileuser(data);
+        if(data.user.description !==null){
+          setdesc(data.user.description)
+        }
       }
     }
     catch (err) { }
@@ -84,6 +121,7 @@ const LoginUserInfo = () => {
     setisloading(false)
     setisclicked(false)
     if (response.ok) {
+      getUserProfileInfo();
       setTimeout(() => {
         toast.success("Profile picture removed successfully!", {
           position: "bottom-center",
@@ -119,6 +157,7 @@ const LoginUserInfo = () => {
       setisloading(false);
       setisclicked(false);
       if (response.ok) {
+        getUserProfileInfo();
         setprofilepic('')
         setTimeout(() => {
           toast.success("Profile picture changed successfully!", {
@@ -146,7 +185,7 @@ const LoginUserInfo = () => {
   useEffect(() => {
     getUserProfileInfo();
   }, [])
-
+  
   useEffect(() => {
     getAllPosts();
   }, [profileuser])
@@ -164,6 +203,7 @@ const LoginUserInfo = () => {
                   : <></>
               }
             </div>
+            
             <form action="" className='updateprofilepic'>
               {
                 isclicked
@@ -178,6 +218,7 @@ const LoginUserInfo = () => {
                       </div>
                       <p onClick={closeme} className='changeProfileRemove'>Close</p>
                     </div>
+                    
                   </div> : <></>
               }
             </form>
@@ -198,13 +239,21 @@ const LoginUserInfo = () => {
                 <p className='textcentre'>{profileuser?.user ? profileuser.user.following.length : '0'}</p>
               </div>
             </div>
-            <p className='desc'>{profileuser?.user?.description ? profileuser.user.description : "no desc"}</p>
+            {
+              editprofile ?
+                <textarea value={desc} onChange={changeDesc} rows={6} name="description" >{desc}</textarea>
+                :
+                <p className='desc'>{profileuser?.user?.description ? profileuser.user.description : "no desc"}</p>
+            }
             {
               !editprofile
                 ?
-                <button onClick={editprofileftn} className='editbtn'>Edit Profile</button>
+                <button onClick={editprofileftn} className='editbtn1'>Edit Profile</button>
                 :
-                <button onClick={cancelbtn} className='editbtn'>Cancel</button>
+                <div className='actionbtndiv'>
+                  <button onClick={submitEditedInfo} className='editbtn1'>Save</button>
+                  <button onClick={cancelbtn} className='editbtn1'>Cancel</button>
+                </div>
             }
           </div>
         </div>
@@ -219,7 +268,7 @@ const LoginUserInfo = () => {
                     ?
                     <h2>No post found</h2>
                     :
-                
+
                     <div className='postdivinner'>
                       {allPost?.map((src, i) => (
                         <div key={i} className='image-container'>

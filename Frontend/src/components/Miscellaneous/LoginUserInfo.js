@@ -243,7 +243,7 @@ const LoginUserInfo = () => {
               editprofile ?
                 <textarea value={desc} onChange={changeDesc} rows={6} name="description" >{desc}</textarea>
                 :
-                <p className='desc'>{profileuser?.user?.description ? profileuser.user.description : "no desc"}</p>
+                <p style={{ whiteSpace: 'pre-line' }} className='desc'>{profileuser?.user?.description ? profileuser.user.description : "no desc"}</p>
             }
             {
               !editprofile

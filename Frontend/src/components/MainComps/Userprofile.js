@@ -108,7 +108,7 @@ const Userprofile = () => {
                                 <p className='textcentre'>{profileuser ? profileuser.user.following.length : '0'}</p>
                             </div>
                         </div>
-                        <p className='desc'>{desc}</p>
+                        <p style={{ whiteSpace: 'pre-line' }} className='desc'>{desc}</p>
                         <div className='followMessageBtn'>
                             <button style={followStyle} onClick={!(isfollow === "Follow") ? unfollowToUser : followToUser} className='followme'>{isfollow}</button>
                             <button className='msgme'>Message</button>

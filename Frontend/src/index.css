@@ -1862,7 +1862,7 @@ input {
   gap: 20%;
 }
 .desc{
-  width: 78%;
+  width: 100%;
 }
 .textcentre{
   text-align: center;
@@ -1988,6 +1988,7 @@ input {
 
 /*edit profile starts here */
 textarea{
+  font-size: 15px;
   border: none;
 }
 /*edt profile ends here */

@@ -262,7 +262,6 @@ const LoginUserInfo = () => {
           {
             !isloading ?
               <div className='postdivouter'>
-                <h1>Posts</h1>
                 {
                   allPost.length === 0
                     ?

@@ -1,0 +1,26 @@
+{
+  // Enable Emmet expansions with Tab
+  "emmet.triggerExpansionOnTab": true,
+
+  // Associate file types with language modes
+  "files.associations": {
+    "*.html": "html",
+    "*.js": "javascriptreact",     // Treat .js files as React (JSX)
+    "*.jsx": "javascriptreact"     // JSX files too
+  },
+
+  // Emmet preferences for React JSX in JS files
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+
+  // Auto-close HTML/JSX tags
+  "editor.autoClosingTags": "always",
+
+  // Optionally: format tags on save
+  "editor.formatOnSave": true,
+
+  // Optional: prettier settings if you use it
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5"
+}

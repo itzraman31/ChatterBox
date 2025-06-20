@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { datatransfer } from '../../App';
 
-const backendURL=process.env.REACT_APP_BACKEND_URL;
+const backendURL = process.env.REACT_APP_BACKEND_URL;
 
 const url = `${backendURL}/api/auth/login`;
 const otpUrl = `${backendURL}/api/user/otp/gen`;

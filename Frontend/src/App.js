@@ -167,6 +167,7 @@ function App() {
 
   return (
     <>
+    
       <datatransfer.Provider value={{ isloadinginfo,getUserProfileInfo, profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
         <ToastContainer />
         <RoutingPage />

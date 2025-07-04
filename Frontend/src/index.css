@@ -1622,7 +1622,25 @@ input {
   margin-left: 10px;
   cursor: pointer;
 }
-
+.notificationdiv{
+  position: relative;
+}
+.notificationdiv p{
+  position: absolute;
+  top: -3px;
+  font-weight: bold;
+  right: -1px;
+  padding: 0.5px;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+}
+.notificationimg{
+  width: 25px;
+  margin-left: 10px;
+  cursor: pointer;
+}
 
 .dots{
   width: 40px;

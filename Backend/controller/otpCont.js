@@ -22,7 +22,7 @@ const sendMail = (email, otp) => {
         text: `Hlw Please verify your account by this Otp ${otp}`
     }
     auth.sendMail(reciever, (error, emailRes) => {
-        if (err) return;
+        if (error) return;
         console.log('email sent.')
     });
 }

@@ -74,7 +74,7 @@ const Navbar = () => {
             <div className='outerdiv'>
 
 
-                {showForm && (
+                {/* {showForm && (
                     <div className="post-form">
                         <button className="close-btn" onClick={closeForm}>X</button>
                         <h3>Create a Post</h3>
@@ -87,7 +87,7 @@ const Navbar = () => {
                         <input name='avatar' type="file" accept="image/*" onChange={handleImageUpload} />
                         <button onClick={handlePostSubmit}>Post</button>
                     </div>
-                )}
+                )} */}
 
                 <div>
                     <img className='logo' src="/images/CB13.png" alt="not found" />
@@ -118,7 +118,13 @@ const Navbar = () => {
                             </div>
 
                             {/* <div className="post-image-button" onClick={() => setShowForm(true)}> */}
-                            <img className='addimg' src="/images/plus.png" onClick={() => setShowForm(true)} alt="Add Post" />
+                            {/* <img className='addimg' src="/images/plus.png" onClick={() => setShowForm(true)} alt="Add Post" /> */}
+
+                            <div className='notificationdiv'>
+                                <img className='notificationimg' src="/images/notification.png" alt="Notification" />
+                                <p>10</p>
+                            </div>
+
                             {/* </div> */}
                         </div>
 

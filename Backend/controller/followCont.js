@@ -26,8 +26,8 @@ const followUser = async (req, res) => {
             await tofollowUserId.save();
         }
 
-        console.log(`User ${userId} is now following ${tofollowUser}`);
-        console.log(`User ${tofollowUser} has one more follower ${userId}`);
+        // console.log(`User ${userId} is now following ${tofollowUser}`);
+        // console.log(`User ${tofollowUser} has one more follower ${userId}`);
 
         res.status(200).json({ message: "Follow successful." });
     } catch (error) {

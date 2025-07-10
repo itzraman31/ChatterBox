@@ -122,7 +122,7 @@ const Navbar = () => {
 
                             <div className='notificationdiv'>
                                 <img className='notificationimg' src="/images/notification.png" alt="Notification" />
-                                <p>10</p>
+                                <p>1</p>
                             </div>
 
                             {/* </div> */}

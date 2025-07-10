@@ -2,6 +2,7 @@ import express from 'express'
 import { Server } from 'socket.io';
 import http from 'http'
 import { commentOnPost, deletePost, likePost } from '../controller/postCont.js';
+import { saveNotificationToDB } from '../controller/notificationCont.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -24,7 +25,7 @@ try {
     io.on('connection', (client) => {
 
         var data = [];
-        
+
         client.on('userid', (id) => {
             data = id;
             onlineusers[client.id] = id;
@@ -32,23 +33,28 @@ try {
             io.emit('allonlineusers', onlineusers);
         });
 
-        client.on("newcomment",async (comment)=>{
+        client.on("newcomment", async (comment) => {
             await commentOnPost(comment)
         })
 
-        client.on("likeCount",async (data)=>{
-           await likePost(data)
+        client.on("likeCount", async (data) => {
+            await likePost(data)
         })
 
-        client.on("deletepost",async (id)=>{
-           await deletePost(id)
+        client.on("deletepost", async (id) => {
+            await deletePost(id)
         })
 
-        
         client.on('disconnect', () => {
             delete onlineusers[client.id];
             delete onlineusers1[data];
             io.emit('allonlineusers', onlineusers);
+        })
+        
+        client.on("notification", async (data) => {
+            // await saveNotificationToDB(data);
+            // io.emit('sendNotification', data);
+            console.log(data);
         })
 
         io.emit('allonlineusers', onlineusers);

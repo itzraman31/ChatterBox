@@ -1,6 +1,8 @@
-const saveNotificationToDB = async (req, res) => {
-    const {receiverId,message}=req.body;
-    const senderId=req.user._id;
+import Notification from "../models/notification.js"
+const saveNotificationToDB = async (data) => {
+    const { receiverId, senderId, message } = data;
+    await Notification.create({ sender: senderId, receiver: receiverId, message: message })
+    return;
 }
 
-export {saveNotificationToDB}
+export { saveNotificationToDB }

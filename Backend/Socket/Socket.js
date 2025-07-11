@@ -52,9 +52,10 @@ try {
         })
         
         client.on("notification", async (data) => {
-            // await saveNotificationToDB(data);
-            // io.emit('sendNotification', data);
-            console.log(data);
+            await saveNotificationToDB(data);
+            
+            const receiversocket = await getReceiverSocketId(data.receiverId);
+            io.to(receiversocket).emit('sendNotification', data);
         })
 
         io.emit('allonlineusers', onlineusers);

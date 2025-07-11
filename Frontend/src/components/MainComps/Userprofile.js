@@ -43,6 +43,7 @@ const Userprofile = () => {
             receiverId:profileuser.user.user._id,
             message:"Follow-Control"
         }
+        
         socket.emit("notification", data);
 
         const response = await fetch(`http://localhost:5500/api/useraction/follow/?tofollowUser=${profileuser.user.user._id}&userId=${userdetail._id}`, {

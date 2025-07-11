@@ -199,7 +199,6 @@ const Message = () => {
           });
       }
     });
-
     return () => { socket.off("newMessage") };
   }, [receiver,getmsg]);
 

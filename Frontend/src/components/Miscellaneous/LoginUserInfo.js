@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { useEffect } from 'react';
-import { datatransfer } from '../../App';
+import { datatransfer, socket } from '../../App';
 import { toast } from 'react-toastify';
 
 const LoginUserInfo = () => {
@@ -11,16 +11,16 @@ const LoginUserInfo = () => {
   const [profilepic, setprofilepic] = useState('')
   const [isloading, setisloading] = useState(false)
   const [editprofile, seteditprofile] = useState(false);
-  const [desc,setdesc]=useState("");
+  const [desc, setdesc] = useState("");
 
   const name = profileuser?.user?.user ? profileuser.user.user.firstname : "guest";
   const profilepic1 = profileuser?.user?.user ? profileuser.user.user.profilepic : "";
 
-  const changeDesc=(e)=>{
+  const changeDesc = (e) => {
     setdesc(e.target.value);
   }
   const submitEditedInfo = async () => {
-    const userid=localStorage.getItem("token")
+    const userid = localStorage.getItem("token")
     try {
       const response = await fetch(`http://localhost:5500/api/post/updateprofile`, {
         method: "PUT",
@@ -28,7 +28,7 @@ const LoginUserInfo = () => {
           "Authorization": `${userid}`,
           "Content-Type": "application/json",
         },
-        body:JSON.stringify({ description: desc })
+        body: JSON.stringify({ description: desc })
       })
       const data = await response.json();
       seteditprofile(false);
@@ -40,7 +40,7 @@ const LoginUserInfo = () => {
         });
         getUserProfileInfo();
       }
-      else{
+      else {
         toast.error(`${data.message}`, {
           position: "bottom-center",
           autoClose: 3000
@@ -76,7 +76,7 @@ const LoginUserInfo = () => {
       if (response.ok) {
         const data = await response.json();
         setprofileuser(data);
-        if(data.user.description !==null){
+        if (data.user.description !== null) {
           setdesc(data.user.description)
         }
       }
@@ -106,7 +106,8 @@ const LoginUserInfo = () => {
         getUserProfileInfo();
       }
     }
-    catch (err) { }
+    catch (err) {
+    }
   }
 
   const removeProPic = async () => {
@@ -185,10 +186,17 @@ const LoginUserInfo = () => {
   useEffect(() => {
     getUserProfileInfo();
   }, [])
-  
+
   useEffect(() => {
     getAllPosts();
   }, [profileuser])
+
+  useEffect(() => {
+    socket.on("sendNotification", (data) => {
+      console.log(data)
+    })
+    return () => { socket.off("newMessage") };
+  }, [])
 
   return (
     <>
@@ -203,7 +211,7 @@ const LoginUserInfo = () => {
                   : <></>
               }
             </div>
-            
+
             <form action="" className='updateprofilepic'>
               {
                 isclicked
@@ -218,7 +226,7 @@ const LoginUserInfo = () => {
                       </div>
                       <p onClick={closeme} className='changeProfileRemove'>Close</p>
                     </div>
-                    
+
                   </div> : <></>
               }
             </form>

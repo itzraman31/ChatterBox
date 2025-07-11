@@ -191,12 +191,12 @@ const LoginUserInfo = () => {
     getAllPosts();
   }, [profileuser])
 
-  useEffect(() => {
-    socket.on("sendNotification", (data) => {
-      console.log(data)
-    })
-    return () => { socket.off("newMessage") };
-  }, [])
+  // useEffect(() => {
+  //   socket.on("sendNotification", (data) => {
+  //     console.log(data)
+  //   })
+  //   return () => { socket.off("newMessage") };
+  // }, [])
 
   return (
     <>

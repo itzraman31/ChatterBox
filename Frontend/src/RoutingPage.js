@@ -15,7 +15,6 @@ import Feed from "./components/MainComps/Feed";
 import Forgotpass from "./components/Miscellaneous/Forgotpass";
 import Userprofile from "./components/MainComps/Userprofile";
 import LoginUserInfo from "./components/Miscellaneous/LoginUserInfo";
-import VideoCall from "./components/Miscellaneous/VideoCall";
 
 function LandingPage() {
 
@@ -39,15 +38,11 @@ function LandingPage() {
           <Route exact path="/update" element={<Updateprofile />}></Route>
           <Route exact path="/passwordupdate" element={<PasswordUpdate />}></Route>
           <Route exact path="/forgotpassword" element={<Forgotpass />}></Route>
-
           
           <Route exact path="/userprofile" element={<Userprofile />}></Route>
           <Route exact path="/loginUserDetails" element={<LoginUserInfo />}></Route>
 
-
           <Route exact path="/privacy" element={<Privacy />}></Route>
-
-          <Route exact path="/videocall" element={<VideoCall />}></Route>
 
           <Route exact path="*" element={<ErrorPage />}></Route>
 

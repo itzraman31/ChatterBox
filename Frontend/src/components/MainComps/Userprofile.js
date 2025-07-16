@@ -41,7 +41,7 @@ const Userprofile = () => {
         const data={
             senderId:userdetail._id,
             receiverId:profileuser.user.user._id,
-            message:"Follow-Control"
+            type:"follow"
         }
         
         socket.emit("notification", data);

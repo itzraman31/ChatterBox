@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { datatransfer, socket } from '../../App'
 import { NavLink, useNavigate } from 'react-router-dom';
+import ShowNotifcationCompo from './ShowNotifcationCompo';
 
 const Navbar = () => {
     const { logoutftn, islogin, userdetail } = useContext(datatransfer)
-    const [notCount,setnotCount]=useState(0);
-    const [AllNotifications,setAllNotifications]=useState('');
-
     const navigate = useNavigate();
 
     const username = localStorage.getItem('username')
@@ -20,41 +18,6 @@ const Navbar = () => {
     const register = () => {
         navigate('/signup')
     }
-
-    const getAllNotifications = async () => {
-        const token = localStorage.getItem('token');
-        try {
-            const response = await fetch(`http://localhost:5500/api/notification/getallnotifications`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `${token}`,
-                }
-            })
-            
-            if (response.ok) {
-                const data = await response.json();
-                setnotCount(data.data.length);
-            }
-        } catch (error) {
-
-        }
-    }
-
-    useEffect(() => {
-        socket.on("sendNotification", (data) => {
-            setnotCount(data.data.length);
-        })
-        return () => { socket.off("newMessage") };
-    }, [])
-
-    useEffect(() => {
-        getAllNotifications();
-    },[])
-    
-    useEffect(() => {
-    },[notCount])
-
 
     return (
         <>
@@ -87,8 +50,7 @@ const Navbar = () => {
                             </div>
 
                             <div className='notificationdiv'>
-                                <img className='notificationimg' src="/images/notification.png" alt="Notification" />
-                                {notCount!==0 && <p>{notCount}</p>}
+                                <ShowNotifcationCompo/>
                             </div>
 
                         </div>

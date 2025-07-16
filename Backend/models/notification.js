@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const notificationSchema = new mongoose.Schema({
+    // This field now correctly refers to your user model
     sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'signup',
@@ -11,22 +12,23 @@ const notificationSchema = new mongoose.Schema({
         ref: 'signup',
         required: true,
     },
-    message: {
+    type: {
         type: String,
-        require: true
+        enum: ['follow', 'like', 'comment'],
+        required: true,
     },
-    others: {
-        type: String,
-        default: null
-    },
-    isread: {
+    isRead: {
         type: Boolean,
         default: false
-    }
+    },
+    message:{
+        type:String,
+        default:"Not provided"
+    },
 },
     { timestamps: true }
 );
 
 const Notification = mongoose.model("Notification", notificationSchema);
 
-export default Notification
+export default Notification;

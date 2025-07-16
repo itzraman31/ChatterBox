@@ -1,21 +1,39 @@
 import Notification from "../models/notification.js"
+import Signup from '../models/signup.js'
 
-const saveNotificationToDB = async (data, res) => {
+const saveNotificationToDB = async (data) => {
     try {
-        const { receiverId, senderId, message } = data;
+        const { receiverId, senderId, type } = data;
+
+        const senderuser=await Signup.findOne({_id:senderId});
+
+        let message = "";
+        if(type==="follow"){
+            message=`${senderuser.firstname} has started following you.`
+        }
 
         await Notification.create({
             sender: senderId,
             receiver: receiverId,
-            message: message
+            type: type,
+            message:message
         });
 
-        const allnotification=await Notification.find({receiver:receiverId});
+        const allnotification = await Notification.find({ receiver: receiverId })
+            .sort({ createdAt: -1 })
+            .populate({
+                path: 'sender',
+                select: 'firstname profilepic'
+        });
+
+        console.log(allnotification)
+
+        // console.log(message)
+
 
         const result = {
             success: true,
             data: allnotification,
-            message: "notification-control"
         }
         
         return result;
@@ -24,19 +42,22 @@ const saveNotificationToDB = async (data, res) => {
     catch (err) { }
 }
 
-const getAllNotifications=async(req,res)=>{
+const getAllNotifications = async (req, res) => {
     try {
-        const id=req.user._id;
+        const id = req.user._id;
 
-        const allnotification=await Notification.find({receiver:id});
+        const allnotification = await Notification.find({ receiver: id })
+            .sort({ createdAt: -1 })
+            .populate({
+                path: 'sender',
+                select: 'firstname profilepic'
+        });
 
-        console.log(allnotification)
-
-        res.status(200).json({data:allnotification});
+        res.status(200).json({ data: allnotification });
 
     } catch (error) {
         console.log(error);
     }
 }
 
-export { saveNotificationToDB,getAllNotifications }
+export { saveNotificationToDB, getAllNotifications }

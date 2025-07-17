@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { datatransfer, socket } from '../../App'
+import { useContext } from 'react'
+import { datatransfer } from '../../App'
 import { NavLink, useNavigate } from 'react-router-dom';
 import ShowNotifcationCompo from './ShowNotifcationCompo';
 

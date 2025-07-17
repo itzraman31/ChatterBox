@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { FaBell } from 'react-icons/fa';
 import socket from './SocketShare';
-
-const defaultAvatar = 'https://i.pravatar.cc/150';
+import { NavLink } from 'react-router-dom';
 
 const NotificationBell = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -105,7 +104,7 @@ const NotificationBell = () => {
                         )}
                     </ul>
                     <div className="notification-footer">
-                        <a href="/notifications">View all notifications</a>
+                        <NavLink to="/allnotifications">View all notifications</NavLink>
                     </div>
                 </div>
             )}

@@ -23,7 +23,7 @@ const NotificationBell = () => {
         };
     }, []);
 
-    const handleBellClick = async() => {
+    const handleBellClick = async () => {
         await getAllNotifications();
         setIsOpen(!isOpen);
     };
@@ -38,7 +38,7 @@ const NotificationBell = () => {
                     "Authorization": `${token}`,
                 }
             });
-            
+
             if (response.ok) {
                 const data = await response.json();
                 setAllNotifications(data.data);
@@ -83,13 +83,13 @@ const NotificationBell = () => {
                     <ul className="notification-list">
                         {AllNotifications.length > 0 ? (
                             AllNotifications.map((notification, ind) => (
-                                <li 
+                                <li
                                     key={ind}
                                     className={`notification-item`}
                                 >
-                                    <img 
-                                        src={notification?.sender?.profilepic} 
-                                        alt={`User profilepic`} 
+                                    <img
+                                        src={notification?.sender?.profilepic}
+                                        alt={`User profilepic`}
                                         className="notification-avatar"
                                     />
                                     <div className="notification-message">
@@ -104,7 +104,7 @@ const NotificationBell = () => {
                         )}
                     </ul>
                     <div className="notification-footer">
-                        <NavLink to="/allnotifications">View all notifications</NavLink>
+                        <NavLink onClick={() => { setIsOpen(false) }} to="/allnotifications">View all notifications</NavLink>
                     </div>
                 </div>
             )}
@@ -113,3 +113,5 @@ const NotificationBell = () => {
 };
 
 export default NotificationBell;
+
+// like,comment notifcation, can also setup notifcation when we change or setup new pass ussing forgot pass -> via notification to user.

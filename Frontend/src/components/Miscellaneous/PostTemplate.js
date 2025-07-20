@@ -18,6 +18,7 @@ const PostTemplate = ({ post }) => {
     };
 
     const handleCommentSubmit = (e) => {
+
         const data = {
             _id: Date.now().toString(),
             commentedBy: userdetail._id,

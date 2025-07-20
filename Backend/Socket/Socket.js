@@ -34,7 +34,7 @@ try {
         });
 
         client.on("newcomment", async (comment) => {
-            await commentOnPost(comment)
+            await commentOnPost(comment);
         })
 
         client.on("likeCount", async (data) => {

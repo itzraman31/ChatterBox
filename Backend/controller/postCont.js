@@ -83,7 +83,7 @@ const likePost = async (data) => {
 
 const commentOnPost = async (commentData) => {
     try {
-        const { _id, commentedBy, commentText, postId } = commentData;
+        const {commentedBy, commentText, postId } = commentData;
 
         const user = await Signup.findOne({ _id: commentedBy });
         if (!user) return { status: 404, message: 'User not found' };
@@ -100,6 +100,30 @@ const commentOnPost = async (commentData) => {
         post.comments.push(newComment);
 
         await post.save();
+
+        const data={
+                senderId:commentedBy,
+                receiverId:post.createdBy,
+                optionalText:commentText,
+                optionalId:postId
+            }
+        console.log(data);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         return { status: 200, message: 'Comment added successfully', post };
     } catch (error) {

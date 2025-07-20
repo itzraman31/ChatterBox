@@ -25,6 +25,10 @@ const notificationSchema = new mongoose.Schema({
         type:String,
         default:"Not provided"
     },
+    optional:{
+        type:String,
+        default:"Not provided"
+    },
 },
     { timestamps: true }
 );

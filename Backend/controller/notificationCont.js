@@ -7,9 +7,16 @@ const saveNotificationToDB = async (data) => {
 
         const senderuser = await Signup.findOne({ _id: senderId });
 
+        
         let message = "";
         if (type === "follow") {
             message = `${senderuser.firstname} has started following you.`
+        }
+        if (type === "like") {
+            message = `${senderuser.firstname} has liked to your post.`
+        }
+        if (type === "comment") {
+            message = `${senderuser.firstname} has commented '${optionalText}' on your post.`
         }
 
         await Notification.create({
@@ -25,6 +32,7 @@ const saveNotificationToDB = async (data) => {
                 path: 'sender',
                 select: 'firstname profilepic'
             });
+
 
         const result = {
             success: true,

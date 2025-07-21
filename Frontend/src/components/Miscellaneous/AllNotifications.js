@@ -40,7 +40,7 @@ const AllNotifications = () => {
           {Notifications.length > 0 ? (
             Notifications.map((notification, ind) => (
               <li key={ind} className="allnotification-item">
-                {console.log(notification)}
+                {console.log(notification.isRead)}
                 <img
                   src={notification?.sender?.profilepic}
                   alt="User profilepic"
@@ -49,6 +49,10 @@ const AllNotifications = () => {
                 <div className="allnotification-message">
                   {notification.message}
                 </div>
+                {
+                  !notification.isRead && <img src="/images/reddot.png" className='isreaddot' alt="" />
+                }
+                
               </li>
             ))
           ) : (

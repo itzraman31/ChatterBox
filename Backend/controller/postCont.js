@@ -2,6 +2,8 @@ import Signup from '../models/signup.js';
 import cloudinaryUploads from '../cloudinary/cloudinaryConfig.js';
 import Post from '../models/posts.js';
 import Userprofile from '../models/Userprofile.js'
+import { saveNotificationToDB } from './notificationCont.js';
+import { getReceiverSocketId, io } from '../Socket/Socket.js';
 
 const createPost = async (req, res) => {
     try {
@@ -58,7 +60,6 @@ const getAllPosts = async (req, res) => {
 
 const likePost = async (data) => {
     try {
-
         const post = await Post.findById(data.postId)
 
         if (!post) {
@@ -72,7 +73,19 @@ const likePost = async (data) => {
         }
         else {
             post.likes.push(data.userId)
-            await post.save()
+            await post.save();
+
+            const data1 = {
+                senderId: data.userId,
+                receiverId: post.createdBy.toString(),
+                type: "like",
+                optionalId: post.postId
+            }
+
+            const result = await saveNotificationToDB(data1);
+            const receiversocket = await getReceiverSocketId(data1.receiverId);
+            io.to(receiversocket).emit('sendNotification', result);
+
             return { status: 200, message: 'Post liked successfully' }
         }
 
@@ -83,7 +96,7 @@ const likePost = async (data) => {
 
 const commentOnPost = async (commentData) => {
     try {
-        const {commentedBy, commentText, postId } = commentData;
+        const { commentedBy, commentText, postId } = commentData;
 
         const user = await Signup.findOne({ _id: commentedBy });
         if (!user) return { status: 404, message: 'User not found' };
@@ -96,34 +109,22 @@ const commentOnPost = async (commentData) => {
             commentedBy: user._id,
             commentedAt: new Date(),
         };
-        
+
         post.comments.push(newComment);
 
         await post.save();
 
-        const data={
-                senderId:commentedBy,
-                receiverId:post.createdBy,
-                optionalText:commentText,
-                optionalId:postId
-            }
-        console.log(data);
+        const data = {
+            senderId: commentedBy,
+            receiverId: post.createdBy.toString(),
+            type: "comment",
+            optionalText: commentText,
+            optionalId: postId
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        const result = await saveNotificationToDB(data);
+        const receiversocket = await getReceiverSocketId(data.receiverId);
+        io.to(receiversocket).emit('sendNotification', result);
 
         return { status: 200, message: 'Comment added successfully', post };
     } catch (error) {

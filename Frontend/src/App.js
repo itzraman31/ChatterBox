@@ -81,18 +81,22 @@ function App() {
         })
         if (response.ok) {
           const data = await response.json();
-          // console.log(data)
           setuserdetail(data)
           localStorage.setItem('username', data.firstname);
           setislogin(true)
         }
         else {
-          console.log("hello")
+          localStorage.removeItem("token")
+          localStorage.removeItem("kswd")
+          localStorage.removeItem("username")
           logoutftn();
         }
       }
       else {
         setislogin(false)
+        localStorage.removeItem("kswd")
+        localStorage.removeItem("username")
+        localStorage.removeItem("token")
       }
     }
     catch (err) {

@@ -51,6 +51,10 @@ const signup = new mongoose.Schema({
         default:false,
         required: false,
     },
+    isaccountPrivate: {
+        type: Boolean,
+        default:false,
+    },
 }, {
     timestamps: true
 })

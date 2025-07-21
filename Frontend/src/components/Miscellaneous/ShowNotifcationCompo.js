@@ -95,6 +95,8 @@ const NotificationBell = () => {
                                     <div className="notification-message">
                                         {notification.message}
                                     </div>
+
+                                    <img src="/images/reddot.png" className='isreaddot' alt="" />
                                 </li>
                             ))
                         ) : (

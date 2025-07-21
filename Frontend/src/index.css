@@ -2229,5 +2229,64 @@ textarea{
   font-style: italic;
   cursor:text;
 }
-
+.isreaddot{
+  width: 5px;
+}
 /* .Allnotications ends here */
+
+/* Toggle starts here */
+.privateaccountdiv{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.privacy-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: sans-serif;
+}
+
+.privacy-label {
+  font-size: 16px;
+}
+
+.privacy-switch {
+  width: 48px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  padding: 2px;
+  transition: background-color 0.3s ease;
+}
+
+.privacy-switch.public {
+  background-color: #4ade80; /* green */
+}
+
+.privacy-switch.private {
+  background-color: #f87171; /* red */
+}
+
+.privacy-toggle-circle {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease;
+}
+
+.privacy-switch.private .privacy-toggle-circle {
+  transform: translateX(24px);
+}
+
+.privacy-switch.public .privacy-toggle-circle {
+  transform: translateX(0);
+}
+
+/* Toggle ends here */

@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { FaBell } from 'react-icons/fa';
 import socket from './SocketShare';
 import { NavLink } from 'react-router-dom';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 const NotificationBell = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -66,6 +70,22 @@ const NotificationBell = () => {
     useEffect(() => {
     }, [notCount]);
 
+    const getTimeAgo = (time) => {
+        const now = dayjs();
+        const created = dayjs(time);
+
+        const seconds = now.diff(created, 'second');
+        const minutes = now.diff(created, 'minute');
+        const hours = now.diff(created, 'hour');
+        const days = now.diff(created, 'day');
+
+        if (seconds < 5) return 'just now';
+        else if (seconds < 60) return `${seconds}s`;
+        else if (minutes < 60) return `${minutes}m`;
+        else if (hours < 24) return `${hours}h`;
+        else return `${days}d ago`;
+    };
+
     return (
         <div className="notification-container" ref={notificationRef}>
             <button className="notification-icon-button" onClick={handleBellClick}>
@@ -95,8 +115,11 @@ const NotificationBell = () => {
                                     <div className="notification-message">
                                         {notification.message}
                                     </div>
-
-                                    <img src="/images/reddot.png" className='isreaddot' alt="" />
+                                    {/* <img src="/images/reddot.png" className='isreaddot' alt="" /> */}
+                                    {
+                                        !notification.isRead && <img src="/images/reddot.png" className='isreaddot' alt="" />
+                                    }
+                                    <i>{getTimeAgo(notification.updatedAt)}</i>
                                 </li>
                             ))
                         ) : (
@@ -116,4 +139,4 @@ const NotificationBell = () => {
 
 export default NotificationBell;
 
-// like,comment notifcation, can also setup notifcation when we change or setup new pass ussing forgot pass -> via notification to user.
+// // like,comment notifcation, can also setup notifcation when we change or setup new pass ussing forgot pass -> via notification to user.

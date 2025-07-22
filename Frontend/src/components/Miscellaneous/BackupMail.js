@@ -71,7 +71,7 @@ const BackupMail = () => {
                 setIsOtpSent(false);
                 setisBackMailaddedOrNot(true)
                 setTimeout(() => {
-                    toast.success(`BackupMail added`, {
+                    toast.success(`Backupmail added`, {
                         position: "bottom-center",
                         autoClose: 3000
                     });

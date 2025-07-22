@@ -22,12 +22,12 @@ const login = async (req, res) => {
 
             if (pass) {
                 const token = await checkmail.createToken();
-                const isAuth=checkmail.authentication;
+                const isAuth = checkmail.authentication;
                 return res.status(200).cookie("sId", "helloworld", {
                     httpOnly: true
                 }).json({
                     success: true,
-                    isAuth:isAuth,
+                    isAuth: isAuth,
                     name: checkmail.firstname,
                     token: token
                 });
@@ -81,9 +81,9 @@ const signup = async (req, res) => {
         else {
             const createuser = await Signup.create({ firstname, lastname, email, password, gender, profilepic })
             const jwtoken = await createuser.createToken();
-            
-            await Userprofile.create({user:createuser._id});
-            
+
+            await Userprofile.create({ user: createuser._id });
+
             res.status(200).json({
                 token: jwtoken,
                 user: createuser
@@ -105,50 +105,6 @@ const user = async (req, res) => {
         res.status(401).send(err)
     }
 }
-
-// const deleteuser = async (req, res) => {
-
-//     try {
-
-//         const { email, password } = req.body
-
-//         const finduser = await Signup.findOne({ email: email })
-
-//         if (finduser) {
-//             const pass = await finduser.checkpass(password)
-//             const id = finduser._id;
-
-//             if (pass) {
-//                 await Signup.deleteOne({ email })
-//                 await Allmessage.deleteMany({
-//                     $or: [{ senderId: id }, { receiverId: id }],
-//                 });
-
-//                 await UserSpecific.deleteMany({
-//                     users: { $all: [id, id] }
-//                 })
-
-//                 await posts.deleteMany({ createdBy: id });
-
-//                 // Log the number of posts deleted
-//                 // console.log("Number of posts deleted:", deletedPosts.deletedCount);
-
-//                 console.log("User deleted successfully")
-//                 io.emit('deleteduser', id);
-//                 res.status(200).send("User delete successfully")
-//             }
-//             else {
-//                 res.status(401).send("Invalid details")
-//             }
-//         }
-//         else {
-//             res.status(401).send("Invalid details")
-//         }
-//     }
-//     catch (err) {
-//         res.status(401).send(err);
-//     }
-// }
 
 const deleteuser = async (req, res) => {
     try {
@@ -296,6 +252,22 @@ const ContactusForm = async (req, res) => {
     }
 };
 
-export { ContactusForm, searchalluser, home, login, signup, user, deleteuser, updateprofile, searchuser, searchuserwihtoutlogin }
+const changePrivateAccount = async (data) => {
+    const id=data.user;
+    var res="false";
+
+    const user = await Signup.findOne({ _id: id });
+    
+    if(!user){
+        return res;
+    }
+
+    const updateduser=await Signup.findByIdAndUpdate({_id:id},{isaccountPrivate:data.status},{new:true}).select({password:0});
+
+    if(!updateduser)return res;
+    return "true";
+}
+
+export { changePrivateAccount, ContactusForm, searchalluser, home, login, signup, user, deleteuser, updateprofile, searchuser, searchuserwihtoutlogin }
 
 

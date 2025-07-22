@@ -3,6 +3,7 @@ import { Server } from 'socket.io';
 import http from 'http'
 import { commentOnPost, deletePost, likePost } from '../controller/postCont.js';
 import { saveNotificationToDB } from '../controller/notificationCont.js';
+import { changePrivateAccount } from '../controller/controller.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -55,6 +56,12 @@ try {
             const result=await saveNotificationToDB(data);
             const receiversocket = await getReceiverSocketId(data.receiverId);
             io.to(receiversocket).emit('sendNotification', result);
+        })
+
+        client.on("accountprivate",async (data) => {
+            const result=await changePrivateAccount(data);
+            const receiversocket = await getReceiverSocketId(data.user);
+            io.to(receiversocket).emit('accountprivateResponse', result);
         })
 
         io.emit('allonlineusers', onlineusers);

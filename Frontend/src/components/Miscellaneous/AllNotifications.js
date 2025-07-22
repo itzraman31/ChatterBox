@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 const AllNotifications = () => {
   const [Notifications, setNotifications] = useState([])
@@ -23,6 +27,24 @@ const AllNotifications = () => {
     }
   };
 
+  const getTimeAgo = (time) => {
+    const now = dayjs();
+    const created = dayjs(time);
+
+    const seconds = now.diff(created, 'second');
+    console.log(seconds);
+    const minutes = now.diff(created, 'minute');
+    const hours = now.diff(created, 'hour');
+    const days = now.diff(created, 'day');
+
+    if (seconds < 5) return 'just now';
+    else if (seconds < 60) return `${seconds}s`;
+    else if (minutes < 60) return `${minutes}m`;
+    else if (hours < 24) return `${hours}h`;
+    else return `${days}d ago`;
+  };
+
+
   useEffect(() => {
   }, [Notifications]);
 
@@ -40,7 +62,6 @@ const AllNotifications = () => {
           {Notifications.length > 0 ? (
             Notifications.map((notification, ind) => (
               <li key={ind} className="allnotification-item">
-                {console.log(notification.isRead)}
                 <img
                   src={notification?.sender?.profilepic}
                   alt="User profilepic"
@@ -50,9 +71,10 @@ const AllNotifications = () => {
                   {notification.message}
                 </div>
                 {
-                  !notification.isRead && <img src="/images/reddot.png" className='isreaddot' alt="" />
+                  !notification.isRead && <img src="/images/reddot.png" className='isreaddot2' alt="" />
                 }
-                
+                 <i>{getTimeAgo(notification.updatedAt)}</i>
+
               </li>
             ))
           ) : (

@@ -23,7 +23,7 @@ const sendMail = (email, otp) => {
     }
     auth.sendMail(reciever, (error, emailRes) => {
         if (error) return;
-        console.log('email sent.')
+        console.log('otp is sent to mail.')
     });
 }
 const generateUserOtp = async (req, res) => {

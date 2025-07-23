@@ -41,7 +41,7 @@ const AllNotifications = () => {
     else if (seconds < 60) return `${seconds}s`;
     else if (minutes < 60) return `${minutes}m`;
     else if (hours < 24) return `${hours}h`;
-    else return `${days}d ago`;
+    else return `${days}d`;
   };
 
 

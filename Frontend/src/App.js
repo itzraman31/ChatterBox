@@ -124,7 +124,7 @@ function App() {
           setallPost(data)
         }
         else {
-          setallPost([])
+          // setallPost([])
         }
       }
     }

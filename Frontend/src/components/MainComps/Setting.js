@@ -167,7 +167,7 @@ const Setting = () => {
             });
         }
     };
-    
+
     useEffect(() => {
         getuserdetail()
     }, [isclicked])

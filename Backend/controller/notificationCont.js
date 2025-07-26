@@ -7,6 +7,7 @@ const saveNotificationToDB = async (data) => {
 
         const senderuser = await Signup.findOne({ _id: senderId });
 
+        if(receiverId===senderId)return;
         
         let message = "";
         if (type === "follow") {

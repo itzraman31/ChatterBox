@@ -3,6 +3,7 @@ import { createTransport } from 'nodemailer'
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
+
 dotenv.config();
 
 const sendMail = (email, otp) => {
@@ -196,7 +197,7 @@ const generateOtpBackupMail = async (req, res) => {
 }
 const verifyotpBackupmail = async (req, res) => {
     try {
-        const { backupmail,email, otp } = req.body;
+        const { backupmail, email, otp } = req.body;
         const user = await Signup.findOne({ email })
 
         if (!user) {
@@ -227,27 +228,27 @@ const verifyotpBackupmail = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
-const getbackupmail=async(req,res)=>{
-    const {email}=req.body
-    if(email===null){
+const getbackupmail = async (req, res) => {
+    const { email } = req.body
+    if (email === null) {
         return res.send(401)
     }
-    const user=await Signup.findOne({email})
+    const user = await Signup.findOne({ email })
 
-    if(user===null || user.backupemail===null){
-       return res.status(401).json({message:"No backupmail is added"})
+    if (user === null || user.backupemail === null) {
+        return res.status(401).json({ message: "No backupmail is added" })
     }
 
     res.status(200).json({
-        backupemail:user.backupemail
+        backupemail: user.backupemail
     })
 }
 const generateOtpBackupMail2 = async (req, res) => {
     try {
         const { email, backupmail } = req.body;
         const user = await Signup.findOne({ email })
-        console.log(user.backupemail!==backupmail)
-        if (!user || user.backupemail!==backupmail) {
+        console.log(user.backupemail !== backupmail)
+        if (!user || user.backupemail !== backupmail) {
             return res.json({ success: false, message: "Invalid details" })
         }
 
@@ -293,4 +294,9 @@ const verifyUserOtp4 = async (req, res) => {
     }
 }
 
-export { verifyUserOtp4,generateOtpBackupMail2,getbackupmail,verifyotpBackupmail,generateOtpBackupMail, sendMail, verifyUserOtp, generateUserOtp, verifyUserOtp2, verifyUserOtpTurnoff, verifyUserOtp3 }
+export {
+    verifyUserOtp4, generateOtpBackupMail2,
+    getbackupmail, verifyotpBackupmail, generateOtpBackupMail,
+    sendMail, verifyUserOtp, generateUserOtp, verifyUserOtp2,
+    verifyUserOtpTurnoff, verifyUserOtp3
+}

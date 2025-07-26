@@ -73,7 +73,7 @@ const AllNotifications = () => {
                 {
                   !notification.isRead && <img src="/images/reddot.png" className='isreaddot2' alt="" />
                 }
-                 <i>{getTimeAgo(notification.updatedAt)}</i>
+                <i>{getTimeAgo(notification.updatedAt)}</i>
 
               </li>
             ))

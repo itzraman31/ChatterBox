@@ -20,7 +20,7 @@ function App() {
 
   const getUserProfileInfo = async () => {
     const userid = localStorage.getItem("kswd");
-    try{
+    try {
       setprofileuserid(localStorage.getItem("kswd"))
       setisloadinginfo(true)
       const response = await fetch(`http://localhost:5500/api/post/userprofile/${userid}`, {
@@ -35,7 +35,7 @@ function App() {
         setprofileuser(data);
       }
     }
-    catch(err){}
+    catch (err) { }
   }
 
   const setMySet = (set) => {
@@ -171,8 +171,8 @@ function App() {
 
   return (
     <>
-    
-      <datatransfer.Provider value={{ isloadinginfo,getUserProfileInfo, profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
+
+      <datatransfer.Provider value={{ isloadinginfo, getUserProfileInfo, profileuser, getAllPosts, allPost, notifyChat, setMySet, onlineusers, clickeduserinfostate, clickeduserinfo, storetoken, logoutftn, islogin, userdetail, getuserdetail, logoutftnlite }}>
         <ToastContainer />
         <RoutingPage />
       </datatransfer.Provider>

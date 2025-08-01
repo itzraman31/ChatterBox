@@ -1,6 +1,4 @@
-import React from 'react'
 import { Typewriter, Cursor } from 'react-simple-typewriter'
-// import LandingPage from '../Miscellaneous/ThreeD.js'
 
 const Landing = () => {
     const typewriter = Typewriter({

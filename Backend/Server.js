@@ -1,12 +1,12 @@
 dotenv.config();
-import dotenv from 'dotenv';  
+import dotenv from 'dotenv';
 import express from 'express'
 import route from './router/router.js'
 import connectdb from './database/mongodb.js'
 import cors from 'cors'
 import router from './router/messageRouter.js'
 import cookieParser from 'cookie-parser';
-import { app,server } from './Socket/Socket.js';
+import { app, server } from './Socket/Socket.js';
 import Postrouter from './router/postRouters.js'
 import userRouter from './router/optRout.js';
 import forgetpassroute from './router/forgetpassroute.js';
@@ -26,11 +26,11 @@ app.use(express.json());
 app.use("/api/auth", route)
 app.use("/api/message", router)
 app.use("/api/post", Postrouter)
-app.use('/api/user/',userRouter)
-app.use('/api/useraction/',Followrouter)
-app.use('/api/forget/',forgetpassroute);
+app.use('/api/user/', userRouter)
+app.use('/api/useraction/', Followrouter)
+app.use('/api/forget/', forgetpassroute);
 
-app.use('/api/notification/',notificationroute);
+app.use('/api/notification/', notificationroute);
 
 connectdb();
 

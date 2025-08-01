@@ -46,14 +46,14 @@ const PasswordUpdate = () => {
             });
             if (response.ok) {
                 navigate('/');
-                
+
                 setTimeout(() => {
                     toast.success(`Password changed, Login again`, {
                         position: "bottom-center",
                         autoClose: 3000
                     });
                 }, 500);
-                
+
                 setsignupinfo({
                     oldpass: "",
                     newpass: "",

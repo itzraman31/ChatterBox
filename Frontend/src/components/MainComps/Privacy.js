@@ -1,4 +1,3 @@
-import React from 'react'
 import TwoFA from '../Miscellaneous/TwoFA.js'
 import BackupMail from '../Miscellaneous/BackupMail.js'
 import PrivateAccount from '../Miscellaneous/PrivateAccount.js'

@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const backendURL=process.env.REACT_APP_BACKEND_URL;
+const backendURL = process.env.REACT_APP_BACKEND_URL;
 
 const Signup = () => {
     const [isloading, setisloading] = useState(false)

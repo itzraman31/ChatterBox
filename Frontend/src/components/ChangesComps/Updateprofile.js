@@ -11,7 +11,7 @@ const Updateprofile = () => {
         firstname: "",
         lastname: ""
     })
-    
+
     const goback = () => {
         navigate('/setting')
     }

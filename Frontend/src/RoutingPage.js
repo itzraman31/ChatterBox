@@ -39,7 +39,7 @@ function LandingPage() {
           <Route exact path="/update" element={<Updateprofile />}></Route>
           <Route exact path="/passwordupdate" element={<PasswordUpdate />}></Route>
           <Route exact path="/forgotpassword" element={<Forgotpass />}></Route>
-          
+
           <Route exact path="/userprofile" element={<Userprofile />}></Route>
           <Route exact path="/loginUserDetails" element={<LoginUserInfo />}></Route>
 

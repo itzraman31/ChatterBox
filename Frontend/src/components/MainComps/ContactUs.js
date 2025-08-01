@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { datatransfer } from '../../App'
 import { toast } from "react-toastify";
 
@@ -12,14 +12,14 @@ const ContactUs = () => {
     message: "",
   });
 
-  if(userdetail.firstname===undefined){
-    userdetail.firstname = " " ;
-    userdetail.lastname=""
-    userdetail.email=""
+  if (userdetail.firstname === undefined) {
+    userdetail.firstname = " ";
+    userdetail.lastname = ""
+    userdetail.email = ""
     setFormData({
       name: "",
       email: "",
-      message:""
+      message: ""
     });
   }
 
@@ -39,7 +39,7 @@ const ContactUs = () => {
       const response = await fetch("http://localhost:5500/api/auth/contactus", {
         method: "POST",
         headers: {
-          "Authorization":`${localStorage.getItem('token')}`,
+          "Authorization": `${localStorage.getItem('token')}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
@@ -51,7 +51,7 @@ const ContactUs = () => {
           position: "bottom-center",
           autoClose: 3000
         });
-        
+
       } else {
         const result = await response.json();
         toast.success(`Failed to send message: ${result.message}`, {

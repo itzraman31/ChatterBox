@@ -17,7 +17,7 @@ const UserMenu = ({ data, getid }) => {
           {
             online
               ?
-                <img className="onlinedot" src="/images/online.png" alt="" />
+              <img className="onlinedot" src="/images/online.png" alt="" />
               :
               <></>
           }

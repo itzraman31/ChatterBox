@@ -36,14 +36,14 @@ const PrivateAccount = () => {
         return () => { socket.off("accountprivateResponse") };
     }, [])
 
-    useEffect(()=>{
-        if(userdetail){
+    useEffect(() => {
+        if (userdetail) {
             setIsPrivate(userdetail.isaccountPrivate);
         }
-    },[])
-    useEffect(()=>{
+    }, [])
+    useEffect(() => {
 
-    },[isPrivate])
+    }, [isPrivate])
     return (
         <>
             <div className='twoFAouterdiv'>

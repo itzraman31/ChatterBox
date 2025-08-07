@@ -1,15 +1,14 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { datatransfer } from '../../App'
 
 const Sidebar = () => {
 
-    const {userdetail,islogin,getuserdetail}=useContext(datatransfer)
+    const { userdetail, islogin, getuserdetail } = useContext(datatransfer)
 
-    useEffect(()=>{
+    useEffect(() => {
         getuserdetail();
-        },[userdetail.firstname])
-
+    }, [userdetail.firstname])
 
     return (
         <>
@@ -20,13 +19,12 @@ const Sidebar = () => {
                     <img className='usericon' src="/images/userICON.png" alt="not found" />
 
                     {
-                        islogin?<h3>{userdetail.firstname}</h3>:<h3>{"Guest"}</h3>
+                        islogin ? <h3>{userdetail.firstname}</h3> : <h3>{"Guest"}</h3>
                     }
 
                     {
-                        islogin?<h4>{userdetail.email}</h4>:<p></p>
+                        islogin ? <h4>{userdetail.email}</h4> : <p></p>
                     }
-                
                 </div>
 
                 <div>

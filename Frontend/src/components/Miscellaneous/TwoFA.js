@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const otpUrl = "http://localhost:5500/api/user/otp/gen";
 const TwoFA = () => {
-  const { userdetail,getuserdetail,islogin } = useContext(datatransfer);
-  const [is2FaOn, setis2FaOn] = useState(userdetail.authentication)
+  const { userdetail, getuserdetail, islogin } = useContext(datatransfer);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
   const navigate = useNavigate();
@@ -26,7 +25,6 @@ const TwoFA = () => {
       const values = await response.json();
       if (values.success) {
         await getuserdetail();
-        setis2FaOn(false);
         setIsOtpSent(false);
         setTimeout(() => {
           toast.success(`2FA is Off`, {
@@ -94,7 +92,6 @@ const TwoFA = () => {
       await getuserdetail();
       if (values.success) {
         setIsOtpSent(false);
-        setis2FaOn(true);
         setTimeout(() => {
           toast.success(`2FA is On`, {
             position: "bottom-center",
@@ -147,7 +144,7 @@ const TwoFA = () => {
   };
 
   useEffect(() => {
-    if(!islogin){
+    if (!islogin) {
       navigate('/');
     }
   }, []);
@@ -163,11 +160,11 @@ const TwoFA = () => {
             <p>A verification code will sent to your email.</p>
             {
               !isOtpSent ?
-                <button type="button" className="submit turnon" onClick={getotp}>{userdetail.authentication?"Turn Off":"Turn On"}</button>
+                <button type="button" className="submit turnon" onClick={getotp}>{userdetail.authentication ? "Turn Off" : "Turn On"}</button>
                 :
                 <div className='twoFAinnerdiv3'>
-                  
-                  <form action="" className="logininfo2" onSubmit={userdetail.authentication?verifyOtpTurnOff:verifyOtp}>
+
+                  <form action="" className="logininfo2" onSubmit={userdetail.authentication ? verifyOtpTurnOff : verifyOtp}>
                     <h3>Enter OTP</h3>
                     <input type="text" onChange={(e) => setOtp(e.target.value)} value={otp} placeholder="Enter OTP" required />
                     <div className='resendotpdiv'>

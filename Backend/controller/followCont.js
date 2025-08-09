@@ -25,10 +25,7 @@ const followUser = async (req, res) => {
             tofollowUserId.followers.push(userId);
             await tofollowUserId.save();
         }
-
-        // console.log(`User ${userId} is now following ${tofollowUser}`);
-        // console.log(`User ${tofollowUser} has one more follower ${userId}`);
-
+        
         res.status(200).json({ message: "Follow successful." });
     } catch (error) {
         console.error("Error following user:", error);
@@ -53,12 +50,12 @@ const unfollowUser = async (req, res) => {
         }
 
         if (CurrUserId.following.includes(tounfollowUser)) {
-            CurrUserId.following=CurrUserId.following.filter((unfollowUser)=> unfollowUser.toString() !== tounfollowUser );
+            CurrUserId.following = CurrUserId.following.filter((unfollowUser) => unfollowUser.toString() !== tounfollowUser);
             await CurrUserId.save();
         }
-        
+
         if (tounfollowUserId.followers.includes(userId)) {
-            tounfollowUserId.followers=tounfollowUserId.followers.filter((data)=> data.toString() !== userId );
+            tounfollowUserId.followers = tounfollowUserId.followers.filter((data) => data.toString() !== userId);
             await tounfollowUserId.save();
         }
 
@@ -69,4 +66,4 @@ const unfollowUser = async (req, res) => {
     }
 };
 
-export { followUser,unfollowUser };
+export { followUser, unfollowUser };

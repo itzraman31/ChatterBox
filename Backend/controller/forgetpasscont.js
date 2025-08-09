@@ -3,10 +3,10 @@ import bcrypt from 'bcrypt'
 
 const forgetpass = async (req, res) => {
     try {
-        const { email,newpass, confirmpass } = req.body;
+        const { email, newpass, confirmpass } = req.body;
 
         if (newpass !== confirmpass) {
-           return res.status(401).json({
+            return res.status(401).json({
                 success: false,
                 message: "Passwords does'nt match"
             })
@@ -17,9 +17,9 @@ const forgetpass = async (req, res) => {
             return res.json({ success: false, message: "User does not exist" })
         }
 
-        const hashpass=await bcrypt.hash(newpass,10);
+        const hashpass = await bcrypt.hash(newpass, 10);
         await Signup.updateOne({ email }, { $set: { password: hashpass } });
-        
+
         res.status(200).send({
             success: true,
             message: "Passwords change successfully"

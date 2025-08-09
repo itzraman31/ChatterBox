@@ -253,18 +253,18 @@ const ContactusForm = async (req, res) => {
 };
 
 const changePrivateAccount = async (data) => {
-    const id=data.user;
-    var res="false";
+    const id = data.user;
+    var res = "false";
 
     const user = await Signup.findOne({ _id: id });
-    
-    if(!user){
+
+    if (!user) {
         return res;
     }
 
-    const updateduser=await Signup.findByIdAndUpdate({_id:id},{isaccountPrivate:data.status},{new:true}).select({password:0});
+    const updateduser = await Signup.findByIdAndUpdate({ _id: id }, { isaccountPrivate: data.status }, { new: true }).select({ password: 0 });
 
-    if(!updateduser)return res;
+    if (!updateduser) return res;
     return "true";
 }
 

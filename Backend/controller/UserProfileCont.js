@@ -30,7 +30,7 @@ const updateprofile = async (req, res) => {
 
         const user = await Userprofile.findOne({ user: id });
         const updateduser = await Userprofile.findOneAndUpdate({ user: id }, { description: description }, { new: true }).select({ password: 0 })
-        if(updateduser){
+        if (updateduser) {
             res.status(200).send({ message: "profile change successfully" })
             return;
         }

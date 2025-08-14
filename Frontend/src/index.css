@@ -2013,8 +2013,6 @@ textarea{
 }
 /*edt profile ends here */
 
-
-
 /* Notification starts */
 .notification-container {
     position: relative;
@@ -2269,11 +2267,11 @@ textarea{
 }
 
 .privacy-switch.public {
-  background-color: #4ade80; /* green */
+  background-color: #4ade80;
 }
 
 .privacy-switch.private {
-  background-color: #f87171; /* red */
+  background-color: #f87171;
 }
 
 .privacy-toggle-circle {

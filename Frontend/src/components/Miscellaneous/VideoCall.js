@@ -1,6 +1,9 @@
-import { useEffect,useState } from "react";
+import { useContext, useEffect,useState } from "react";
+import { datatransfer } from "../../App";
 
 const VideoCall = () => {
+  const {userdetail}=useContext(datatransfer);
+  
   const [isVideocalling,setisVideocalling]=useState(false);
 
   useEffect(()=>{

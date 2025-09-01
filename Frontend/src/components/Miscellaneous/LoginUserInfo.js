@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useEffect } from 'react';
 import { datatransfer, socket } from '../../App';
 import { toast } from 'react-toastify';
@@ -249,7 +249,7 @@ const LoginUserInfo = () => {
             </div>
             {
               editprofile ?
-                <textarea value={desc} onChange={changeDesc} rows={6} name="description" >{desc}</textarea>
+                <textarea value={desc} className='descTextArea' onChange={changeDesc} rows={5} name="description" >{desc}</textarea>
                 :
                 <p style={{ whiteSpace: 'pre-line' }} className='desc'>{profileuser?.user?.description ? profileuser.user.description : "no desc"}</p>
             }

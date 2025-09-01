@@ -1881,6 +1881,9 @@ input {
   display: flex;
   gap: 20%;
 }
+.descTextArea{
+  padding: 1%;
+}
 .desc{
   width: 100%;
 }
@@ -2294,3 +2297,4 @@ textarea{
 }
 
 /* Toggle ends here */
+

@@ -25,7 +25,7 @@ const Landing = () => {
 
                         <p>Join ChatterBox to connect with friends, share your thoughts, and stay updated with the latest trends.
                             Dive into conversations that matter and discover what's buzzing right now!</p>
-                        <input type="email" name="email" id="email" placeholder='Email Address' />
+                        <input type="email" name="email" id="email" placeholder='Email' />
                         <button className='btnn'>Subscribe</button>
                     </div>
                 </div>
